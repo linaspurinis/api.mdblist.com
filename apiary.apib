@@ -11,66 +11,16 @@ API key can be generated for free in mdblist.com preferences
 
 ## Pagination
 
-Some methods support pagination 📄  Append a query string like ?limit={limit}&offset={offset} to the URL to influence the results.
+Some methods support pagination 📄  
+Append a query string like ?limit=`limit`&offset=`offset` to the URL to influence the results.
 
 | Parameter | Type | Value |
 | --------- | ---- | ----- |
 | `limit` | integer  | Number of results to return |
 | `offset` | integer  | Number of results to skip from the beginning  |
 
-## Lists [/lists/{user_name}/{list_name}/json{?append_to_response}]
 
-Every lists can be accessed as JSON, by adding /json after lists URL 📄
-
-+ Parameters
-    + user_name: linaspurinis (string)
-    + list_name: `pixar-movies` (string)
-    + append_to_response: genre (string, optional)
-    
-
-### Get List Items [GET]
-
-+ Response 200 (application/json)
-
-        [
-            {
-                "id": 693134,
-                "rank": 1,
-                "adult": 0,
-                "genre": [
-                    "action",
-                    "science-fiction",
-                    "adventure",
-                    "romance",
-                    "drama"
-                ],
-                "title": "Dune: Part Two",
-                "tvdbid": 0,
-                "imdb_id": "tt15239678",
-                "mediatype": "movie",
-                "release_year": 2024
-            },
-            {
-                "id": 1011985,
-                "rank": 8,
-                "adult": 0,
-                "genre": [
-                    "animation",
-                    "action",
-                    "adventure",
-                    "comedy",
-                    "family",
-                    "fantasy"
-                ],
-                "title": "Kung Fu Panda 4",
-                "tvdbid": 0,
-                "imdb_id": "tt21692408",
-                "mediatype": "movie",
-                "release_year": 2024
-            }
-        ]
-
-## My Limits [/user/?apikey={apikey}]
+## My Limits [/user/{?apikey}]
 
 Show information about user limits
 
@@ -82,13 +32,231 @@ Show information about user limits
 + Response 200 (application/json)
 
         {
-            "limits":{
-                "supporter":true,
-                "rating_ids":100,
-                "api_requests":25000
-            }
+          "limits": {
+            "supporter": true,
+            "rating_ids": 100,
+            "api_requests": 25000
+          }
         }
+        
+## My Lists [/lists/user/{?apikey}]
+Fetches users lists.
 
++ Parameters
+    + apikey: abc123 (string, required) - Your API key.
+
+### Get My Lists [GET]
+
++ Response 200 (application/json)
+    + Body
+    
+            [
+                {
+                    "id": 13,
+                    "name": "Top Watched Movies of The Week for KiDS",
+                    "slug": "top-watched-movies-of-the-week-for-kids",
+                    "description": "",
+                    "mediatype": "movie",
+                    "items": 12,
+                    "likes": 50
+                },
+                {
+                    "id": 14,
+                    "name": "Top Watched Movies of The Week / >60",
+                    "slug": "top-watched-movies-of-the-week",
+                    "description": "",
+                    "mediatype": "movie",
+                    "items": 75,
+                    "likes": 247
+                },
+                {
+                    "id": 69,
+                    "name": "IMDb Moviemeter (Top 100)",
+                    "slug": "imdb-moviemeter-top-100",
+                    "description": "",
+                    "mediatype": "movie",
+                    "items": 100,
+                    "likes": 57
+                }
+            ]
+
+## User Lists [/lists/user/{userid}/{?apikey}]
+Fetches users lists by `userid`.
+
++ Parameters
+    + userid: 3 (int, required) - User ID.
+    + apikey: abc123 (string, required) - Your API key.
+
+### Get User Lists [GET]
+
++ Response 200 (application/json)
+    + Body
+    
+            [
+                {
+                    "id": 13,
+                    "name": "Top Watched Movies of The Week for KiDS",
+                    "slug": "top-watched-movies-of-the-week-for-kids",
+                    "description": "",
+                    "mediatype": "movie",
+                    "items": 12,
+                    "likes": 50
+                },
+                {
+                    "id": 14,
+                    "name": "Top Watched Movies of The Week / >60",
+                    "slug": "top-watched-movies-of-the-week",
+                    "description": "",
+                    "mediatype": "movie",
+                    "items": 75,
+                    "likes": 247
+                },
+                {
+                    "id": 69,
+                    "name": "IMDb Moviemeter (Top 100)",
+                    "slug": "imdb-moviemeter-top-100",
+                    "description": "",
+                    "mediatype": "movie",
+                    "items": 100,
+                    "likes": 57
+                }
+            ]
+
+## List by id [/lists/{listid}{?apikey}]
+Fetches information about a list by `listid`.
+
++ Parameters
+    + listid: 1176 (number, required) - The ID of the list.
+    + apikey: abc123 (string, required) - Your API key.
+
+### Get List by ID [GET]
+
++ Response 200 (application/json)
+    + Body
+    
+            [
+                {
+                    "id": 1176,
+                    "user_id": 3,
+                    "user_name": "linaspurinis",
+                    "name": "Latest Certified Fresh Releases",
+                    "slug": "latest-certified-fresh-releases",
+                    "description": "Score >= 60\r\nLimit 30",
+                    "mediatype": "movie",
+                    "items": 30,
+                    "likes": 21,
+                    "dynamic": true,
+                    "private": false
+                }
+            ]
+
+## List by name [/lists/{username}/{listname}{?apikey}]
+Fetches information about a list by `username` and `listname`. Can return multiple lists, since list can contain separate filter for movies and shows.
+
++ Parameters
+    + username: linaspurinis (string, required) - The username associated with the list.
+    + listname: `latest-certified-fresh-releases` (string, required) - The slug of the list.
+    + apikey: abc123 (string, required) - Your API key.
+
+### Get List by Name [GET]
+
++ Response 200 (application/json)
+    + Body
+
+            [       
+                {
+                    "id": 1176,
+                    "user_id": 3,
+                    "user_name": "linaspurinis",
+                    "name": "Latest Certified Fresh Releases",
+                    "slug": "latest-certified-fresh-releases",
+                    "description": "Score >= 60\r\nLimit 30",
+                    "mediatype": "movie",
+                    "items": 30,
+                    "likes": 21,
+                    "dynamic": true,
+                    "private": false
+                },
+                {
+                    "id": 6365,
+                    "user_id": 3,
+                    "user_name": "linaspurinis",
+                    "name": "Latest Certified Fresh Releases",
+                    "slug": "latest-certified-fresh-releases",
+                    "description": "Score >= 60\r\nLimit 30",
+                    "mediatype": "show",
+                    "items": 30,
+                    "likes": 21,
+                    "dynamic": true,
+                    "private": false
+                }
+            ]
+
+
+## List items [/lists/{listid}/items{?apikey}]
+
+Fetches list items.
+
++ Parameters
+    + listid: 1176 (number, required) - The ID of the list.
+    + apikey: abc123 (string, required) - Your API key.
+
+### Get List Items [GET]
+
++ Response 200 (application/json)
+    + Body
+
+            [
+                {
+                    "id": 917496,
+                    "rank": 1,
+                    "adult": 0,
+                    "title": "Beetlejuice Beetlejuice",
+                    "imdb_id": "tt2049403",
+                    "tvdb_id": null,
+                    "language": "en",
+                    "mediatype": "movie",
+                    "release_year": 2024,
+                    "spoken_language": "en"
+                },
+                {
+                    "id": 646097,
+                    "rank": 2,
+                    "adult": 0,
+                    "title": "Rebel Ridge",
+                    "imdb_id": "tt11301886",
+                    "tvdb_id": null,
+                    "language": "en",
+                    "mediatype": "movie",
+                    "release_year": 2024,
+                    "spoken_language": "en"
+                },
+                {
+                    "id": 1125073,
+                    "rank": 3,
+                    "adult": 0,
+                    "title": "Between the Temples",
+                    "imdb_id": "tt27722375",
+                    "tvdb_id": null,
+                    "language": "en",
+                    "mediatype": "movie",
+                    "release_year": 2024,
+                    "spoken_language": "en"
+                },
+                {
+                    "id": 1029281,
+                    "rank": 4,
+                    "adult": 0,
+                    "title": "Strange Darling",
+                    "imdb_id": "tt22375054",
+                    "tvdb_id": null,
+                    "language": "en",
+                    "mediatype": "movie",
+                    "release_year": 2024,
+                    "spoken_language": "en"
+                }
+            ]
+            
 ## Media Info [/api/{?apikey,i,j}]
 
 Get informtion about Movie or Show
