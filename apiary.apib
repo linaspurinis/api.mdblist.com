@@ -1,5 +1,5 @@
 FORMAT: 1A
-HOST: https://mdblist.com
+HOST: https://api.mdblist.com
 
 # MDBList API
 
@@ -70,6 +70,24 @@ Every lists can be accessed as JSON, by adding /json after lists URL 📄
             }
         ]
 
+## My Limits [/user/?apikey={apikey}]
+
+Show information about user limits
+
++ Parameters
+    + apikey (string) - Your API Key
+    
+### Get My Limits [GET]
+
++ Response 200 (application/json)
+
+        {
+            "limits":{
+                "supporter":true,
+                "rating_ids":100,
+                "api_requests":25000
+            }
+        }
 
 ## Media Info [/api/{?apikey,i,j}]
 
@@ -319,22 +337,6 @@ Search for Movie or Show
         }
         
         
-## My Limits [/api/user/{?apikey}]
-
-+ Parameters
-    + apikey (string) - Your API Key
-
-### Get My Limits [GET]
-
-+ Response 200 (application/json)
-
-        {
-            "limits":{
-                "supporter":true,
-                "rating_ids":100,
-                "api_requests":25000
-            }
-        }
 
 ## My Lists [/api/lists/user/{?apikey}]
 
