@@ -1,0 +1,452 @@
+FORMAT: 1A
+HOST: https://mdblist.com
+
+# MDBList API
+
+API service allows you to access information about ratings, votes, streaming services and more
+
+## API Keys
+
+API key can be generated for free in mdblist.com preferences
+
+## Pagination
+
+Some methods support pagination 📄  Append a query string like ?limit={limit}&offset={offset} to the URL to influence the results.
+
+| Parameter | Type | Value |
+| --------- | ---- | ----- |
+| `limit` | integer  | Number of results to return |
+| `offset` | integer  | Number of results to skip from the beginning  |
+
+## Lists [/lists/{user_name}/{list_name}/json{?append_to_response}]
+
+Every lists can be accessed as JSON, by adding /json after lists URL 📄
+
++ Parameters
+    + user_name: linaspurinis (string)
+    + list_name: `pixar-movies` (string)
+    + append_to_response: genre (string, optional)
+    
+
+### Get List Items [GET]
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": 693134,
+                "rank": 1,
+                "adult": 0,
+                "genre": [
+                    "action",
+                    "science-fiction",
+                    "adventure",
+                    "romance",
+                    "drama"
+                ],
+                "title": "Dune: Part Two",
+                "tvdbid": 0,
+                "imdb_id": "tt15239678",
+                "mediatype": "movie",
+                "release_year": 2024
+            },
+            {
+                "id": 1011985,
+                "rank": 8,
+                "adult": 0,
+                "genre": [
+                    "animation",
+                    "action",
+                    "adventure",
+                    "comedy",
+                    "family",
+                    "fantasy"
+                ],
+                "title": "Kung Fu Panda 4",
+                "tvdbid": 0,
+                "imdb_id": "tt21692408",
+                "mediatype": "movie",
+                "release_year": 2024
+            }
+        ]
+
+
+## Media Info [/api/{?apikey,i,j}]
+
+Get informtion about Movie or Show
+
++ Parameters
+    + apikey (string) - Your API Key
+    + i: tt0073195 (string, optional) - IMDb ID
+
+
+### Get Summary [GET]
+
+| Parameter | Description       | Options     | Default Value     |
+| --------- | ----------------- | ----------- | ----------------- |
+| `i`       | A valid IMDb ID   |             |                   |
+| `t`       | A valid Trakt ID  |             |                   | 
+| `tm`      | A valid TMDb ID   |             |                   | 
+| `tv`      | A valid TVDB ID   |             | Defaults to show  | 
+| `mal`     | A valid MAL ID    |             | Ignores mediatype | 
+| `m`       | Media type        | movie, show | movie             | 
+
++ Response 200 (application/json)
+        
+        {
+            "title":"Jaws",
+            "year":1975,
+            "released":"1975-06-20",
+            "released_digital":"1997-11-01",
+            "description":"When the seaside community of Amity finds itself under attack by a dangerous great white shark, the town's chief of police, a young marine biologist, and a grizzled hunter embark on a desperate quest to destroy the beast before it strikes again.",
+            "runtime":124,
+            "score":86,
+            "score_average":86,
+            "imdbid":"tt0073195",
+            "traktid":457,
+            "tmdbid":578,
+            "type":"movie",
+            "ratings":[
+                {
+                    "source":"imdb",
+                    "value":8.1,
+                    "score":81,
+                    "votes":672825,
+                    "popular":99
+                },
+                {
+                    "source":"metacritic",
+                    "value":87,
+                    "score":87,
+                    "votes":21,
+                    "url":"/movie/jaws"
+                },
+                {
+                    "source":"metacriticuser",
+                    "value":0,
+                    "score":null,
+                    "votes":null
+                },
+                {
+                    "source":"trakt",
+                    "value":78,
+                    "score":78,
+                    "votes":14033
+                },
+                {
+                    "source":"tomatoes",
+                    "value":97,
+                    "score":97,
+                    "votes":102,
+                    "url":"/m/jaws"
+                },
+                {
+                    "source":"tomatoesaudience",
+                    "value":90,
+                    "score":90,
+                    "votes":35442
+                },
+                {
+                    "source":"tmdb",
+                    "value":76,
+                    "score":76,
+                    "votes":10114
+                },
+                {
+                    "source":"letterboxd",
+                    "value":4,
+                    "score":80,
+                    "votes":876082,
+                    "url":"/film/jaws/"
+                },
+                {
+                    "source":"rogerebert",
+                    "value":4,
+                    "url":"great-movie-jaws-1975"
+                },
+                {
+                    "source":"myanimelist",
+                    "value":null,
+                    "votes":null,
+                    "id":null
+                }
+            ],
+            "streams":[
+               {
+                   "id":9,
+                    "name":"fuboTV"
+               },
+               {
+                   "id":10,
+                   "name":"AMC"
+               }
+            ],
+            "watch_providers":[
+              {
+                   "id":8,
+                   "name":"Netflix"
+              },
+              {
+                   "id":1796,
+                   "name":"Netflix basic with Ads"
+              }
+            ],
+            "reviews":[
+               {
+                   "updated_at":"2016-12-28",
+                   "author":"Elie",
+                   "rating":8,
+                   "provider_id":1,
+                   "content":"Terrifyingly awesome without being cheesy and too predictable. The protagonists are fighting a shark which has no super powers. The suspense and thrills are well crafted and not over exaggerated. There is only 1 major jump scare which is perfect in my book. A recommended and well paced thriller! "
+               },
+               {
+                    "updated_at":"2014-08-30",
+                    "author":"BROOKSY",
+                    "rating":8,
+                    "provider_id":1,
+                    "content":"This movie honestly changed my swimming habits at the beach. Good flick. "
+               }
+            ],
+            "keywords":[
+               {
+                    "id":2992,
+                    "name":"4k-blu-ray"
+               },
+               {
+                    "id":91,
+                    "name":"based-on-novel-or-book"
+               },
+               {
+                    "id":531,
+                    "name":"beach"
+               },
+               {
+                    "id":4159,
+                    "name":"fishing"
+               },
+               {
+                    "id":2606,
+                    "name":"atlantic-ocean"
+               }
+            ],
+            "language":"en",
+            "spoken_language":"en",
+            "country":"us",
+            "certification":"PG",
+            "commonsense":13,
+            "age_rating":13,
+            "status":"released",
+            "trailer":"https://youtube.com/watch?v=WKuZJjPSLXQ",
+            "poster":"https://image.tmdb.org/t/p/original/lxM6kqilAdpdhqUl2biYp5frUxE.jpg",
+            "backdrop":"https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/3nYlM34QhzdtAvWRV5bN4nLtnTc.jpg",
+            "response":true,
+            "apiused":42
+        }
+
+## Search for Media [/api/{?apikey,s}]
+
+Search for Movie or Show
+
++ Parameters
+    + apikey (string) - Your API Key
+    + s: jaws (string) - String to search for
+
+### Get Search Results [GET]
+
+| Parameter | Description                | Options         | Default Value |
+| --------- | -------------------------- | --------------- | ------------- |
+| `s`       | Title to search for        | Any string      |               |
+| `sc`      | Limit results by score     | From 0 to 100   |               | 
+| `o`       | Order results by score     | match           |               | 
+| `y`       | Year to limit title search | Valid year YYYY |               | 
+| `l`       | Limits results returned    | From 1 to 100   | 50            | 
+
++ Response 200 (application/json)
+        
+        {
+            "search":[
+                {
+                    "id":"tt0073195",
+                    "title":"Jaws",
+                    "year":1975,
+                    "score":86,
+                    "score_average":86,
+                    "type":"movie",
+                    "imdbid":"tt0073195",
+                    "tmdbid":578,
+                    "traktid":457,
+                    "malid":null
+                },
+                {
+                    "id":"tt0077766",
+                    "title":"Jaws 2",
+                    "year":1978,
+                    "score":55,
+                    "score_average":55,
+                    "type":"movie",
+                    "imdbid":"tt0077766",
+                    "tmdbid":579,
+                    "traktid":458,
+                    "malid":null
+                },
+                {
+                    "id":"tt0469185",
+                    "title":"The Shark Is Still Working: The Impact & Legacy of Jaws",
+                    "year":2009,
+                    "score":46,
+                    "score_average":80,
+                    "type":"movie",
+                    "imdbid":"tt0469185",
+                    "tmdbid":106262,
+                    "traktid":75531,
+                    "malid":null
+                },
+                {
+                    "id":"tt0085750",
+                    "title":"Jaws 3-D",
+                    "year":1983,
+                    "score":31,
+                    "score_average":31,
+                    "type":"movie",
+                    "imdbid":"tt0085750",
+                    "tmdbid":17692,
+                    "traktid":10833,
+                    "malid":null
+                }
+            ],
+            "total":4,
+            "response":true
+        }
+        
+        
+## My Limits [/api/user/{?apikey}]
+
++ Parameters
+    + apikey (string) - Your API Key
+
+### Get My Limits [GET]
+
++ Response 200 (application/json)
+
+        {
+            "limits":{
+                "supporter":true,
+                "rating_ids":100,
+                "api_requests":25000
+            }
+        }
+
+## My Lists [/api/lists/user/{?apikey}]
+
++ Parameters
+    + apikey (string) - Your API Key
+
+### Get My Lists [GET]
+
+Lists all User lists
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id":13,
+                "name":"Top Watched Movies of The Week for KiDS",
+                "slug":"top-watched-movies-of-the-week-for-kids",
+                "items":13,
+                "likes":50,
+                "private":false,
+                "mediatype":"movie",
+                "description":""
+            },
+            {
+                "id":14,
+                "name":"Top Watched Movies of The Week / >60",
+                "slug":"top-watched-movies-of-the-week",
+                "items":72,
+                "likes":244,
+                "private":false,
+                "mediatype":"movie",
+                "description":""
+            }
+        ]
+
+## User Lists [/api/lists/user/{user_id}/{?apikey}]
+
++ Parameters
+    + user_id (number) - ID of the User
+    + apikey (string) - Your API Key
+
+### Get My Lists [GET]
+
+Lists all User lists
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id":13,
+                "name":"Top Watched Movies of The Week for KiDS",
+                "slug":"top-watched-movies-of-the-week-for-kids",
+                "items":13,
+                "likes":50,
+                "private":false,
+                "mediatype":"movie",
+                "description":""
+            },
+            {
+                "id":14,
+                "name":"Top Watched Movies of The Week / >60",
+                "slug":"top-watched-movies-of-the-week",
+                "items":72,
+                "likes":244,
+                "private":false,
+                "mediatype":"movie",
+                "description":""
+            }
+        ]
+
+### Create a New Question [POST]
+
+You may create your own question using this action. It takes a JSON
+object containing a question and a collection of answers in the
+form of choices.
+
++ Request (application/json)
+
+        {
+            "question": "Favourite programming language?",
+            "choices": [
+                "Swift",
+                "Python",
+                "Objective-C",
+                "Ruby"
+            ]
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /questions/2
+
+    + Body
+
+            {
+                "question": "Favourite programming language?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "choices": [
+                    {
+                        "choice": "Swift",
+                        "votes": 0
+                    }, {
+                        "choice": "Python",
+                        "votes": 0
+                    }, {
+                        "choice": "Objective-C",
+                        "votes": 0
+                    }, {
+                        "choice": "Ruby",
+                        "votes": 0
+                    }
+                ]
+            }
