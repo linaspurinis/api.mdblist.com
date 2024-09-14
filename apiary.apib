@@ -467,3 +467,171 @@ Search for Movie or Show
               ],
               "total": 3
             }
+
+
+## Top Lists [/lists/top{?apikey}]
+Lists top lists sorted by Trakt likes
+
++ Parameters
+    + apikey: abc123 (string, required) - Your API key.
+
+### Get Top Lists [GET]
+
++ Response 200 (application/json)
+    + Body
+                
+            [
+              {
+                "id": 2194,
+                "user_id": 1230,
+                "user_name": "garycrawfordgc",
+                "name": "Latest TV Shows",
+                "slug": "latest-tv-shows",
+                "description": "",
+                "mediatype": "show",
+                "items": 300,
+                "likes": 477
+              },
+              {
+                "id": 14,
+                "user_id": 3,
+                "user_name": "linaspurinis",
+                "name": "Top Watched Movies of The Week / >60",
+                "slug": "top-watched-movies-of-the-week",
+                "description": "",
+                "mediatype": "movie",
+                "items": 76,
+                "likes": 247
+              },
+              {
+                "id": 3082,
+                "user_id": 1230,
+                "user_name": "garycrawfordgc",
+                "name": "Netflix Shows",
+                "slug": "netflix-shows",
+                "description": "",
+                "mediatype": "show",
+                "items": 300,
+                "likes": 201
+              },
+              {
+                "id": 3093,
+                "user_id": 1230,
+                "user_name": "garycrawfordgc",
+                "name": "Netflix Movies",
+                "slug": "netflix-movies",
+                "description": "",
+                "mediatype": "movie",
+                "items": 200,
+                "likes": 192
+              },
+              {
+                "id": 3882,
+                "user_id": 894,
+                "user_name": "hdlists",
+                "name": "Latest TV Shows",
+                "slug": "latest-tv-shows",
+                "description": "Latest TV Shows List for English Language Series/Specials",
+                "mediatype": "show",
+                "items": 300,
+                "likes": 188
+              }
+            ]
+
+## List Search [/lists/search{?apikey,query}]
+Search public lists by title
+
++ Parameters
+    + query: Horror (string, required) - Search query
+    + apikey: abc123 (string, required) - Your API key.
+
+### Search Lists [GET]
+
++ Response 200 (application/json)
+    + Body
+                
+            [
+              {
+                "id": 2410,
+                "user_id": 894,
+                "user_name": "hdlists",
+                "name": "Horror Movies (Top Rated From 1960 to Today)",
+                "slug": "latest-hd-horror-movies-top-rated-from-1980-to-today",
+                "description": "",
+                "mediatype": "movie",
+                "items": 920,
+                "likes": 139
+              },
+              {
+                "id": 3110,
+                "user_id": 1230,
+                "user_name": "garycrawfordgc",
+                "name": "Horror",
+                "slug": "horror",
+                "description": "",
+                "mediatype": "movie",
+                "items": 347,
+                "likes": 68
+              },
+              {
+                "id": 3124,
+                "user_id": 1230,
+                "user_name": "garycrawfordgc",
+                "name": "Horror Shows",
+                "slug": "horror-shows",
+                "description": "",
+                "mediatype": "show",
+                "items": 129,
+                "likes": 53
+              }
+            ]
+
+## Ratings [/rating/{media_type}/{return_rating}{?apikey,query}]
+Bulk rating request. Provide list of tmdb or imdb ids with media type and returns ratings of requested type.
+
++ Parameters
+    + media_type: movie (string, required)
+        + Members
+            + `movie`
+            + `show`
+    + return_rating: letterboxd (string, required) - Return rating type
+        + Members
+            + `trakt`
+            + `imdb`
+            + `tmdb`
+            + `letterboxd`
+            + `tomatoes`
+            + `audience`
+            + `metacritic`
+            + `rogerebert`
+            + `mal`
+            + `score`
+            + `score_average`
+    + apikey: abc123 (string, required) - Your API key.
+
+### Get Ratings [POST]
+
++ Request (application/json)
+
+            {
+                "ids": 
+                    [923, 990, 545611],
+                "provider": "tmdb"
+            }
+
++ Response 200 (application/json)
+    + Body
+                
+            [
+              {
+                "id": 2410,
+                "user_id": 894,
+                "user_name": "hdlists",
+                "name": "Horror Movies (Top Rated From 1960 to Today)",
+                "slug": "latest-hd-horror-movies-top-rated-from-1980-to-today",
+                "description": "",
+                "mediatype": "movie",
+                "items": 920,
+                "likes": 139
+              }
+            ]
