@@ -622,16 +622,22 @@ Bulk rating request. Provide list of tmdb or imdb ids with media type and return
 + Response 200 (application/json)
     + Body
                 
-            [
-              {
-                "id": 2410,
-                "user_id": 894,
-                "user_name": "hdlists",
-                "name": "Horror Movies (Top Rated From 1960 to Today)",
-                "slug": "latest-hd-horror-movies-top-rated-from-1980-to-today",
-                "description": "",
-                "mediatype": "movie",
-                "items": 920,
-                "likes": 139
-              }
-            ]
+            {
+              "provider_id": "tmdb",
+              "provider_rating": "letterboxd",
+              "mediatype": "movie",
+              "ratings": [
+                {
+                  "id": 923,
+                  "rating": 4
+                },
+                {
+                  "id": 990,
+                  "rating": 4.1
+                },
+                {
+                  "id": 545611,
+                  "rating": 4.3
+                }
+              ]
+            }
