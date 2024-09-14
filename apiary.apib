@@ -210,56 +210,265 @@ Fetches list items.
 + Response 200 (application/json)
     + Body
 
-            [
+            {
+              "movies": [
                 {
-                    "id": 917496,
-                    "rank": 1,
-                    "adult": 0,
-                    "title": "Beetlejuice Beetlejuice",
-                    "imdb_id": "tt2049403",
-                    "tvdb_id": null,
-                    "language": "en",
-                    "mediatype": "movie",
-                    "release_year": 2024,
-                    "spoken_language": "en"
+                  "id": 917496,
+                  "rank": 1,
+                  "adult": 0,
+                  "title": "Beetlejuice Beetlejuice",
+                  "imdb_id": "tt2049403",
+                  "tvdb_id": null,
+                  "language": "en",
+                  "mediatype": "movie",
+                  "release_year": 2024,
+                  "spoken_language": "en"
                 },
                 {
-                    "id": 646097,
-                    "rank": 2,
-                    "adult": 0,
-                    "title": "Rebel Ridge",
-                    "imdb_id": "tt11301886",
-                    "tvdb_id": null,
-                    "language": "en",
-                    "mediatype": "movie",
-                    "release_year": 2024,
-                    "spoken_language": "en"
+                  "id": 646097,
+                  "rank": 2,
+                  "adult": 0,
+                  "title": "Rebel Ridge",
+                  "imdb_id": "tt11301886",
+                  "tvdb_id": null,
+                  "language": "en",
+                  "mediatype": "movie",
+                  "release_year": 2024,
+                  "spoken_language": "en"
                 },
                 {
-                    "id": 1125073,
-                    "rank": 3,
-                    "adult": 0,
-                    "title": "Between the Temples",
-                    "imdb_id": "tt27722375",
-                    "tvdb_id": null,
-                    "language": "en",
-                    "mediatype": "movie",
-                    "release_year": 2024,
-                    "spoken_language": "en"
+                  "id": 1125073,
+                  "rank": 3,
+                  "adult": 0,
+                  "title": "Between the Temples",
+                  "imdb_id": "tt27722375",
+                  "tvdb_id": null,
+                  "language": "en",
+                  "mediatype": "movie",
+                  "release_year": 2024,
+                  "spoken_language": "en"
                 },
                 {
-                    "id": 1029281,
-                    "rank": 4,
-                    "adult": 0,
-                    "title": "Strange Darling",
-                    "imdb_id": "tt22375054",
-                    "tvdb_id": null,
-                    "language": "en",
-                    "mediatype": "movie",
-                    "release_year": 2024,
-                    "spoken_language": "en"
+                  "id": 1029281,
+                  "rank": 4,
+                  "adult": 0,
+                  "title": "Strange Darling",
+                  "imdb_id": "tt22375054",
+                  "tvdb_id": null,
+                  "language": "en",
+                  "mediatype": "movie",
+                  "release_year": 2024,
+                  "spoken_language": "en"
+                },
+                {
+                  "id": 840705,
+                  "rank": 5,
+                  "adult": 0,
+                  "title": "Blink Twice",
+                  "imdb_id": "tt14858658",
+                  "tvdb_id": null,
+                  "language": "en",
+                  "mediatype": "movie",
+                  "release_year": 2024,
+                  "spoken_language": "en"
+                },
+                {
+                  "id": 945961,
+                  "rank": 6,
+                  "adult": 0,
+                  "title": "Alien: Romulus",
+                  "imdb_id": "tt18412256",
+                  "tvdb_id": null,
+                  "language": "en",
+                  "mediatype": "movie",
+                  "release_year": 2024,
+                  "spoken_language": "en"
+                },
+                {
+                  "id": 1214521,
+                  "rank": 7,
+                  "adult": 0,
+                  "title": "Daughters",
+                  "imdb_id": "tt12336480",
+                  "tvdb_id": null,
+                  "language": "en",
+                  "mediatype": "movie",
+                  "release_year": 2024,
+                  "spoken_language": "en"
+                },
+                {
+                  "id": 1158874,
+                  "rank": 8,
+                  "adult": 0,
+                  "title": "Sugarcane",
+                  "imdb_id": "tt30319854",
+                  "tvdb_id": null,
+                  "language": "en",
+                  "mediatype": "movie",
+                  "release_year": 2024,
+                  "spoken_language": "en"
+                },
+                {
+                  "id": 1122618,
+                  "rank": 9,
+                  "adult": 0,
+                  "title": "Good One",
+                  "imdb_id": "tt30319516",
+                  "tvdb_id": null,
+                  "language": "en",
+                  "mediatype": "movie",
+                  "release_year": 2024,
+                  "spoken_language": "en"
                 }
-            ]
+              ],
+              "shows": []
+            }
+
+## List items by Name [/lists/{username}/{listname}/items{?apikey,limit,offset}]
+
+#### 📄 Pagination
+
+Fetches list items.
+
++ Parameters
+    + username: linaspurinis (string, required) - The username associated with the list.
+    + listname: `latest-certified-fresh-releases` (string, required) - The slug of the list.
+    + limit: 100 (integer, optional)
+    + offset: 10 (integer, optional)
+    + apikey: abc123 (string, required) - Your API key.
+
+### Get List Items [GET]
+
++ Response 200 (application/json)
+    + Body
+
+            {
+              "movies": [
+                {
+                  "id": 917496,
+                  "rank": 1,
+                  "adult": 0,
+                  "title": "Beetlejuice Beetlejuice",
+                  "imdb_id": "tt2049403",
+                  "tvdb_id": null,
+                  "language": "en",
+                  "mediatype": "movie",
+                  "release_year": 2024,
+                  "spoken_language": "en"
+                },
+                {
+                  "id": 646097,
+                  "rank": 2,
+                  "adult": 0,
+                  "title": "Rebel Ridge",
+                  "imdb_id": "tt11301886",
+                  "tvdb_id": null,
+                  "language": "en",
+                  "mediatype": "movie",
+                  "release_year": 2024,
+                  "spoken_language": "en"
+                },
+                {
+                  "id": 1125073,
+                  "rank": 3,
+                  "adult": 0,
+                  "title": "Between the Temples",
+                  "imdb_id": "tt27722375",
+                  "tvdb_id": null,
+                  "language": "en",
+                  "mediatype": "movie",
+                  "release_year": 2024,
+                  "spoken_language": "en"
+                },
+                {
+                  "id": 1029281,
+                  "rank": 4,
+                  "adult": 0,
+                  "title": "Strange Darling",
+                  "imdb_id": "tt22375054",
+                  "tvdb_id": null,
+                  "language": "en",
+                  "mediatype": "movie",
+                  "release_year": 2024,
+                  "spoken_language": "en"
+                },
+                {
+                  "id": 840705,
+                  "rank": 5,
+                  "adult": 0,
+                  "title": "Blink Twice",
+                  "imdb_id": "tt14858658",
+                  "tvdb_id": null,
+                  "language": "en",
+                  "mediatype": "movie",
+                  "release_year": 2024,
+                  "spoken_language": "en"
+                }
+              ],
+              "shows": [
+                {
+                  "id": 258902,
+                  "rank": 1,
+                  "adult": 0,
+                  "title": "English Teacher",
+                  "imdb_id": "tt20782190",
+                  "tvdb_id": 421968,
+                  "language": "en",
+                  "mediatype": "show",
+                  "release_year": 2024,
+                  "spoken_language": "en"
+                },
+                {
+                  "id": 253254,
+                  "rank": 2,
+                  "adult": 0,
+                  "title": "Fantasmas",
+                  "imdb_id": "tt18182112",
+                  "tvdb_id": 450408,
+                  "language": "en",
+                  "mediatype": "show",
+                  "release_year": 2024,
+                  "spoken_language": "en"
+                },
+                {
+                  "id": 241259,
+                  "rank": 3,
+                  "adult": 0,
+                  "title": "Baby Reindeer",
+                  "imdb_id": "tt13649112",
+                  "tvdb_id": 417223,
+                  "language": "en",
+                  "mediatype": "show",
+                  "release_year": 2024,
+                  "spoken_language": "en"
+                },
+                {
+                  "id": 126308,
+                  "rank": 4,
+                  "adult": 0,
+                  "title": "Shōgun",
+                  "imdb_id": "tt2788316",
+                  "tvdb_id": 392573,
+                  "language": "en",
+                  "mediatype": "show",
+                  "release_year": 2024,
+                  "spoken_language": "ja"
+                },
+                {
+                  "id": 155292,
+                  "rank": 5,
+                  "adult": 0,
+                  "title": "Scott Pilgrim Takes Off",
+                  "imdb_id": "tt16969708",
+                  "tvdb_id": 433113,
+                  "language": "en",
+                  "mediatype": "show",
+                  "release_year": 2023,
+                  "spoken_language": "en"
+                }
+              ]
+            }
+            
             
 ## Media Info [/{media_provider}/{media_id}/{media_type}{?apikey,append_to_response}]
 
