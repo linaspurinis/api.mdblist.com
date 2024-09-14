@@ -193,12 +193,16 @@ Fetches information about a list by `username` and `listname`. Can return multip
             ]
 
 
-## List items [/lists/{listid}/items{?apikey}]
+## List items [/lists/{listid}/items{?apikey,limit,offset}]
+
+#### 📄 Pagination
 
 Fetches list items.
 
 + Parameters
-    + listid: 1176 (number, required) - The ID of the list.
+    + listid: 1176 (integer, required) - The ID of the list.
+    + limit: 100 (integer, optional)
+    + offset: 10 (integer, optional)
     + apikey: abc123 (string, required) - Your API key.
 
 ### Get List Items [GET]
