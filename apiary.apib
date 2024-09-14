@@ -276,7 +276,7 @@ Get informtion about Movie or Show
             + `movie`
             + `show`
             + `any`
-    + append_to_response: `keyword` (string, optional) - Additional information to append. Accepts a comma-separated list of the following values `keyword`, `review`
+    + append_to_response: `keyword` (string, optional) - Additional information to append. Accepts a comma-separated list of the following values: `keyword`, `review`
         + Members
             + `keyword` - Append keyword information.
             + `review` - Append review information.
@@ -399,69 +399,71 @@ Get informtion about Movie or Show
             "response": true
             }
 
-## Search for Media [/api/{?apikey,s}]
+## Search for Media [/search/{media_type}{?apikey,query,limit_by_score,sort_by_score,year,limit}]
 
 Search for Movie or Show
 
 + Parameters
-    + apikey (string) - Your API Key
-    + s: jaws (string) - String to search for
+    + media_type: movie (string, required)
+        + Members
+            + `movie`
+            + `show`
+            + `any`
+    + query: Jaws (string, required) - Search Query
+    + limit_by_score: 30 (int, optional) - Limit returned results by score
+    + sort_by_score: True (Boolean, optional) - Sort returned results by score
+    + year: 1976 (int, optional) - Limit returned results by year +-1
+    + limit: 10 (int, optional) - Limit returned results
+    + apikey: abc123 (string, required) - Your API Key
 
 ### Get Search Results [GET]
 
 + Response 200 (application/json)
         
-        {
-            "search":[
+            {
+              "search": [
                 {
-                    "id":"tt0073195",
-                    "title":"Jaws",
-                    "year":1975,
-                    "score":86,
-                    "score_average":86,
-                    "type":"movie",
-                    "imdbid":"tt0073195",
-                    "tmdbid":578,
-                    "traktid":457,
-                    "malid":null
+                  "title": "Jaws",
+                  "year": 1975,
+                  "score": 86,
+                  "score_average": 86,
+                  "type": "movie",
+                  "ids": {
+                    "imdbid": "tt0073195",
+                    "tmdbid": 578,
+                    "traktid": 457,
+                    "anidbid": null,
+                    "tvdbid": null
+                  }
                 },
                 {
-                    "id":"tt0077766",
-                    "title":"Jaws 2",
-                    "year":1978,
-                    "score":55,
-                    "score_average":55,
-                    "type":"movie",
-                    "imdbid":"tt0077766",
-                    "tmdbid":579,
-                    "traktid":458,
-                    "malid":null
+                  "title": "Jaws 2",
+                  "year": 1978,
+                  "score": 55,
+                  "score_average": 55,
+                  "type": "movie",
+                  "ids": {
+                    "imdbid": "tt0077766",
+                    "tmdbid": 579,
+                    "traktid": 458,
+                    "anidbid": null,
+                    "tvdbid": null
+                  }
                 },
                 {
-                    "id":"tt0469185",
-                    "title":"The Shark Is Still Working: The Impact & Legacy of Jaws",
-                    "year":2009,
-                    "score":46,
-                    "score_average":80,
-                    "type":"movie",
-                    "imdbid":"tt0469185",
-                    "tmdbid":106262,
-                    "traktid":75531,
-                    "malid":null
-                },
-                {
-                    "id":"tt0085750",
-                    "title":"Jaws 3-D",
-                    "year":1983,
-                    "score":31,
-                    "score_average":31,
-                    "type":"movie",
-                    "imdbid":"tt0085750",
-                    "tmdbid":17692,
-                    "traktid":10833,
-                    "malid":null
+                  "title": "The Shark Is Still Working: The Impact & Legacy of \"Jaws\"",
+                  "year": 2009,
+                  "score": 46,
+                  "score_average": 80,
+                  "type": "movie",
+                  "ids": {
+                    "imdbid": "tt0469185",
+                    "tmdbid": 106262,
+                    "traktid": 75531,
+                    "anidbid": null,
+                    "tvdbid": null
+                  }
                 }
-            ],
-            "total":4,
-            "response":true
-        }
+              ],
+              "total": 3
+            }
