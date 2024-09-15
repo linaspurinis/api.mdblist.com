@@ -80,7 +80,7 @@ Fetches users lists.
                 }
             ]
 
-## User Lists [/lists/user/{userid}{?apikey}]
+## User Lists by ID [/lists/user/{userid}{?apikey}]
 Fetches users lists by `userid`.
 
 + Parameters
@@ -122,6 +122,48 @@ Fetches users lists by `userid`.
                 }
             ]
 
+## User Lists by Name [/lists/user/{username}{?apikey}]
+Fetches users lists by `userid`.
+
++ Parameters
+    + username: linaspurinis (string, required) - The username
+    + apikey: abc123 (string, required) - Your API key
+
+### Get User Lists [GET]
+
++ Response 200 (application/json)
+    + Body
+    
+            [
+                {
+                    "id": 13,
+                    "name": "Top Watched Movies of The Week for KiDS",
+                    "slug": "top-watched-movies-of-the-week-for-kids",
+                    "description": "",
+                    "mediatype": "movie",
+                    "items": 12,
+                    "likes": 50
+                },
+                {
+                    "id": 14,
+                    "name": "Top Watched Movies of The Week / >60",
+                    "slug": "top-watched-movies-of-the-week",
+                    "description": "",
+                    "mediatype": "movie",
+                    "items": 75,
+                    "likes": 247
+                },
+                {
+                    "id": 69,
+                    "name": "IMDb Moviemeter (Top 100)",
+                    "slug": "imdb-moviemeter-top-100",
+                    "description": "",
+                    "mediatype": "movie",
+                    "items": 100,
+                    "likes": 57
+                }
+            ]
+            
 ## List by ID [/lists/{listid}{?apikey}]
 Fetches information about a list by `listid`.
 
