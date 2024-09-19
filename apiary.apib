@@ -511,6 +511,38 @@ Fetches list items.
               ]
             }
             
+
+## List Changes [/lists/{listid}/changes{?apikey}]
+
+Returns Trakt IDs for items changed after the last list update. Returned up to 200 items per action.
+
++ Parameters
+    + listid: 1176 (integer, required) - The ID of the list.
+    + apikey: abc123 (string, required) - Your API key.
+
+### Get List Changes [GET]
+
++ Response 200 (application/json)
+    + Body
+
+            {
+              "id": 65296,
+              "movie": {
+                "trakt_ids": {
+                  "added": [
+                    116006
+                  ],
+                  "removed": [
+                    125198,
+                    129400,
+                    132409,
+                    148315
+                  ]
+                }
+              },
+              "updated": "2024-09-19T09:01:39Z"
+            }
+            
             
 ## Media Info [/{media_provider}/{media_type}/{media_id}{?apikey,append_to_response}]
 
@@ -656,9 +688,9 @@ Get informtion about Movie or Show
             }
 
 
-## Media Info List [/{media_provider}/{media_type}{?apikey}]
+## Media Info Batch [/{media_provider}/{media_type}{?apikey}]
 
-You can modify static list by adding or removing items
+Get up to 200 media items. Add append_to_response in the request body.
 
 + Parameters
     + media_provider: `imdb` (enum[string], required) - Media provider
@@ -677,7 +709,7 @@ You can modify static list by adding or removing items
     + apikey: abc123 (string, required) - Your API key.
 
 
-### Get Media Info List [POST]
+### Get Media Info Batch [POST]
 
 + Request (application/json)
 
