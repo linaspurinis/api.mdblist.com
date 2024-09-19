@@ -512,7 +512,7 @@ Fetches list items.
             }
             
             
-## Media Info [/{media_provider}/{media_id}/{media_type}{?apikey,append_to_response}]
+## Media Info [/{media_provider}/{media_type}/{media_id}{?apikey,append_to_response}]
 
 Get informtion about Movie or Show
 
@@ -525,18 +525,16 @@ Get informtion about Movie or Show
             + `tmdb`
             + `tvdb`
             + `anidb`
-    + media_id: tt0073195 (string, required) - Media ID
     + media_type: movie (string, required)
         + Members
             + `movie`
             + `show`
             + `any`
+    + media_id: tt0073195 (string, required) - Media ID
     + append_to_response: `keyword` (string, optional) - Additional information to append. Accepts a comma-separated list of the following values: `keyword`, `review`
         + Members
             + `keyword` - Append keyword information.
             + `review` - Append review information.
-
-
     + apikey: abc123 (string, required) - Your API key.
 
 ### Get Summary [GET]
@@ -544,116 +542,278 @@ Get informtion about Movie or Show
 + Response 200 (application/json)
         
             {
-            "title": "Jaws",
-            "year": 1975,
-            "released": "1975-06-20",
-            "released_digital": "1997-11-01",
-            "description": "When the seaside community of Amity finds itself under attack by a dangerous great white shark, the town's chief of police, a young marine biologist, and a grizzled hunter embark on a desperate quest to destroy the beast before it strikes again.",
-            "runtime": 124,
-            "score": 86,
-            "score_average": 86,
-            "imdbid": "tt0073195",
-            "traktid": 457,
-            "tmdbid": 578,
-            "type": "movie",
-            "ratings": [
-            {
-            "source": "imdb",
-            "value": 8.1,
-            "score": 81,
-            "votes": 673215,
-            "url": 99
-            },
-            {
-            "source": "metacritic",
-            "value": 87,
-            "score": 87,
-            "votes": 21,
-            "url": "/jaws"
-            },
-            {
-            "source": "metacriticuser",
-            "value": null,
-            "score": null,
-            "votes": null,
-            "url": null
-            },
-            {
-            "source": "trakt",
-            "value": 78,
-            "score": 78,
-            "votes": 14033,
-            "url": null
-            },
-            {
-            "source": "tomatoes",
-            "value": 97,
-            "score": 97,
-            "votes": 102,
-            "url": "/m/jaws"
-            },
-            {
-            "source": "tmdb",
-            "value": 76,
-            "score": 76,
-            "votes": 10114,
-            "url": null
-            },
-            {
-            "source": "letterboxd",
-            "value": 8,
-            "score": 80,
-            "votes": 876082,
-            "url": "/film/jaws/"
-            },
-            {
-            "source": "rogerebert",
-            "value": 4,
-            "score": "great-movie-jaws-1975",
-            "votes": null,
-            "url": null
-            },
-            {
-            "source": "myanimelist",
-            "value": null,
-            "score": null,
-            "votes": null,
-            "url": null
-            }
-            ],
-            "streams": [
-            {
-            "id": 9,
-            "name": "fuboTV"
-            },
-            {
-            "id": 10,
-            "name": "AMC"
-            }
-            ],
-            "watch_providers": [
-            {
-            "id": 8,
-            "name": "Netflix"
-            },
-            {
-            "id": 1796,
-            "name": "Netflix basic with Ads"
-            }
-            ],
-            "language": "en",
-            "spoken_language": "en",
-            "country": "us",
-            "certification": "PG",
-            "commonsense": true,
-            "age_rating": 13,
-            "status": "released",
-            "trailer": "https://youtube.com/watch?v=WKuZJjPSLXQ",
-            "poster": "https://image.tmdb.org/t/p/original/lxM6kqilAdpdhqUl2biYp5frUxE.jpg",
-            "backdrop": "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/3nYlM34QhzdtAvWRV5bN4nLtnTc.jpg",
-            "response": true
+              "title": "Jaws",
+              "year": 1975,
+              "released": "1975-06-20",
+              "released_digital": "1997-11-01",
+              "description": "When the seaside community of Amity finds itself under attack by a dangerous great white shark, the town's chief of police, a young marine biologist, and a grizzled hunter embark on a desperate quest to destroy the beast before it strikes again.",
+              "runtime": 124,
+              "score": 86,
+              "score_average": 86,
+              "ids": {
+                "imdb": "tt0073195",
+                "trakt": 457,
+                "tmdb": 578,
+                "tvdb": null,
+                "anidb": null
+              },
+              "type": "movie",
+              "ratings": [
+                {
+                  "source": "imdb",
+                  "value": 8.1,
+                  "score": 81,
+                  "votes": 673852,
+                  "url": 99
+                },
+                {
+                  "source": "metacritic",
+                  "value": 87,
+                  "score": 87,
+                  "votes": 21,
+                  "url": "/jaws"
+                },
+                {
+                  "source": "metacriticuser",
+                  "value": null,
+                  "score": null,
+                  "votes": null,
+                  "url": null
+                },
+                {
+                  "source": "trakt",
+                  "value": 78,
+                  "score": 78,
+                  "votes": 14033,
+                  "url": null
+                },
+                {
+                  "source": "tomatoes",
+                  "value": 97,
+                  "score": 97,
+                  "votes": 102,
+                  "url": "/m/jaws"
+                },
+                {
+                  "source": "tmdb",
+                  "value": 76,
+                  "score": 76,
+                  "votes": 10114,
+                  "url": null
+                },
+                {
+                  "source": "letterboxd",
+                  "value": 8,
+                  "score": 80,
+                  "votes": 876082,
+                  "url": "/film/jaws/"
+                },
+                {
+                  "source": "rogerebert",
+                  "value": 4,
+                  "score": null,
+                  "votes": null,
+                  "url": "great-movie-jaws-1975"
+                },
+                {
+                  "source": "myanimelist",
+                  "value": null,
+                  "score": null,
+                  "votes": null,
+                  "url": null
+                }
+              ],
+              "streams": [
+                {
+                  "id": 9,
+                  "name": "fuboTV"
+                },
+                {
+                  "id": 10,
+                  "name": "AMC"
+                }
+              ],
+              "watch_providers": [
+                {
+                  "id": 8,
+                  "name": "Netflix"
+                },
+                {
+                  "id": 1796,
+                  "name": "Netflix basic with Ads"
+                }
+              ],
+              "language": "en",
+              "spoken_language": "en",
+              "country": "us",
+              "certification": "PG",
+              "commonsense": true,
+              "age_rating": 13,
+              "status": "released",
+              "trailer": "https://youtube.com/watch?v=WKuZJjPSLXQ",
+              "poster": "https://image.tmdb.org/t/p/original/lxM6kqilAdpdhqUl2biYp5frUxE.jpg",
+              "backdrop": "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/3nYlM34QhzdtAvWRV5bN4nLtnTc.jpg"
             }
 
+
+## Media Info List [/{media_provider}/{media_type}{?apikey}]
+
+You can modify static list by adding or removing items
+
++ Parameters
+    + media_provider: `imdb` (enum[string], required) - Media provider
+        + Members
+            + `tmdb`
+            + `imdb`
+            + `trakt`
+            + `tmdb`
+            + `tvdb`
+            + `anidb`
+    + media_type: movie (string, required)
+        + Members
+            + `movie`
+            + `show`
+            + `any`
+    + apikey: abc123 (string, required) - Your API key.
+
+
+### Get Media Info List [POST]
+
++ Request (application/json)
+
+            {
+                "ids": ["116006", "125198"],
+                "append_to_response": ["review", "keyword"]
+            }
+
++ Response 200 (application/json)
+    + Body
+    
+            [
+              {
+                "id": 128773,
+                "title": "The Phantom of the Convent",
+                "year": 1934,
+                "released": "1934-06-26",
+                "description": "Alfonso, Eduardo and Cristina get lost when visiting a forest. A strange monk finds them and takes them to an ancient convent. There, the three amigos suffer personality changes, specially Cristina who tries to seduce Alfonso in a strange coincidence to a story told by an old monk. After some efforts to escape, Alfonso is trapped inside a jail and more strange and macabre situations happen.",
+                "runtime": 85,
+                "score": 31,
+                "score_average": 64,
+                "ids": {
+                  "imdb": "tt0025100",
+                  "trakt": 116006,
+                  "tmdb": 184940,
+                  "tvdb": null,
+                  "anidb": null
+                },
+                "type": "movie",
+                "ratings": [],
+                "streams": [],
+                "watch_providers": [
+                  {
+                    "id": 258,
+                    "name": "Criterion Channel"
+                  }
+                ],
+                "language": "es",
+                "spoken_language": "es",
+                "country": "mx",
+                "certification": "NR",
+                "commonsense": null,
+                "age_rating": 11,
+                "status": "released",
+                "trailer": null,
+                "poster": "https://image.tmdb.org/t/p/original/gi5MqHPQEkekaqNZ5PqMFZ70cdf.jpg",
+                "backdrop": "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/2peiLehxIXlk36KAtWfl2v53Soc.jpg",
+                "reviews": [
+                  {
+                    "updated_at": "2024-04-01",
+                    "author": "NealZ",
+                    "rating": 7,
+                    "provider_id": 1,
+                    "content": "This officially marks the oldest movie I've ever watched, and I must say, I'm pleasantly surprised by how much I enjoyed it. Initially seeming rather straightforward, it ended up delivering more surprises than I had imagined. I relished the overall atmosphere; it even boasted some impressive practical effects and had its moments of delightful silliness. Though it didn't quite muster the scares by today's standards, I found it to be a far more engaging experience than many contemporary releases. It leaves me hopeful for exploring other films from that era, or even earlier ones."
+                  }
+                ],
+                "keywords": [
+                  {
+                    "id": 96,
+                    "name": "monk"
+                  },
+                  {
+                    "id": 6325,
+                    "name": "convent-nunnery"
+                  },
+                  {
+                    "id": 51341,
+                    "name": "mexican-horror"
+                  },
+                  {
+                    "id": 80325,
+                    "name": "lost-in-woods"
+                  }
+                  }
+                ]
+              },
+              {
+                "id": 2401479,
+                "title": "One Mile From Heaven",
+                "year": 1937,
+                "released": "1937-08-18",
+                "description": "A female journalist travels to a new neighborhood after getting a (false) lead and is surprised by what she finds.",
+                "runtime": 67,
+                "score": 0,
+                "score_average": 70,
+                "ids": {
+                  "imdb": "tt0029349",
+                  "trakt": 125198,
+                  "tmdb": 200717,
+                  "tvdb": null,
+                  "anidb": null
+                },
+                "type": "movie",
+                "ratings": [],
+                "streams": [],
+                "watch_providers": [],
+                "language": "en",
+                "spoken_language": "en",
+                "country": "us",
+                "certification": "NR",
+                "commonsense": null,
+                "age_rating": null,
+                "status": "released",
+                "trailer": null,
+                "poster": "https://image.tmdb.org/t/p/original/4zOeRUZqvqLSYdATrqg97qT5o0l.jpg",
+                "backdrop": "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/qH2F24GxmUVsgwHvv39iVy3YSq1.jpg",
+                "reviews": [
+                  {
+                    "updated_at": "2021-02-02",
+                    "author": "Louis Lautier",
+                    "rating": 1,
+                    "provider_id": 3,
+                    "content": "Bill Robinson and Fredi Washington give performances deserving commendation."
+                  }
+                ],
+                "keywords": [
+                  {
+                    "id": 1305,
+                    "name": "mother"
+                  },
+                  {
+                    "id": 1594,
+                    "name": "wealth"
+                  },
+                  {
+                    "id": 12453,
+                    "name": "welfare"
+                  },
+                  {
+                    "id": 304495,
+                    "name": "welfare"
+                  }
+                ]
+              }
+            ]
+            
 ## Search for Media [/search/{media_type}{?apikey,query,limit_by_score,sort_by_score,year,limit}]
 
 Search for Movie or Show
