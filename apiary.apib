@@ -235,11 +235,11 @@ Fetches information about a list by `username` and `listname`. Can return multip
             ]
 
 
-## List items [/lists/{listid}/items{?apikey,limit,offset}]
+## List items [/lists/{listid}/items{?apikey,limit,offset,append_to_response,filter_genre}]
 
 #### 📄 Pagination
 
-Fetches list items.
+Fetches list items. Use `append_to_response=genre` to include genres in the response. To filter the results by a specific genre, use `filter_genre=fantasy` to retrieve only items belonging to the fantasy genre.
 
 + Parameters
     + listid: 1176 (integer, required) - The ID of the list.
@@ -366,20 +366,24 @@ Fetches list items.
               "shows": []
             }
 
-## List items by Name [/lists/{username}/{listname}/items{?apikey,limit,offset}]
+## List items by List Name [/lists/{username}/{listname}/items/{mediatype}{?apikey,limit,offset}]
 
 #### 📄 Pagination
 
-Fetches list items.
+Fetches list items. `mediatype` is optional.
 
 + Parameters
     + username: linaspurinis (string, required) - The username associated with the list.
     + listname: `latest-certified-fresh-releases` (string, required) - The slug of the list.
+    + mediatype: movie (string, optional)
+        + Members
+            + `movie`
+            + `show`
     + limit: 100 (integer, optional)
     + offset: 10 (integer, optional)
     + apikey: abc123 (string, required) - Your API key.
 
-### Get List Items [GET]
+### Get List Items by Name [GET]
 
 + Response 200 (application/json)
     + Body
