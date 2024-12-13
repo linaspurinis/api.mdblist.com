@@ -239,12 +239,14 @@ Fetches information about a list by `username` and `listname`. Can return multip
 
 #### 📄 Pagination
 
-Fetches list items. Use `append_to_response=genre` to include genres in the response. To filter the results by a specific genre, use `filter_genre=fantasy` to retrieve only items belonging to the fantasy genre.
+Fetches list items. Use `append_to_response=genre,poster` to include genres and posters in the response. To filter the results by a specific genre, use `filter_genre=fantasy` to retrieve only items belonging to the fantasy genre.
 
 + Parameters
     + listid: 1176 (integer, required) - The ID of the list.
     + limit: 100 (integer, optional)
     + offset: 10 (integer, optional)
+    + append_to_response: `genre,poster` (string, optional) - Additional information to append.
+    + filter_genre: `fantasy` (string, optional) - Filter by genre, works if genre is included.
     + apikey: abc123 (string, required) - Your API key.
 
 ### Get List Items [GET]
