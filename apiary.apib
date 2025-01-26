@@ -368,7 +368,7 @@ Fetches list items. Use `append_to_response=genre,poster` to include genres and 
               "shows": []
             }
 
-## List items by List Name [/lists/{username}/{listname}/items/{mediatype}{?apikey,limit,offset}]
+## List items by List Name [/lists/{username}/{listname}/items/{?apikey,limit,offset}]
 
 #### 📄 Pagination
 
@@ -377,10 +377,6 @@ Fetches list items. `mediatype` is optional.
 + Parameters
     + username: linaspurinis (string, required) - The username associated with the list.
     + listname: `latest-certified-fresh-releases` (string, required) - The slug of the list.
-    + mediatype: movie (string, optional)
-        + Members
-            + `movie`
-            + `show`
     + limit: 100 (integer, optional)
     + offset: 10 (integer, optional)
     + apikey: abc123 (string, required) - Your API key.
