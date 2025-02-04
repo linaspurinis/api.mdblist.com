@@ -235,7 +235,7 @@ Fetches information about a list by `username` and `listname`. Can return multip
             ]
 
 
-## List items [/lists/{listid}/items{?apikey,limit,offset,append_to_response,filter_genre,sort,order}]
+## List items [/lists/{listid}/items{?apikey,limit,offset,append_to_response,filter_genre,sort,order,unified}]
 
 #### 📄 Pagination
 
@@ -279,6 +279,7 @@ By default, items are sorted by rank.
         + Members
             + `asc`
             + `desc`
+    + unified: `true` (boolean, optional) - Returns unified list of Movies and Shows
     + apikey: abc123 (string, required) - Your API key.
 
 ### Get List Items [GET]
@@ -400,7 +401,7 @@ By default, items are sorted by rank.
               "shows": []
             }
 
-## List items by List Name [/lists/{username}/{listname}/items/{?apikey,limit,offset,sort,order}]
+## List items by List Name [/lists/{username}/{listname}/items/{?apikey,limit,offset,sort,order,unified}]
 
 #### 📄 Pagination
 
@@ -443,6 +444,7 @@ By default, items are sorted by rank.
         + Members
             + `asc`
             + `desc`    
+    + unified: `true` (boolean, optional) - Returns unified list of Movies and Shows
     + apikey: abc123 (string, required) - Your API key.
 
 ### Get List Items by Name [GET]
