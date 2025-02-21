@@ -1214,3 +1214,311 @@ You can modify static list by adding or removing items
                 "shows": 0
               }
             }
+            
+
+# Group Watchlist
+
+## List Watchlist items [/watchlist/items{?apikey,limit,offset,append_to_response,filter_genre,sort,order,unified}]
+
+#### 📄 Pagination
+
+Fetches list items. Use `append_to_response=genre,poster` to include genres and posters in the response. To filter results by a specific genre, use `filter_genre=fantasy` to retrieve only fantasy items.
+
+By default, items are sorted by rank.
+
++ Parameters
+    + limit: 100 (integer, optional)
+    + offset: 10 (integer, optional)
+    + append_to_response: `genre,poster` (string, optional) - Additional information to append.
+    + filter_genre: `fantasy` (string, optional) - Filter by genre, works if genre is included.
+    + sort: `score` (string, optional)
+        + Members
+            + `score`
+            + `score_average`
+            + `released`
+            + `releasedigital`
+            + `imdbrating`
+            + `imdbvotes`
+            + `last_air_date`
+            + `imdbpopular`
+            + `tmdbpopular`
+            + `rogerebert`
+            + `rtomatoes`
+            + `rtaudience`
+            + `metacritic`
+            + `myanimelist`
+            + `letterrating`
+            + `lettervotes`
+            + `budget`
+            + `revenue`
+            + `runtime`
+            + `title`
+            + `added`
+            + `random`
+    + order: `asc` (string, optional)
+        + Members
+            + `asc`
+            + `desc`
+    + unified: `true` (boolean, optional) - Returns unified list of Movies and Shows
+    + apikey: abc123 (string, required) - Your API key.
+
+### Get Watchlist Items [GET]
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "movies": [
+                    {
+                        "id": 661539,
+                        "adult": 0,
+                        "title": "A Complete Unknown",
+                        "imdb_id": "tt11563598",
+                        "tvdb_id": null,
+                        "language": "en",
+                        "mediatype": "movie",
+                        "release_year": 2024,
+                        "watchlist_at": "2025-02-02 17:28:22.000000",
+                        "spoken_language": "en",
+                        "rank": 0
+                    },
+                    {
+                        "id": 1013850,
+                        "adult": 0,
+                        "title": "A Real Pain",
+                        "imdb_id": "tt21823606",
+                        "tvdb_id": null,
+                        "language": "en",
+                        "mediatype": "movie",
+                        "release_year": 2024,
+                        "watchlist_at": "2025-02-21 08:43:31.000000",
+                        "spoken_language": "en",
+                        "rank": 3
+                    },
+                    {
+                        "id": 1064213,
+                        "adult": 0,
+                        "title": "Anora",
+                        "imdb_id": "tt28607951",
+                        "tvdb_id": null,
+                        "language": "en",
+                        "mediatype": "movie",
+                        "release_year": 2024,
+                        "watchlist_at": "2025-02-21 12:42:39.000000",
+                        "spoken_language": "en",
+                        "rank": 4
+                    },
+                    {
+                        "id": 728949,
+                        "adult": 0,
+                        "title": "Nightbitch",
+                        "imdb_id": "tt12810074",
+                        "tvdb_id": null,
+                        "language": "en",
+                        "mediatype": "movie",
+                        "release_year": 2024,
+                        "watchlist_at": "2025-02-21 12:42:47.000000",
+                        "spoken_language": "en",
+                        "rank": 6
+                    },
+                    {
+                        "id": 933260,
+                        "adult": 0,
+                        "title": "The Substance",
+                        "imdb_id": "tt17526714",
+                        "tvdb_id": null,
+                        "language": "en",
+                        "mediatype": "movie",
+                        "release_year": 2024,
+                        "watchlist_at": "2025-02-21 12:52:12.000000",
+                        "spoken_language": "en",
+                        "rank": 11
+                    },
+                    {
+                        "id": 1124620,
+                        "adult": 0,
+                        "title": "The Monkey",
+                        "imdb_id": "tt27714946",
+                        "tvdb_id": null,
+                        "language": "en",
+                        "mediatype": "movie",
+                        "release_year": 2025,
+                        "watchlist_at": "2025-02-21 12:52:12.000000",
+                        "spoken_language": "en",
+                        "rank": 12
+                    },
+                    {
+                        "id": 1084199,
+                        "adult": 0,
+                        "title": "Companion",
+                        "imdb_id": "tt26584495",
+                        "tvdb_id": null,
+                        "language": "en",
+                        "mediatype": "movie",
+                        "release_year": 2025,
+                        "watchlist_at": "2025-02-21 12:59:56.824522",
+                        "spoken_language": "en",
+                        "rank": 13
+                    }
+                ],
+                "shows": [
+                    {
+                        "id": 253905,
+                        "adult": 0,
+                        "title": "When the Phone Rings",
+                        "imdb_id": "tt33503491",
+                        "tvdb_id": 446494,
+                        "language": "ko",
+                        "mediatype": "show",
+                        "release_year": 2024,
+                        "watchlist_at": "2025-02-09 20:45:34.000000",
+                        "spoken_language": "ko",
+                        "rank": 1
+                    },
+                    {
+                        "id": 94951,
+                        "adult": 0,
+                        "title": "Mythic Quest",
+                        "imdb_id": "tt8879940",
+                        "tvdb_id": 362829,
+                        "language": "en",
+                        "mediatype": "show",
+                        "release_year": 2020,
+                        "watchlist_at": "2025-02-09 20:55:26.000000",
+                        "spoken_language": "en",
+                        "rank": 2
+                    },
+                    {
+                        "id": 194764,
+                        "adult": 0,
+                        "title": "The Penguin",
+                        "imdb_id": "tt15435876",
+                        "tvdb_id": 417648,
+                        "language": "en",
+                        "mediatype": "show",
+                        "release_year": 2024,
+                        "watchlist_at": "2025-02-21 12:42:41.000000",
+                        "spoken_language": "en",
+                        "rank": 5
+                    },
+                    {
+                        "id": 215866,
+                        "adult": 0,
+                        "title": "American Primeval",
+                        "imdb_id": "tt24069848",
+                        "tvdb_id": 428066,
+                        "language": "en",
+                        "mediatype": "show",
+                        "release_year": 2025,
+                        "watchlist_at": "2025-02-21 12:43:01.000000",
+                        "spoken_language": "en",
+                        "rank": 7
+                    },
+                    {
+                        "id": 95396,
+                        "adult": 0,
+                        "title": "Severance",
+                        "imdb_id": "tt11280740",
+                        "tvdb_id": 371980,
+                        "language": "en",
+                        "mediatype": "show",
+                        "release_year": 2022,
+                        "watchlist_at": "2025-02-21 12:52:12.000000",
+                        "spoken_language": "en",
+                        "rank": 8
+                    },
+                    {
+                        "id": 216082,
+                        "adult": 0,
+                        "title": "Zero Day",
+                        "imdb_id": "tt23872886",
+                        "tvdb_id": 431842,
+                        "language": "en",
+                        "mediatype": "show",
+                        "release_year": 2025,
+                        "watchlist_at": "2025-02-21 12:52:12.000000",
+                        "spoken_language": "en",
+                        "rank": 9
+                    },
+                    {
+                        "id": 250923,
+                        "adult": 0,
+                        "title": "Nobody Wants This",
+                        "imdb_id": "tt26933824",
+                        "tvdb_id": 450093,
+                        "language": "en",
+                        "mediatype": "show",
+                        "release_year": 2024,
+                        "watchlist_at": "2025-02-21 12:52:12.000000",
+                        "spoken_language": "en",
+                        "rank": 10
+                    },
+                    {
+                        "id": 222766,
+                        "adult": 0,
+                        "title": "The Day of the Jackal",
+                        "imdb_id": "tt24053860",
+                        "tvdb_id": 426866,
+                        "language": "en",
+                        "mediatype": "show",
+                        "release_year": 2024,
+                        "watchlist_at": "2025-02-21 13:00:05.108530",
+                        "spoken_language": "en",
+                        "rank": 14
+                    }
+                ]
+            }
+
+## Modify Watchlis [/watchlist/items/{action}{?apikey}]
+
+#### 🔥 Supporters only
+You can modify static list by adding or removing items
+
++ Parameters
+    + action: add (string, required)
+        + Members
+            + `add`
+            + `remove`
+    + apikey: abc123 (string, required) - Your API key.
+
+### Modify Watchlist [POST]
+
++ Request (application/json)
+
+            {
+             "movies": [
+                {
+                 "tmdb": 630,
+                 "imdb": "tt0032138"
+                },
+                {
+                 "tmdb": 238
+                }     
+             ],
+             "shows": [
+                {
+                 "imdb": "tt0417299"
+                },
+                {
+                 "tmdb": 1396
+                }
+               ]
+            }
+
++ Response 200 (application/json)
+    + Body
+    
+            {
+              "added": {
+                "movies": 2,
+                "shows": 2
+              },
+              "existing": {
+                "movies": 0,
+                "shows": 0
+              },
+              "not_found": {
+                "movies": 0,
+                "shows": 0
+              }
+            }
