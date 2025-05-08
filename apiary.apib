@@ -165,13 +165,15 @@ Fetches users lists by `userid`.
             ]
             
 ## List by ID [/lists/{listid}{?apikey}]
-Fetches information about a list by `listid`.
+
 
 + Parameters
     + listid: 1176 (number, required) - The ID of the list.
     + apikey: abc123 (string, required) - Your API key.
 
 ### Get List by ID [GET]
+
+Retrieves details of a list identified by `listid`.
 
 + Response 200 (application/json)
     + Body
@@ -191,9 +193,27 @@ Fetches information about a list by `listid`.
                     "private": false
                 }
             ]
+            
+### Update List Name by ID [PUT]
+
+Updates the name of a list specified by `listid`. Submit a JSON payload with the new `name`. 
++ Request (application/json)
+    + Body
+
+            {
+                "name": "New List Title"
+            }
+            
++ Response 200 (application/json)
+    + Body
+
+            {
+                "success": true,
+                "id": 89107,
+                "name": "New List Title"
+            }
 
 ## List by Name [/lists/{username}/{listname}{?apikey}]
-Fetches information about a list by `username` and `listname`. Can return multiple lists, since list can contain separate filter for movies and shows.
 
 + Parameters
     + username: linaspurinis (string, required) - The username associated with the list.
@@ -202,6 +222,7 @@ Fetches information about a list by `username` and `listname`. Can return multip
 
 ### Get List by Name [GET]
 
+Retrieves details of list identified by `username` and `listname`. Multiple lists may be returned if separate filters exist for movies and shows.
 + Response 200 (application/json)
     + Body
 
@@ -234,6 +255,28 @@ Fetches information about a list by `username` and `listname`. Can return multip
                 }
             ]
 
+### Update List Name by ID [PUT]
+
+Updates the name of a list identified by `username` and `listname`. Submit a JSON payload with the new `name`. 
+
++ Request (application/json)
+    + Body
+
+            {
+                "name": "New List Title"
+            }
+            
++ Response 200 (application/json)
+    + Body
+    
+            {
+                "success": true,
+                "updated_ids": [
+                    1176,
+                    6365
+                ],
+                "name": "New List Title"
+            }
 
 ## List items [/lists/{listid}/items{?apikey,limit,offset,append_to_response,filter_genre,sort,order,unified}]
 
@@ -1216,6 +1259,192 @@ You can modify static list by adding or removing items
             }
             
 
+# Group External Lists
+
+## List items [/external/lists/{listid}/items{?apikey,limit,offset,append_to_response,filter_genre,sort,order,unified}]
+
+#### 📄 Pagination
+
+Fetches list items. Use `append_to_response=genre,poster` to include genres and posters in the response. To filter results by a specific genre, use `filter_genre=fantasy` to retrieve only fantasy items.
+
+By default, items are sorted by rank.
+
++ Parameters
+    + listid: 47989 (integer, required) - The ID of the list.
+    + limit: 100 (integer, optional)
+    + offset: 10 (integer, optional)
+    + append_to_response: `genre,poster` (string, optional) - Additional information to append.
+    + filter_genre: `fantasy` (string, optional) - Filter by genre, works if genre is included.
+    + sort: `score` (string, optional)
+        + Members
+            + `rank`
+            + `score`
+            + `score_average`
+            + `released`
+            + `releasedigital`
+            + `imdbrating`
+            + `imdbvotes`
+            + `last_air_date`
+            + `imdbpopular`
+            + `tmdbpopular`
+            + `rogerebert`
+            + `rtomatoes`
+            + `rtaudience`
+            + `metacritic`
+            + `myanimelist`
+            + `letterrating`
+            + `lettervotes`
+            + `budget`
+            + `revenue`
+            + `runtime`
+            + `title`
+            + `random`
+    + order: `asc` (string, optional)
+        + Members
+            + `asc`
+            + `desc`
+    + unified: `true` (boolean, optional) - Returns unified list of Movies and Shows
+    + apikey: abc123 (string, required) - Your API key.
+
+### Get List Items [GET]
+
++ Response 200 (application/json)
+    + Body
+
+            {
+              "movies": [
+                {
+                  "id": 917496,
+                  "rank": 1,
+                  "adult": 0,
+                  "title": "Beetlejuice Beetlejuice",
+                  "imdb_id": "tt2049403",
+                  "tvdb_id": null,
+                  "language": "en",
+                  "mediatype": "movie",
+                  "release_year": 2024,
+                  "spoken_language": "en"
+                },
+                {
+                  "id": 646097,
+                  "rank": 2,
+                  "adult": 0,
+                  "title": "Rebel Ridge",
+                  "imdb_id": "tt11301886",
+                  "tvdb_id": null,
+                  "language": "en",
+                  "mediatype": "movie",
+                  "release_year": 2024,
+                  "spoken_language": "en"
+                },
+                {
+                  "id": 1125073,
+                  "rank": 3,
+                  "adult": 0,
+                  "title": "Between the Temples",
+                  "imdb_id": "tt27722375",
+                  "tvdb_id": null,
+                  "language": "en",
+                  "mediatype": "movie",
+                  "release_year": 2024,
+                  "spoken_language": "en"
+                },
+                {
+                  "id": 1029281,
+                  "rank": 4,
+                  "adult": 0,
+                  "title": "Strange Darling",
+                  "imdb_id": "tt22375054",
+                  "tvdb_id": null,
+                  "language": "en",
+                  "mediatype": "movie",
+                  "release_year": 2024,
+                  "spoken_language": "en"
+                },
+                {
+                  "id": 840705,
+                  "rank": 5,
+                  "adult": 0,
+                  "title": "Blink Twice",
+                  "imdb_id": "tt14858658",
+                  "tvdb_id": null,
+                  "language": "en",
+                  "mediatype": "movie",
+                  "release_year": 2024,
+                  "spoken_language": "en"
+                },
+                {
+                  "id": 945961,
+                  "rank": 6,
+                  "adult": 0,
+                  "title": "Alien: Romulus",
+                  "imdb_id": "tt18412256",
+                  "tvdb_id": null,
+                  "language": "en",
+                  "mediatype": "movie",
+                  "release_year": 2024,
+                  "spoken_language": "en"
+                },
+                {
+                  "id": 1214521,
+                  "rank": 7,
+                  "adult": 0,
+                  "title": "Daughters",
+                  "imdb_id": "tt12336480",
+                  "tvdb_id": null,
+                  "language": "en",
+                  "mediatype": "movie",
+                  "release_year": 2024,
+                  "spoken_language": "en"
+                },
+                {
+                  "id": 1158874,
+                  "rank": 8,
+                  "adult": 0,
+                  "title": "Sugarcane",
+                  "imdb_id": "tt30319854",
+                  "tvdb_id": null,
+                  "language": "en",
+                  "mediatype": "movie",
+                  "release_year": 2024,
+                  "spoken_language": "en"
+                },
+                {
+                  "id": 1122618,
+                  "rank": 9,
+                  "adult": 0,
+                  "title": "Good One",
+                  "imdb_id": "tt30319516",
+                  "tvdb_id": null,
+                  "language": "en",
+                  "mediatype": "movie",
+                  "release_year": 2024,
+                  "spoken_language": "en"
+                }
+              ],
+              "shows": []
+            }
+
+
+# Group Sync
+
+## Last Activities [/sync/last_activities{?apikey}]
+
+This method is a great first step for syncing. Cache the dates locally to easily detect changes and avoid downloading unchanged data.
+
++ Parameters
+    + apikey: abc123 (string, required) - Your API key.
+
+### Last Activities [GET]
+
++ Response 200 (application/json)
+    + Body
+                
+            {
+                "watchlisted_at": "2025-04-09T11:48:07Z"
+            }
+            
+    
 # Group Watchlist
 
 ## List Watchlist items [/watchlist/items{?apikey,limit,offset,append_to_response,filter_genre,sort,order,unified}]
