@@ -296,7 +296,7 @@ By default, items are sorted by rank ascending.
     + limit: 100 (integer, optional)
     + offset: 10 (integer, optional)
     + append_to_response: `genre,poster` (string, optional) - Additional information to append.
-    + filter_genre: `fantasy` (string, optional) - Filter by genre, works if genre is included.
+    + filter_genre: `fantasy` (string, optional) - Filter by genre.
     + genre_operator: `or` (string, optional) - Logical operator used to combine multiple genre filters. Defaults to or.
         + Members
             + `or`
@@ -453,19 +453,30 @@ By default, items are sorted by rank ascending.
               "shows": []
             }
 
-## List items by List Name [/lists/{username}/{listname}/items/{?apikey,limit,offset,sort,order,unified}]
+## List items by List Name [/lists/{username}/{listname}/items/{?apikey,limit,offset,append_to_response,filter_genre,genre_operator,sort,order,unified}]
 
 #### 📄 Pagination
 
 Fetches list items. `mediatype` is optional.
 
-By default, items are sorted by rank.
+To filter the results by genre(s), use the `filter_genre` parameter. When filtering by multiple genres, the `genre_operator` defines how the filtering works:
+
+- **or** (default): returns items matching *any* of the specified genres.
+- **and**: returns only items matching *all* of the specified genres.
+
+By default, items are sorted by rank ascending.
 
 + Parameters
     + username: linaspurinis (string, required) - The username associated with the list.
     + listname: `latest-certified-fresh-releases` (string, required) - The slug of the list.
     + limit: 100 (integer, optional)
     + offset: 10 (integer, optional)
+    + append_to_response: `genre,poster` (string, optional) - Additional information to append.
+    + filter_genre: `fantasy` (string, optional) - Filter by genre.
+    + genre_operator: `or` (string, optional) - Logical operator used to combine multiple genre filters. Defaults to or.
+        + Members
+            + `or`
+            + `and`
     + sort: `score` (string, optional)
         + Members
             + `rank`
