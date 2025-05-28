@@ -283,9 +283,12 @@ Updates the name of a list identified by `username` and `listname`. Submit a JSO
 #### 📄 Pagination
 
 Fetches items from a specified list. You can enhance the response by appending additional details like genres and posters using `append_to_response=genre,poster`. 
+
 To filter the results by genre(s), use the `filter_genre` parameter. When filtering by multiple genres, the `genre_operator` defines how the filtering works:
- • or (default): returns items matching any of the specified genres.
- • and: returns only items matching all of the specified genres.
+
+- **or** (default): returns items matching *any* of the specified genres.
+- **and**: returns only items matching *all* of the specified genres.
+
 By default, items are sorted by rank ascending.
 
 + Parameters
