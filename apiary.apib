@@ -278,13 +278,15 @@ Updates the name of a list identified by `username` and `listname`. Submit a JSO
                 "name": "New List Title"
             }
 
-## List items [/lists/{listid}/items{?apikey,limit,offset,append_to_response,filter_genre,sort,order,unified}]
+## List items [/lists/{listid}/items{?apikey,limit,offset,append_to_response,filter_genre,genre_operator,sort,order,unified}]
 
 #### 📄 Pagination
 
-Fetches list items. Use `append_to_response=genre,poster` to include genres and posters in the response. To filter results by a specific genre, use `filter_genre=fantasy` to retrieve only fantasy items.
-
-By default, items are sorted by rank.
+Fetches items from a specified list. You can enhance the response by appending additional details like genres and posters using `append_to_response=genre,poster`. 
+To filter the results by genre(s), use the `filter_genre` parameter. When filtering by multiple genres, the `genre_operator` defines how the filtering works:
+ • or (default): returns items matching any of the specified genres.
+ • and: returns only items matching all of the specified genres.
+By default, items are sorted by rank ascending.
 
 + Parameters
     + listid: 1176 (integer, required) - The ID of the list.
@@ -292,6 +294,10 @@ By default, items are sorted by rank.
     + offset: 10 (integer, optional)
     + append_to_response: `genre,poster` (string, optional) - Additional information to append.
     + filter_genre: `fantasy` (string, optional) - Filter by genre, works if genre is included.
+    + genre_operator: `or` (string, optional) - Logical operator used to combine multiple genre filters. Defaults to or.
+        + Members
+            + `or`
+            + `and`
     + sort: `score` (string, optional)
         + Members
             + `rank`
