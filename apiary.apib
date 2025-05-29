@@ -282,7 +282,7 @@ Updates the name of a list identified by `username` and `listname`. Submit a JSO
 
 #### 📄 Pagination
 
-Fetches items from a specified list. You can enhance the response by appending additional details like genres and posters using append_to_response=genre,poster.
+Fetches items from a specified list. You can enhance the response by appending additional details like genres and posters using `append_to_response=genre,poster`.
 
 > **Note:** This endpoint returns up to 1,000 items max, regardless of the `limit` value. Use `limit` and `offset` to page through results.  
 > The response also includes an `X-Has-More` header set to `true` if more items are available beyond the current page.
@@ -474,14 +474,21 @@ By default, items are sorted by rank ascending.
 
 #### 📄 Pagination
 
-Fetches list items. `mediatype` is optional.
+Fetches items from a specified list. You can enhance the response by appending additional details like genres and posters using `append_to_response=genre,poster`.
 
-To filter the results by genre(s), use the `filter_genre` parameter. When filtering by multiple genres, the `genre_operator` defines how the filtering works:
+> **Note:** This endpoint returns up to 1,000 items max, regardless of the `limit` value. Use `limit` and `offset` to page through results.  
+> The response also includes an `X-Has-More` header set to `true` if more items are available beyond the current page.
 
-- **or** (default): returns items matching *any* of the specified genres.
-- **and**: returns only items matching *all* of the specified genres.
+
+To filter the results by genre(s), use the `filter_genre` parameter.
+
+> **Note:** When filtering by multiple genres, `genre_operator` controls the logic:  
+> - **or** (default): matches items with *any* specified genres.  
+> - **and**: matches items with *all* specified genres.
 
 By default, items are sorted by rank ascending.
+
+> You can filter results by `mediatype` by adding .../items/movie/ or .../items/show/
 
 + Parameters
     + username: linaspurinis (string, required) - The username associated with the list.
@@ -530,6 +537,17 @@ By default, items are sorted by rank ascending.
 ### Get List Items by Name [GET]
 
 + Response 200 (application/json)
+
+    + Description
+    
+        The `X-Has-More` header indicates whether more items exist beyond the current response, based on the limit parameter.  
+        - `true`: More items are available on the next page(s).  
+        - `false`: No more items available beyond this response.
+        
+    + Headers
+            
+            X-Has-More: true
+    
     + Body
 
             {
