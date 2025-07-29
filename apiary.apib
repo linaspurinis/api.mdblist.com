@@ -278,7 +278,7 @@ Updates the name of a list identified by `username` and `listname`. Submit a JSO
                 "name": "New List Title"
             }
 
-## List items [/lists/{listid}/items{?apikey,limit,offset,append_to_response,filter_genre,genre_operator,sort,order,unified}]
+## List items [/lists/{listid}/items{?apikey,limit,offset,append_to_response,filter_genre,genre_operator,sort,order,unified,released_from,released_to}]
 
 #### 📄 Pagination
 
@@ -306,6 +306,8 @@ By default, items are sorted by rank ascending.
         + Members
             + `or`
             + `and`
+    + released_from: `2020-01-15` (string, optional) - Filter by minimum release date. Format: YYYY-MM-DD.
+    + released_to: `2023-12-31` (string, optional) - Filter by maximum release date. Format: YYYY-MM-DD.
     + sort: `score` (string, optional)
         + Members
             + `rank`
@@ -345,12 +347,14 @@ By default, items are sorted by rank ascending.
 
     + Description
 
+        The `X-Total-Items` header shows total number of items in a list, without additional filtering
         The `X-Has-More` header indicates whether more items exist beyond the current response, based on the limit parameter.  
         - `true`: More items are available on the next page(s).  
         - `false`: No more items available beyond this response.
         
     + Headers
             
+            X-Total-Items: 7
             X-Has-More: true
 
     + Body
@@ -470,7 +474,7 @@ By default, items are sorted by rank ascending.
             }
     
         
-## List items by List Name [/lists/{username}/{listname}/items/{?apikey,limit,offset,append_to_response,filter_genre,genre_operator,sort,order,unified}]
+## List items by List Name [/lists/{username}/{listname}/items/{?apikey,limit,offset,append_to_response,filter_genre,genre_operator,sort,order,unified,released_from,released_to}]
 
 #### 📄 Pagination
 
@@ -501,6 +505,8 @@ By default, items are sorted by rank ascending.
         + Members
             + `or`
             + `and`
+    + released_from: `2020-01-15` (string, optional) - Filter by minimum release date. Format: YYYY-MM-DD.
+    + released_to: `2023-12-31` (string, optional) - Filter by maximum release date. Format: YYYY-MM-DD.
     + sort: `score` (string, optional)
         + Members
             + `rank`
