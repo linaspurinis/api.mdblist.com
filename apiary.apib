@@ -278,7 +278,7 @@ Updates the name of a list identified by `username` and `listname`. Submit a JSO
                 "name": "New List Title"
             }
 
-## List items [/lists/{listid}/items{?apikey,limit,offset,append_to_response,filter_genre,genre_operator,sort,order,unified,released_from,released_to}]
+## List items [/lists/{listid}/items{?apikey,limit,offset,append_to_response,filter_title,filter_genre,genre_operator,sort,order,unified,released_from,released_to}]
 
 #### 📄 Pagination
 
@@ -301,6 +301,7 @@ By default, items are sorted by rank ascending.
     + limit: 100 (integer, optional)
     + offset: 10 (integer, optional)
     + append_to_response: `genre,poster` (string, optional) - Additional information to append.
+    + filter_title: Matrix (string, optional) - Filter by title.
     + filter_genre: `fantasy` (string, optional) - Filter by genre.
     + genre_operator: `or` (string, optional) - Logical operator used to combine multiple genre filters. Defaults to or.
         + Members
@@ -474,7 +475,7 @@ By default, items are sorted by rank ascending.
             }
     
         
-## List items by List Name [/lists/{username}/{listname}/items/{?apikey,limit,offset,append_to_response,filter_genre,genre_operator,sort,order,unified,released_from,released_to}]
+## List items by List Name [/lists/{username}/{listname}/items/{?apikey,limit,offset,append_to_response,filter_title,filter_genre,genre_operator,sort,order,unified,released_from,released_to}]
 
 #### 📄 Pagination
 
@@ -500,6 +501,7 @@ By default, items are sorted by rank ascending.
     + limit: 100 (integer, optional)
     + offset: 10 (integer, optional)
     + append_to_response: `genre,poster` (string, optional) - Additional information to append.
+    + filter_title: Matrix (string, optional) - Filter by title.
     + filter_genre: `fantasy` (string, optional) - Filter by genre.
     + genre_operator: `or` (string, optional) - Logical operator used to combine multiple genre filters. Defaults to or.
         + Members
