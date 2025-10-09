@@ -1241,6 +1241,7 @@ Bulk rating request. Provide list of tmdb or imdb ids with media type and return
             }
 
 + Response 200 (application/json)
+
     + Body
                 
             {
@@ -1263,58 +1264,6 @@ Bulk rating request. Provide list of tmdb or imdb ids with media type and return
               ]
             }
 
-
-## Genres [/genres/{?apikey,anime}]
-Get a list of all genres, including names and slugs.
-
-+ Parameters
-    + apikey: abc123 (string, required) - Your API key.
-    + anime: 1 (number, optional) - Display anime genres (0 for regular, 1 for anime)
-
-### Get Genres [GET]
-
-+ Response 200 (application/json)
-
-    + Body
-
-            [
-                {
-                    "slug": "anime-parody",
-                    "title": "Anime: Parody"
-                },
-                {
-                    "slug": "anime-shounen",
-                    "title": "Anime: Shounen"
-                },
-                {
-                    "slug": "anime-slice-of-life",
-                    "title": "Anime: Slice of Life"
-                },
-                {
-                    "slug": "anime-isekai",
-                    "title": "Anime: Isekai"
-                },
-                {
-                    "slug": "anime-historical",
-                    "title": "Anime: Historical"
-                },
-                {
-                    "slug": "anime-military",
-                    "title": "Anime: Military"
-                },
-                {
-                    "slug": "anime-seinen",
-                    "title": "Anime: Seinen"
-                },
-                {
-                    "slug": "anime-supernatural",
-                    "title": "Anime: Supernatural"
-                },
-                {
-                    "slug": "anime-vampire",
-                    "title": "Anime: Vampire"
-                }
-            ]
 
 
 ## Modify Static List [/lists/{listid}/items/{action}{?apikey}]
@@ -1354,22 +1303,21 @@ You can modify static list by adding or removing items
             }
 
 + Response 200 (application/json)
-
     + Body
-
+    
             {
-            "added": {
-                    "movies": 2,
-                    "shows": 2
-                },
-            "existing": {
-                    "movies": 0,
-                    "shows": 0
-                },
-            "not_found": {
-                    "movies": 0,
-                    "shows": 0
-                }
+              "added": {
+                "movies": 2,
+                "shows": 2
+              },
+              "existing": {
+                "movies": 0,
+                "shows": 0
+              },
+              "not_found": {
+                "movies": 0,
+                "shows": 0
+              }
             }
             
 
