@@ -39,14 +39,18 @@ Show information about user limits
                 "patreon_pledge": 300
             }
         
-## My Lists [/lists/user{?apikey}]
+## My Lists [/lists/user{?apikey,sort}]
 Fetches users lists.
-
 + Parameters
     + apikey: abc123 (string, required) - Your API key.
+    + sort: ranked (enum[string], optional) - Sort order for lists.
+        + Default: `ranked`
+        + Members
+            + `ranked` - Sort by manual rank order
+            + `name` - Sort alphabetically by name
+            + `created` - Sort by creation date
 
 ### Get My Lists [GET]
-
 + Response 200 (application/json)
     + Body
     
@@ -80,15 +84,19 @@ Fetches users lists.
                 }
             ]
 
-## User Lists by ID [/lists/user/{userid}{?apikey}]
+## User Lists by ID [/lists/user/{userid}{?apikey,sort}]
 Fetches users lists by `userid`.
-
 + Parameters
     + userid: 3 (int, required) - User ID.
     + apikey: abc123 (string, required) - Your API key.
+    + sort: ranked (enum[string], optional) - Sort order for lists.
+        + Default: `ranked`
+        + Members
+            + `ranked` - Sort by manual rank order
+            + `name` - Sort alphabetically by name
+            + `created` - Sort by creation date
 
 ### Get User Lists [GET]
-
 + Response 200 (application/json)
     + Body
     
@@ -122,15 +130,19 @@ Fetches users lists by `userid`.
                 }
             ]
 
-## User Lists by Name [/lists/user/{username}{?apikey}]
-Fetches users lists by `userid`.
-
+## User Lists by Name [/lists/user/{username}{?apikey,sort}]
+Fetches users lists by username.
 + Parameters
     + username: linaspurinis (string, required) - The username
     + apikey: abc123 (string, required) - Your API key
+    + sort: ranked (enum[string], optional) - Sort order for lists.
+        + Default: `ranked`
+        + Members
+            + `ranked` - Sort by manual rank order
+            + `name` - Sort alphabetically by name
+            + `created` - Sort by creation date
 
 ### Get User Lists [GET]
-
 + Response 200 (application/json)
     + Body
     
