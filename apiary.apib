@@ -1552,25 +1552,321 @@ By default, items are sorted by rank.
             }
 
 
+
+
 # Group Sync
 
 ## Last Activities [/sync/last_activities{?apikey}]
 
-This method is a great first step for syncing. Cache the dates locally to easily detect changes and avoid downloading unchanged data.
+> ⚠️ **Notice: Sync endpoints are currently in BETA.**
+
+Retrieve the latest user activity timestamps across multiple sync endpoints.  
+Clients should call this first to check which categories have changed since the last sync.
 
 + Parameters
-    + apikey: abc123 (string, required) - Your API key.
+    + apikey: `abc123` (string, required) — Your API key.
 
-### Last Activities [GET]
+### Retrieve Last Activities [GET]
 
 + Response 200 (application/json)
     + Body
-                
+
             {
-                "watchlisted_at": "2025-04-09T11:48:07Z"
+                "watchlisted_at": "2025-10-22T06:48:10Z",
+                "watched_at": "2025-10-22T07:53:32Z",
+                "season_watched_at": "2025-10-21T20:00:00Z",
+                "episode_watched_at": "2025-10-22T18:30:00Z",
+                "rated_at": "2025-10-22T07:53:44Z",
+                "collected_at": "2025-10-22T07:56:39Z"
             }
-            
-    
+
+
+## Watched History [/sync/watched{?apikey,page,limit,since}]
+
+> ⚠️ **Notice: Sync endpoints are currently in BETA.**
+
+Get, add, or update watched history for movies, seasons, and episodes.  
+This endpoint also updates user activity timestamps:  
+`watched_at`, `season_watched_at`, and `episode_watched_at`.
+
++ Parameters
+    + apikey: `abc123` (string, required) — Your API key.
+    + page: 1 (number, optional) — Page number for pagination (default: 1).
+    + limit: 1000 (number, optional) — Max results per page (default: 1000, max: 5000).
+    + since: `2025-10-01T00:00:00Z` (string, optional) — Return items updated after this timestamp.
+
+### Retrieve Watched History [GET]
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "movies": [
+                    {
+                        "last_watched_at": "2025-10-21T12:00:00Z",
+                        "user_rating": 8,
+                        "movie": {
+                            "title": "Batman Begins",
+                            "year": 2005,
+                            "ids": {
+                                "imdb": "tt0372784",
+                                "tmdb": 272,
+                                "trakt": 1
+                            }
+                        }
+                    }
+                ],
+                "shows": [
+                    {
+                        "last_watched_at": "2025-10-20T09:30:00Z",
+                        "user_rating": null,
+                        "status": "watching",
+                        "last_watched": "S02E01",
+                        "next_to_watch": "S02E02",
+                        "watched_episodes_count": 12,
+                        "total_episodes_count": 24,
+                        "show": {
+                            "title": "Breaking Bad",
+                            "year": 2008,
+                            "ids": {
+                                "tmdb": 1396
+                            }
+                        }
+                    }
+                ],
+                "episodes": [
+                    {
+                        "last_watched_at": "2025-10-22T09:00:00Z",
+                        "user_rating": 9,
+                        "episode": {
+                            "season": 2,
+                            "number": 1,
+                            "title": "Seven Thirty-Seven",
+                            "ids": {
+                                "tmdb": 62085
+                            }
+                        }
+                    }
+                ],
+                "pagination": {
+                    "page": 1,
+                    "limit": 1000,
+                    "total_movies": 150,
+                    "total_seasons": 23,
+                    "total_episodes": 342,
+                    "has_more": true
+                }
+            }
+
+### Add or Update Watched History [POST]
+
++ Request (application/json)
+    + Body
+
+            {
+                "movies": [
+                    {
+                        "ids": { "imdb": "tt0372784" },
+                        "watched_at": "2025-10-21T12:00:00Z"
+                    }
+                ],
+                "seasons": [
+                    {
+                        "ids": { "tmdb": 12345 },
+                        "watched_at": "2025-10-21T12:00:00Z"
+                    }
+                ],
+                "episodes": [
+                    {
+                        "ids": { "tmdb": 987654 },
+                        "watched_at": "2025-10-21T12:00:00Z"
+                    }
+                ]
+            }
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "updated": {
+                    "movies": 1,
+                    "seasons": 0,
+                    "episodes": 0
+                }
+            }
+
+
+## Remove Watched History [/sync/watched/remove{?apikey}]
+
+> ⚠️ **Notice: Sync endpoints are currently in BETA.**
+
+Mark items as unwatched.  
+The records remain in the database but their `last_watched_at` fields are set to `null`.
+
++ Parameters
+    + apikey: `abc123` (string, required) — Your API key.
+
+### Remove Watched History [POST]
+
++ Request (application/json)
+    + Body
+
+            {
+                "movies": [
+                    { "ids": { "imdb": "tt0372784" } }
+                ],
+                "seasons": [
+                    { "ids": { "tmdb": 12345 } }
+                ],
+                "episodes": [
+                    { "ids": { "tmdb": 987654 } }
+                ]
+            }
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "removed": {
+                    "movies": 1,
+                    "seasons": 0,
+                    "episodes": 0
+                }
+            }
+
+
+## Ratings Sync [/sync/ratings{?apikey}]
+
+> ⚠️ **Notice: Sync endpoints are currently in BETA.**
+
+Add or update user ratings for movies, seasons, or episodes.  
+This updates the user's `rated_at` timestamp.
+
++ Parameters
+    + apikey: `abc123` (string, required) — Your API key.
+
+### Add or Update Ratings [POST]
+
++ Request (application/json)
+    + Body
+
+            {
+                "movies": [
+                    {
+                        "ids": { "tmdb": 24428 },
+                        "rating": 8,
+                        "rated_at": "2025-10-21T14:00:00Z"
+                    }
+                ]
+            }
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "updated": {
+                    "movies": 1
+                }
+            }
+
+
+## Remove Ratings [/sync/ratings/remove{?apikey}]
+
+> ⚠️ **Notice: Sync endpoints are currently in BETA.**
+
+Remove user ratings for movies, seasons, or episodes.  
+The records remain but rating fields are cleared and `rated_at` is set to `null`.
+
++ Parameters
+    + apikey: `abc123` (string, required) — Your API key.
+
+### Remove Ratings [POST]
+
++ Request (application/json)
+    + Body
+
+            {
+                "movies": [
+                    { "ids": { "tmdb": 24428 } }
+                ]
+            }
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "removed": {
+                    "movies": 1
+                }
+            }
+
+
+## Collection Sync [/sync/collection{?apikey}]
+
+> ⚠️ **Notice: Sync endpoints are currently in BETA.**
+
+Add or update items in the user's collection.  
+This updates the user's `collected_at` timestamp.
+
++ Parameters
+    + apikey: `abc123` (string, required) — Your API key.
+
+### Add or Update Collection [POST]
+
++ Request (application/json)
+    + Body
+
+            {
+                "movies": [
+                    {
+                        "ids": { "imdb": "tt0468569" },
+                        "collected_at": "2025-10-21T15:00:00Z"
+                    }
+                ]
+            }
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "updated": {
+                    "movies": 1
+                }
+            }
+
+
+## Remove Collection [/sync/collection/remove{?apikey}]
+
+> ⚠️ **Notice: Sync endpoints are currently in BETA.**
+
+Remove items from the user's collection.  
+The records remain but collection fields are cleared and `collected_at` is set to `null`.
+
++ Parameters
+    + apikey: `abc123` (string, required) — Your API key.
+
+### Remove Collection [POST]
+
++ Request (application/json)
+    + Body
+
+            {
+                "movies": [
+                    { "ids": { "imdb": "tt0468569" } }
+                ]
+            }
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "removed": {
+                    "movies": 1
+                }
+            }
+
+
+ 
 # Group Watchlist
 
 ## List Watchlist items [/watchlist/items{?apikey,limit,offset,append_to_response,filter_genre,sort,order,unified}]
