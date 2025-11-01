@@ -1574,8 +1574,6 @@ Clients should call this first to check which categories have changed since the 
             {
                 "watchlisted_at": "2025-10-22T06:48:10Z",
                 "watched_at": "2025-10-22T07:53:32Z",
-                "season_watched_at": "2025-10-21T20:00:00Z",
-                "episode_watched_at": "2025-10-22T18:30:00Z",
                 "rated_at": "2025-10-22T07:53:44Z",
                 "collected_at": "2025-10-22T07:56:39Z"
             }
@@ -1585,9 +1583,8 @@ Clients should call this first to check which categories have changed since the 
 
 > ⚠️ **Notice: Sync endpoints are currently in BETA.**
 
-Get, add, or update watched history for movies, seasons, and episodes.  
-This endpoint also updates user activity timestamps:  
-`watched_at`, `season_watched_at`, and `episode_watched_at`.
+Get, add, or update watched history for movies and TV shows.  
+This endpoint updates the user's `watched_at` activity timestamp.
 
 + Parameters
     + apikey: `abc123` (string, required) — Your API key.
@@ -1610,8 +1607,7 @@ This endpoint also updates user activity timestamps:
                             "year": 2005,
                             "ids": {
                                 "imdb": "tt0372784",
-                                "tmdb": 272,
-                                "trakt": 1
+                                "tmdb": 272
                             }
                         }
                     }
@@ -1629,31 +1625,51 @@ This endpoint also updates user activity timestamps:
                             "title": "Breaking Bad",
                             "year": 2008,
                             "ids": {
+                                "imdb": "tt0903747",
                                 "tmdb": 1396
                             }
-                        }
-                    }
-                ],
-                "episodes": [
-                    {
-                        "last_watched_at": "2025-10-22T09:00:00Z",
-                        "user_rating": 9,
-                        "episode": {
-                            "season": 2,
-                            "number": 1,
-                            "title": "Seven Thirty-Seven",
-                            "ids": {
-                                "tmdb": 62085
+                        },
+                        "seasons": [
+                            {
+                                "number": 1,
+                                "last_watched_at": "2025-10-15T20:00:00Z",
+                                "watched_episodes_count": 7,
+                                "total_episodes_count": 7,
+                                "episodes": [
+                                    {
+                                        "number": 1,
+                                        "watched_at": "2025-10-15T20:00:00Z",
+                                        "title": "Pilot",
+                                        "ids": {
+                                            "tmdb": 62085
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "number": 2,
+                                "last_watched_at": "2025-10-20T09:30:00Z",
+                                "watched_episodes_count": 1,
+                                "total_episodes_count": 13,
+                                "episodes": [
+                                    {
+                                        "number": 1,
+                                        "watched_at": "2025-10-20T09:30:00Z",
+                                        "title": "Seven Thirty-Seven",
+                                        "ids": {
+                                            "tmdb": 62086
+                                        }
+                                    }
+                                ]
                             }
-                        }
+                        ]
                     }
                 ],
                 "pagination": {
                     "page": 1,
                     "limit": 1000,
                     "total_movies": 150,
-                    "total_seasons": 23,
-                    "total_episodes": 342,
+                    "total_shows": 23,
                     "has_more": true
                 }
             }
@@ -1666,20 +1682,41 @@ This endpoint also updates user activity timestamps:
             {
                 "movies": [
                     {
-                        "ids": { "imdb": "tt0372784" },
+                        "title": "Batman Begins",
+                        "year": 2005,
+                        "ids": {
+                            "imdb": "tt0372784"
+                        },
                         "watched_at": "2025-10-21T12:00:00Z"
                     }
                 ],
-                "seasons": [
+                "shows": [
                     {
-                        "ids": { "tmdb": 12345 },
-                        "watched_at": "2025-10-21T12:00:00Z"
-                    }
-                ],
-                "episodes": [
-                    {
-                        "ids": { "tmdb": 987654 },
-                        "watched_at": "2025-10-21T12:00:00Z"
+                        "title": "Breaking Bad",
+                        "year": 2008,
+                        "ids": {
+                            "imdb": "tt0903747",
+                            "tmdb": 1396
+                        },
+                        "seasons": [
+                            {
+                                "number": 1,
+                                "watched_at": "2025-10-15T20:00:00Z"
+                            },
+                            {
+                                "number": 2,
+                                "episodes": [
+                                    {
+                                        "number": 1,
+                                        "watched_at": "2025-10-20T09:30:00Z"
+                                    },
+                                    {
+                                        "number": 2,
+                                        "watched_at": "2025-10-20T21:00:00Z"
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 ]
             }
@@ -1690,8 +1727,9 @@ This endpoint also updates user activity timestamps:
             {
                 "updated": {
                     "movies": 1,
-                    "seasons": 0,
-                    "episodes": 0
+                    "shows": 1,
+                    "seasons": 1,
+                    "episodes": 2
                 }
             }
 
@@ -1701,7 +1739,7 @@ This endpoint also updates user activity timestamps:
 > ⚠️ **Notice: Sync endpoints are currently in BETA.**
 
 Mark items as unwatched.  
-The records remain in the database but their `last_watched_at` fields are set to `null`.
+The records remain in the database but their `watched_at` fields are set to `null`.
 
 + Parameters
     + apikey: `abc123` (string, required) — Your API key.
@@ -1713,13 +1751,31 @@ The records remain in the database but their `last_watched_at` fields are set to
 
             {
                 "movies": [
-                    { "ids": { "imdb": "tt0372784" } }
+                    {
+                        "ids": {
+                            "imdb": "tt0372784"
+                        }
+                    }
                 ],
-                "seasons": [
-                    { "ids": { "tmdb": 12345 } }
-                ],
-                "episodes": [
-                    { "ids": { "tmdb": 987654 } }
+                "shows": [
+                    {
+                        "ids": {
+                            "imdb": "tt0903747"
+                        },
+                        "seasons": [
+                            {
+                                "number": 1
+                            },
+                            {
+                                "number": 2,
+                                "episodes": [
+                                    {
+                                        "number": 1
+                                    }
+                                ]
+                            }
+                        ]
+                    }
                 ]
             }
 
@@ -1729,21 +1785,86 @@ The records remain in the database but their `last_watched_at` fields are set to
             {
                 "removed": {
                     "movies": 1,
-                    "seasons": 0,
-                    "episodes": 0
+                    "shows": 0,
+                    "seasons": 1,
+                    "episodes": 1
                 }
             }
 
 
-## Ratings Sync [/sync/ratings{?apikey}]
+## Ratings Sync [/sync/ratings{?apikey,page,limit,since}]
 
 > ⚠️ **Notice: Sync endpoints are currently in BETA.**
 
-Add or update user ratings for movies, seasons, or episodes.  
-This updates the user's `rated_at` timestamp.
+Get, add, or update user ratings for movies and TV shows.  
+This endpoint updates the user's `rated_at` activity timestamp.
 
 + Parameters
     + apikey: `abc123` (string, required) — Your API key.
+    + page: 1 (number, optional) — Page number for pagination (default: 1).
+    + limit: 1000 (number, optional) — Max results per page (default: 1000, max: 5000).
+    + since: `2025-10-01T00:00:00Z` (string, optional) — Return items updated after this timestamp.
+
+### Retrieve Ratings [GET]
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "movies": [
+                    {
+                        "rating": 8,
+                        "rated_at": "2025-10-21T14:00:00Z",
+                        "movie": {
+                            "title": "The Avengers",
+                            "year": 2012,
+                            "ids": {
+                                "imdb": "tt0848228",
+                                "tmdb": 24428
+                            }
+                        }
+                    }
+                ],
+                "shows": [
+                    {
+                        "rating": 9,
+                        "rated_at": "2025-10-20T15:00:00Z",
+                        "show": {
+                            "title": "Breaking Bad",
+                            "year": 2008,
+                            "ids": {
+                                "imdb": "tt0903747",
+                                "tmdb": 1396
+                            }
+                        },
+                        "seasons": [
+                            {
+                                "number": 1,
+                                "rating": 8,
+                                "rated_at": "2025-10-15T20:00:00Z",
+                                "episodes": [
+                                    {
+                                        "number": 1,
+                                        "rating": 10,
+                                        "rated_at": "2025-10-15T21:00:00Z",
+                                        "title": "Pilot",
+                                        "ids": {
+                                            "tmdb": 62085
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "pagination": {
+                    "page": 1,
+                    "limit": 1000,
+                    "total_movies": 150,
+                    "total_shows": 23,
+                    "has_more": false
+                }
+            }
 
 ### Add or Update Ratings [POST]
 
@@ -1753,9 +1874,34 @@ This updates the user's `rated_at` timestamp.
             {
                 "movies": [
                     {
-                        "ids": { "tmdb": 24428 },
+                        "ids": {
+                            "tmdb": 24428
+                        },
                         "rating": 8,
                         "rated_at": "2025-10-21T14:00:00Z"
+                    }
+                ],
+                "shows": [
+                    {
+                        "ids": {
+                            "imdb": "tt0903747"
+                        },
+                        "rating": 9,
+                        "rated_at": "2025-10-20T15:00:00Z",
+                        "seasons": [
+                            {
+                                "number": 1,
+                                "rating": 8,
+                                "rated_at": "2025-10-15T20:00:00Z",
+                                "episodes": [
+                                    {
+                                        "number": 1,
+                                        "rating": 10,
+                                        "rated_at": "2025-10-15T21:00:00Z"
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 ]
             }
@@ -1765,7 +1911,10 @@ This updates the user's `rated_at` timestamp.
 
             {
                 "updated": {
-                    "movies": 1
+                    "movies": 1,
+                    "shows": 1,
+                    "seasons": 1,
+                    "episodes": 1
                 }
             }
 
@@ -1774,7 +1923,7 @@ This updates the user's `rated_at` timestamp.
 
 > ⚠️ **Notice: Sync endpoints are currently in BETA.**
 
-Remove user ratings for movies, seasons, or episodes.  
+Remove user ratings for movies and TV shows.  
 The records remain but rating fields are cleared and `rated_at` is set to `null`.
 
 + Parameters
@@ -1787,7 +1936,28 @@ The records remain but rating fields are cleared and `rated_at` is set to `null`
 
             {
                 "movies": [
-                    { "ids": { "tmdb": 24428 } }
+                    {
+                        "ids": {
+                            "tmdb": 24428
+                        }
+                    }
+                ],
+                "shows": [
+                    {
+                        "ids": {
+                            "imdb": "tt0903747"
+                        },
+                        "seasons": [
+                            {
+                                "number": 1,
+                                "episodes": [
+                                    {
+                                        "number": 1
+                                    }
+                                ]
+                            }
+                        ]
+                    }
                 ]
             }
 
@@ -1796,20 +1966,67 @@ The records remain but rating fields are cleared and `rated_at` is set to `null`
 
             {
                 "removed": {
-                    "movies": 1
+                    "movies": 1,
+                    "shows": 0,
+                    "seasons": 0,
+                    "episodes": 1
                 }
             }
 
 
-## Collection Sync [/sync/collection{?apikey}]
+## Collection Sync [/sync/collection{?apikey,page,limit,since}]
 
 > ⚠️ **Notice: Sync endpoints are currently in BETA.**
 
-Add or update items in the user's collection.  
-This updates the user's `collected_at` timestamp.
+Get, add, or update items in the user's collection.  
+This endpoint updates the user's `collected_at` activity timestamp.
 
 + Parameters
     + apikey: `abc123` (string, required) — Your API key.
+    + page: 1 (number, optional) — Page number for pagination (default: 1).
+    + limit: 1000 (number, optional) — Max results per page (default: 1000, max: 5000).
+    + since: `2025-10-01T00:00:00Z` (string, optional) — Return items updated after this timestamp.
+
+### Retrieve Collection [GET]
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "movies": [
+                    {
+                        "collected_at": "2025-10-21T15:00:00Z",
+                        "movie": {
+                            "title": "The Dark Knight",
+                            "year": 2008,
+                            "ids": {
+                                "imdb": "tt0468569",
+                                "tmdb": 155
+                            }
+                        }
+                    }
+                ],
+                "shows": [
+                    {
+                        "collected_at": "2025-10-20T15:00:00Z",
+                        "show": {
+                            "title": "Breaking Bad",
+                            "year": 2008,
+                            "ids": {
+                                "imdb": "tt0903747",
+                                "tmdb": 1396
+                            }
+                        }
+                    }
+                ],
+                "pagination": {
+                    "page": 1,
+                    "limit": 1000,
+                    "total_movies": 150,
+                    "total_shows": 23,
+                    "has_more": false
+                }
+            }
 
 ### Add or Update Collection [POST]
 
@@ -1819,8 +2036,18 @@ This updates the user's `collected_at` timestamp.
             {
                 "movies": [
                     {
-                        "ids": { "imdb": "tt0468569" },
+                        "ids": {
+                            "imdb": "tt0468569"
+                        },
                         "collected_at": "2025-10-21T15:00:00Z"
+                    }
+                ],
+                "shows": [
+                    {
+                        "ids": {
+                            "imdb": "tt0903747"
+                        },
+                        "collected_at": "2025-10-20T15:00:00Z"
                     }
                 ]
             }
@@ -1830,7 +2057,8 @@ This updates the user's `collected_at` timestamp.
 
             {
                 "updated": {
-                    "movies": 1
+                    "movies": 1,
+                    "shows": 1
                 }
             }
 
@@ -1852,7 +2080,18 @@ The records remain but collection fields are cleared and `collected_at` is set t
 
             {
                 "movies": [
-                    { "ids": { "imdb": "tt0468569" } }
+                    {
+                        "ids": {
+                            "imdb": "tt0468569"
+                        }
+                    }
+                ],
+                "shows": [
+                    {
+                        "ids": {
+                            "imdb": "tt0903747"
+                        }
+                    }
                 ]
             }
 
@@ -1861,11 +2100,12 @@ The records remain but collection fields are cleared and `collected_at` is set t
 
             {
                 "removed": {
-                    "movies": 1
+                    "movies": 1,
+                    "shows": 1
                 }
             }
-
-
+            
+            
  
 # Group Watchlist
 
