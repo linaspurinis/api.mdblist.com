@@ -2106,6 +2106,337 @@ The records remain but collection fields are cleared and `collected_at` is set t
             }
             
             
+
+
+
+# Group Scrobble
+
+> ⚠️ **Notice: Scrobble endpoints are currently in BETA.**
+
+Scrobble endpoints allow you to track real-time playback progress of movies and TV episodes. These endpoints are designed for media players and applications that want to track what users are currently watching and resume playback across multiple devices.
+
+## Quick Example
+
+**Starting a movie scrobble:**
+```json
+POST /scrobble/start?apikey=YOUR_API_KEY
+{
+  "movie": {"ids": {"imdb": "tt0111161"}},
+  "progress": 15.5
+}
+```
+
+**Starting an episode scrobble:**
+```json
+POST /scrobble/start?apikey=YOUR_API_KEY
+{
+  "show": {
+    "ids": {"imdb": "tt0108778"},
+    "season": {
+      "number": 1,
+      "episode": {
+        "number": 3
+      }
+    }
+  },
+  "progress": 42.75
+}
+```
+
+## How Scrobbling Works
+
+1. **Start**: Call `/scrobble/start` when playback begins
+2. **Pause**: Call `/scrobble/pause` when user pauses (saves progress for resume)
+3. **Stop**: Call `/scrobble/stop` when playback ends
+   - If progress ≥ 80%, the item is automatically marked as watched
+   - If progress < 80%, it's saved as a paused session for later resume
+
+## Key Features
+
+- **Single active session per item**: Starting a new session replaces any existing one for that movie/episode
+- **Cross-device resume**: Paused sessions can be retrieved via `/sync/playback` to resume on any device
+- **Auto-watched**: Items are automatically marked as watched when stopped at 80% or higher progress
+- **Auto-expiration**: Active sessions automatically expire after the remaining runtime + 10 minute buffer
+- **Seamless sync integration**: Watched items automatically appear in `/sync/watched` responses
+
+## Scrobble Start [/scrobble/start{?apikey}]
+
+Start or resume playback for a movie or episode. This creates a new scrobble session and replaces any existing session for the same item.
+
+### Start Scrobble [POST]
+
+Start tracking playback progress. Call this when:
+- Video playback begins
+- User resumes from pause
+- Playback is un-paused
+
+The session will automatically expire after the remaining runtime has elapsed (based on progress).
+
++ Parameters
+    + apikey: `api_key_here` (string, required) - Your API key
+
++ Request Movie Scrobble (application/json)
+
+        {
+            "movie": {
+                "ids": {
+                    "imdb": "tt0111161",
+                    "tmdb": 278,
+                    "trakt": 389
+                }
+            },
+            "progress": 15.5,
+            "app_version": "1.0.0",
+            "app_date": "2025-01-01"
+        }
+
++ Request Episode Scrobble (application/json)
+
+        {
+            "show": {
+                "ids": {
+                    "imdb": "tt0108778",
+                    "tmdb": 1668,
+                    "trakt": 1668
+                },
+                "season": {
+                    "number": 1,
+                    "episode": {
+                        "number": 3
+                    }
+                }
+            },
+            "progress": 42.75,
+            "app_version": "1.0.0",
+            "app_date": "2025-01-01"
+        }
+
++ Response 201 (application/json)
+
+    Scrobble session created successfully. Returns movie details for movie scrobbles or show/episode details for episode scrobbles.
+
+    + Body
+
+            {
+                "id": 12345,
+                "action": "start",
+                "progress": 15.50,
+                "started_at": "2025-11-06T20:00:00Z",
+                "paused_at": null,
+                "expires_at": "2025-11-06T22:15:00Z",
+                "movie": {
+                    "title": "The Shawshank Redemption",
+                    "year": 1994,
+                    "ids": {
+                        "imdb": "tt0111161",
+                        "tmdb": 278,
+                        "trakt": 389
+                    }
+                },
+                "episode": null,
+                "show": null
+            }
+
++ Response 400 (application/json)
+
+        {
+            "error": {
+                "progress": ["This field is required."],
+                "non_field_errors": ["Either 'movie' or 'show' must be provided"]
+            }
+        }
+
++ Response 404 (application/json)
+
+        {
+            "error": "Movie not found in database"
+        }
+
+## Scrobble Pause [/scrobble/pause{?apikey}]
+
+Pause playback and save the current progress. The saved progress can be retrieved via `/sync/playback` to resume on any device.
+
+### Pause Scrobble [POST]
+
+Save playback progress when the user pauses. The scrobble session is saved with the `paused_at` timestamp and can be resumed by calling `/scrobble/start` again with the same item.
+
++ Parameters
+    + apikey: `api_key_here` (string, required) - Your API key
+
++ Request Movie Pause (application/json)
+
+        {
+            "movie": {
+                "ids": {
+                    "imdb": "tt0111161"
+                }
+            },
+            "progress": 45.25,
+            "app_version": "1.0.0"
+        }
+
++ Request Episode Pause (application/json)
+
+        {
+            "show": {
+                "ids": {
+                    "imdb": "tt0108778"
+                },
+                "season": {
+                    "number": 1,
+                    "episode": {
+                        "number": 3
+                    }
+                }
+            },
+            "progress": 68.50,
+            "app_version": "1.0.0"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "id": 12345,
+            "action": "pause",
+            "progress": 45.25,
+            "started_at": "2025-11-06T20:00:00Z",
+            "paused_at": "2025-11-06T20:45:15Z",
+            "expires_at": "2025-11-06T22:15:00Z",
+            "movie": {
+                "title": "The Shawshank Redemption",
+                "year": 1994,
+                "ids": {
+                    "imdbid": "tt0111161",
+                    "tmdbid": 278,
+                    "traktid": 389
+                }
+            },
+            "episode": null
+        }
+
++ Response 404 (application/json)
+
+        {
+            "error": "Movie not found in database"
+        }
+
+## Scrobble Stop [/scrobble/stop{?apikey}]
+
+Stop playback and finalize the scrobble. The behavior depends on the progress percentage:
+
+- **Progress ≥ 80%**: Item is marked as watched and synced with your watch history
+- **Progress < 80%**: Session is saved as paused (same as `/scrobble/pause`)
+
+### Stop Scrobble [POST]
+
+Stop tracking playback. Call this when:
+- Video playback completes
+- User stops the video
+- Playback is interrupted
+
+If the item is marked as watched (≥80%), it will appear in your `/sync/watched` results and the scrobble session is deleted.
+
++ Parameters
+    + apikey: `api_key_here` (string, required) - Your API key
+
++ Request (application/json)
+
+        {
+            "movie": {
+                "ids": {
+                    "imdb": "tt0111161"
+                }
+            },
+            "progress": 95.5
+        }
+
++ Response 200 (application/json)
+
+    Scrobble stopped successfully. If progress ≥ 80%, returns watched confirmation. If progress < 80%, returns paused session details.
+
+    + Body
+
+            {
+                "action": "scrobble",
+                "progress": 95.50,
+                "watched_at": "2025-11-06T22:00:00Z"
+            }
+
++ Response 404 (application/json)
+
+        {
+            "error": "Movie not found in database"
+        }
+
+## Sync Playback [/sync/playback{?apikey}]
+
+Retrieve all paused scrobble sessions for the authenticated user. Use this endpoint to show a "Continue Watching" section or to resume playback on a different device.
+
+### Get Playback Progress [GET]
+
+Returns all active paused sessions (items with saved progress that haven't been marked as watched yet). Expired sessions are automatically cleaned up.
+
++ Parameters
+    + apikey: `api_key_here` (string, required) - Your API key
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": 12345,
+                "progress": 45.25,
+                "paused_at": "2025-11-06T20:45:15Z",
+                "type": "movie",
+                "movie": {
+                    "title": "The Shawshank Redemption",
+                    "year": 1994,
+                    "ids": {
+                        "imdbid": "tt0111161",
+                        "tmdbid": 278,
+                        "traktid": 389
+                    }
+                },
+                "episode": null,
+                "show": null
+            },
+            {
+                "id": 12346,
+                "progress": 68.50,
+                "paused_at": "2025-11-06T19:30:00Z",
+                "type": "episode",
+                "movie": null,
+                "episode": {
+                    "season": 1,
+                    "number": 3,
+                    "title": "The One with the Thumb",
+                    "ids": {
+                        "imdbid": "tt0583459",
+                        "tmdbid": 63174,
+                        "traktid": 73640,
+                        "tvdbid": 349232
+                    }
+                },
+                "show": {
+                    "title": "Friends",
+                    "year": 1994,
+                    "ids": {
+                        "imdbid": "tt0108778",
+                        "tmdbid": 1668,
+                        "traktid": 1668,
+                        "tvdbid": 79168
+                    }
+                }
+            }
+        ]
+
++ Response 401 (application/json)
+
+        {
+            "error": "Invalid API key"
+        }
+
+
+
  
 # Group Watchlist
 
