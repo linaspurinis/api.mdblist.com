@@ -1601,75 +1601,66 @@ This endpoint updates the user's `watched_at` activity timestamp.
                 "movies": [
                     {
                         "last_watched_at": "2025-10-21T12:00:00Z",
-                        "user_rating": 8,
                         "movie": {
                             "title": "Batman Begins",
                             "year": 2005,
                             "ids": {
+                                "trakt": 272,
                                 "imdb": "tt0372784",
                                 "tmdb": 272
                             }
                         }
                     }
                 ],
-                "shows": [
+                "seasons": [
                     {
-                        "last_watched_at": "2025-10-20T09:30:00Z",
-                        "user_rating": null,
-                        "status": "watching",
-                        "last_watched": "S02E01",
-                        "next_to_watch": "S02E02",
-                        "watched_episodes_count": 12,
-                        "total_episodes_count": 24,
-                        "show": {
-                            "title": "Breaking Bad",
-                            "year": 2008,
+                        "last_watched_at": "2025-10-15T20:00:00Z",
+                        "season": {
+                            "number": 1,
+                            "name": "Season 1",
                             "ids": {
-                                "imdb": "tt0903747",
-                                "tmdb": 1396
-                            }
-                        },
-                        "seasons": [
-                            {
-                                "number": 1,
-                                "last_watched_at": "2025-10-15T20:00:00Z",
-                                "watched_episodes_count": 7,
-                                "total_episodes_count": 7,
-                                "episodes": [
-                                    {
-                                        "number": 1,
-                                        "watched_at": "2025-10-15T20:00:00Z",
-                                        "title": "Pilot",
-                                        "ids": {
-                                            "tmdb": 62085
-                                        }
-                                    }
-                                ]
+                                "tmdb": 3572
                             },
-                            {
-                                "number": 2,
-                                "last_watched_at": "2025-10-20T09:30:00Z",
-                                "watched_episodes_count": 1,
-                                "total_episodes_count": 13,
-                                "episodes": [
-                                    {
-                                        "number": 1,
-                                        "watched_at": "2025-10-20T09:30:00Z",
-                                        "title": "Seven Thirty-Seven",
-                                        "ids": {
-                                            "tmdb": 62086
-                                        }
-                                    }
-                                ]
+                            "show": {
+                                "title": "Breaking Bad",
+                                "year": 2008,
+                                "ids": {
+                                    "tmdb": 1396,
+                                    "trakt": 1,
+                                    "imdb": "tt0903747"
+                                }
                             }
-                        ]
+                        }
+                    }
+                ],
+                "episodes": [
+                    {
+                        "last_watched_at": "2025-10-15T20:00:00Z",
+                        "episode": {
+                            "season": 1,
+                            "number": 1,
+                            "name": "Pilot",
+                            "ids": {
+                                "tmdb": 62085
+                            },
+                            "show": {
+                                "title": "Breaking Bad",
+                                "year": 2008,
+                                "ids": {
+                                    "tmdb": 1396,
+                                    "trakt": 1,
+                                    "imdb": "tt0903747"
+                                }
+                            }
+                        }
                     }
                 ],
                 "pagination": {
                     "page": 1,
                     "limit": 1000,
                     "total_movies": 150,
-                    "total_shows": 23,
+                    "total_seasons": 5,
+                    "total_episodes": 62,
                     "has_more": true
                 }
             }
@@ -1727,7 +1718,6 @@ This endpoint updates the user's `watched_at` activity timestamp.
             {
                 "updated": {
                     "movies": 1,
-                    "shows": 1,
                     "seasons": 1,
                     "episodes": 2
                 }
@@ -1785,7 +1775,6 @@ The records remain in the database but their `watched_at` fields are set to `nul
             {
                 "removed": {
                     "movies": 1,
-                    "shows": 0,
                     "seasons": 1,
                     "episodes": 1
                 }
@@ -1813,55 +1802,70 @@ This endpoint updates the user's `rated_at` activity timestamp.
             {
                 "movies": [
                     {
-                        "rating": 8,
                         "rated_at": "2025-10-21T14:00:00Z",
+                        "rating": 8,
                         "movie": {
                             "title": "The Avengers",
                             "year": 2012,
                             "ids": {
+                                "trakt": 24428,
                                 "imdb": "tt0848228",
                                 "tmdb": 24428
                             }
                         }
                     }
                 ],
-                "shows": [
+                "seasons": [
                     {
-                        "rating": 9,
-                        "rated_at": "2025-10-20T15:00:00Z",
-                        "show": {
-                            "title": "Breaking Bad",
-                            "year": 2008,
+                        "rated_at": "2025-10-15T20:00:00Z",
+                        "rating": 8,
+                        "season": {
+                            "number": 1,
+                            "name": "Season 1",
                             "ids": {
-                                "imdb": "tt0903747",
-                                "tmdb": 1396
+                                "tmdb": 3572
+                            },
+                            "show": {
+                                "title": "Breaking Bad",
+                                "year": 2008,
+                                "ids": {
+                                    "tmdb": 1396,
+                                    "trakt": 1,
+                                    "imdb": "tt0903747"
+                                }
                             }
-                        },
-                        "seasons": [
-                            {
-                                "number": 1,
-                                "rating": 8,
-                                "rated_at": "2025-10-15T20:00:00Z",
-                                "episodes": [
-                                    {
-                                        "number": 1,
-                                        "rating": 10,
-                                        "rated_at": "2025-10-15T21:00:00Z",
-                                        "title": "Pilot",
-                                        "ids": {
-                                            "tmdb": 62085
-                                        }
-                                    }
-                                ]
+                        }
+                    }
+                ],
+                "episodes": [
+                    {
+                        "rated_at": "2025-10-15T21:00:00Z",
+                        "rating": 10,
+                        "episode": {
+                            "season": 1,
+                            "number": 1,
+                            "name": "Pilot",
+                            "ids": {
+                                "tmdb": 62085
+                            },
+                            "show": {
+                                "title": "Breaking Bad",
+                                "year": 2008,
+                                "ids": {
+                                    "tmdb": 1396,
+                                    "trakt": 1,
+                                    "imdb": "tt0903747"
+                                }
                             }
-                        ]
+                        }
                     }
                 ],
                 "pagination": {
                     "page": 1,
                     "limit": 1000,
                     "total_movies": 150,
-                    "total_shows": 23,
+                    "total_seasons": 5,
+                    "total_episodes": 62,
                     "has_more": false
                 }
             }
@@ -1912,7 +1916,6 @@ This endpoint updates the user's `rated_at` activity timestamp.
             {
                 "updated": {
                     "movies": 1,
-                    "shows": 1,
                     "seasons": 1,
                     "episodes": 1
                 }
@@ -1967,7 +1970,6 @@ The records remain but rating fields are cleared and `rated_at` is set to `null`
             {
                 "removed": {
                     "movies": 1,
-                    "shows": 0,
                     "seasons": 0,
                     "episodes": 1
                 }
@@ -2023,7 +2025,7 @@ This endpoint updates the user's `collected_at` activity timestamp.
                     "page": 1,
                     "limit": 1000,
                     "total_movies": 150,
-                    "total_shows": 23,
+                    "total_shows": 0,
                     "has_more": false
                 }
             }
