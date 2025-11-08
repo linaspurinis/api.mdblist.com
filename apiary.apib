@@ -1387,6 +1387,54 @@ You can modify static list by adding or removing items
 
 # Group External Lists
 
+### Get User's External Lists [GET /external/lists/user{?apikey}nal]
+
+Retrieve all external lists owned by the authenticated user.
+
+External lists are lists imported from external sources (Trakt, IMDb, Letterboxd, etc.) and can be managed through the MDBList interface.
+
++ Parameters
+    + apikey: abc123 (string, required) - Your API key.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": 123,
+                "user_id": 456,
+                "user_name": "johndoe",
+                "name": "My Trakt Watchlist",
+                "updated": "2025-01-15T10:30:00Z",
+                "items": 150,
+                "items_show": 25,
+                "url": "https://trakt.tv/users/johndoe/watchlist",
+                "source": "trakt"
+            },
+            {
+                "id": 124,
+                "user_id": 456,
+                "user_name": "johndoe",
+                "name": "IMDb Favorites",
+                "updated": "2025-01-10T08:15:00Z",
+                "items": 85,
+                "items_show": 12,
+                "url": "https://www.imdb.com/list/ls123456789/",
+                "source": "imdb"
+            }
+        ]
+
++ Response 401 (application/json)
+
+        {
+            "error": "Invalid API key"
+        }
+
++ Response 500 (application/json)
+
+        {
+            "error": "An error occurred"
+        }
+        
 ## List items [/external/lists/{listid}/items{?apikey,limit,offset,append_to_response,filter_genre,sort,order,unified}]
 
 #### 📄 Pagination
