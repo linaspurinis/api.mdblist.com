@@ -1631,8 +1631,11 @@ Clients should call this first to check which categories have changed since the 
 
 > ⚠️ **Notice: Sync endpoints are currently in BETA.**
 
-Get, add, or update watched history for movies and TV shows.  
+Get, add, or update watched history for movies and TV shows.
 This endpoint updates the user's `watched_at` activity timestamp.
+
+> **Supported IDs**: Movies support `imdb`, `tmdb`, `trakt`, and `kitsu` (for anime). Shows support `imdb`, `tmdb`, `trakt`, and `tvdb`.
+> **Note**: The `kitsu` ID is only returned when it exists in the database (primarily for anime titles). This ID is only available in sync and scrobble endpoints.
 
 + Parameters
     + apikey: `abc123` (string, required) — Your API key.
@@ -1655,7 +1658,8 @@ This endpoint updates the user's `watched_at` activity timestamp.
                             "ids": {
                                 "trakt": 272,
                                 "imdb": "tt0372784",
-                                "tmdb": 272
+                                "tmdb": 272,
+                                "kitsu": 12345
                             }
                         }
                     }
@@ -1724,7 +1728,10 @@ This endpoint updates the user's `watched_at` activity timestamp.
                         "title": "Batman Begins",
                         "year": 2005,
                         "ids": {
-                            "imdb": "tt0372784"
+                            "imdb": "tt0372784",
+                            "tmdb": 272,
+                            "trakt": 272,
+                            "kitsu": 12345
                         },
                         "watched_at": "2025-10-21T12:00:00Z"
                     }
@@ -1833,8 +1840,11 @@ The records remain in the database but their `watched_at` fields are set to `nul
 
 > ⚠️ **Notice: Sync endpoints are currently in BETA.**
 
-Get, add, or update user ratings for movies and TV shows.  
+Get, add, or update user ratings for movies and TV shows.
 This endpoint updates the user's `rated_at` activity timestamp.
+
+> **Supported IDs**: Movies support `imdb`, `tmdb`, `trakt`, and `kitsu` (for anime). Shows support `imdb`, `tmdb`, `trakt`, and `tvdb`.
+> **Note**: The `kitsu` ID is only returned when it exists in the database (primarily for anime titles). This ID is only available in sync and scrobble endpoints.
 
 + Parameters
     + apikey: `abc123` (string, required) — Your API key.
@@ -1858,7 +1868,8 @@ This endpoint updates the user's `rated_at` activity timestamp.
                             "ids": {
                                 "trakt": 24428,
                                 "imdb": "tt0848228",
-                                "tmdb": 24428
+                                "tmdb": 24428,
+                                "kitsu": 67890
                             }
                         }
                     }
@@ -1927,7 +1938,10 @@ This endpoint updates the user's `rated_at` activity timestamp.
                 "movies": [
                     {
                         "ids": {
-                            "tmdb": 24428
+                            "tmdb": 24428,
+                            "imdb": "tt0848228",
+                            "trakt": 24428,
+                            "kitsu": 67890
                         },
                         "rating": 8,
                         "rated_at": "2025-10-21T14:00:00Z"
@@ -2028,8 +2042,11 @@ The records remain but rating fields are cleared and `rated_at` is set to `null`
 
 > ⚠️ **Notice: Sync endpoints are currently in BETA.**
 
-Get, add, or update items in the user's collection.  
+Get, add, or update items in the user's collection.
 This endpoint updates the user's `collected_at` activity timestamp.
+
+> **Supported IDs**: Movies support `imdb`, `tmdb`, `trakt`, and `kitsu` (for anime). Shows support `imdb`, `tmdb`, `trakt`, and `tvdb`.
+> **Note**: The `kitsu` ID is only returned when it exists in the database (primarily for anime titles). This ID is only available in sync and scrobble endpoints.
 
 + Parameters
     + apikey: `abc123` (string, required) — Your API key.
@@ -2051,7 +2068,9 @@ This endpoint updates the user's `collected_at` activity timestamp.
                             "year": 2008,
                             "ids": {
                                 "imdb": "tt0468569",
-                                "tmdb": 155
+                                "tmdb": 155,
+                                "trakt": 16,
+                                "kitsu": 11111
                             }
                         }
                     }
@@ -2087,7 +2106,10 @@ This endpoint updates the user's `collected_at` activity timestamp.
                 "movies": [
                     {
                         "ids": {
-                            "imdb": "tt0468569"
+                            "imdb": "tt0468569",
+                            "tmdb": 155,
+                            "trakt": 16,
+                            "kitsu": 11111
                         },
                         "collected_at": "2025-10-21T15:00:00Z"
                     }
@@ -2213,6 +2235,9 @@ POST /scrobble/start?apikey=YOUR_API_KEY
 
 Start or resume playback for a movie or episode. This creates a new scrobble session and replaces any existing session for the same item.
 
+> **Supported IDs**: Movies support `imdb`, `tmdb`, `trakt`, and `kitsu` (for anime). Shows support `imdb`, `tmdb`, `trakt`, and `tvdb`.
+> **Note**: The `kitsu` ID is only returned when it exists in the database (primarily for anime titles). This ID is only available in sync and scrobble endpoints.
+
 ### Start Scrobble [POST]
 
 Start tracking playback progress. Call this when:
@@ -2232,7 +2257,8 @@ The session will automatically expire after the remaining runtime has elapsed (b
                 "ids": {
                     "imdb": "tt0111161",
                     "tmdb": 278,
-                    "trakt": 389
+                    "trakt": 389,
+                    "kitsu": 22222
                 }
             },
             "progress": 15.5,
@@ -2280,7 +2306,8 @@ The session will automatically expire after the remaining runtime has elapsed (b
                     "ids": {
                         "imdb": "tt0111161",
                         "tmdb": 278,
-                        "trakt": 389
+                        "trakt": 389,
+                        "kitsu": 22222
                     }
                 },
                 "episode": null,
