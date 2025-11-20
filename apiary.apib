@@ -2522,6 +2522,7 @@ Returns all active paused sessions (items with saved progress that haven't been 
 #### 📄 Pagination
 
 Fetches watchlist items. Use `append_to_response=genre,poster` to include genres and posters in the response. To filter results by a specific genre, use `filter_genre=fantasy` to retrieve only fantasy items.
+Returns a `pagination` block alongside the data, mirroring the sync collection response format.
 
 By default, items are sorted by date added.
 
@@ -2765,7 +2766,14 @@ By default, items are sorted by date added.
                         "spoken_language": "en",
                         "rank": 14
                     }
-                ]
+                ],
+                "pagination": {
+                    "page": 1,
+                    "limit": 10,
+                    "total_movies": 1134,
+                    "total_shows": 26,
+                    "has_more": true
+                }
             }
 
 ## Modify Watchlist [/watchlist/items/{action}{?apikey}]
