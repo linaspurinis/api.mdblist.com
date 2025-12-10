@@ -19,6 +19,19 @@ Append a query string like ?limit=`limit`&offset=`offset` to the URL to influenc
 | `limit` | integer  | Number of results to return |
 | `offset` | integer  | Number of results to skip from the beginning  |
 
+## Media IDs
+
+When a response includes an `ids` block for a movie or show we return the collection of provider identifiers plus the MDBList public ID (`mdblist`). Example:
+
+        "ids": {
+            "imdb": "tt0111161",
+            "tmdb": 278,
+            "trakt": 389,
+            "tvdb": 832,
+            "mal": 999,
+            "mdblist": "a0"
+        }
+
 
 ## My Limits [/user{?apikey}]
 
@@ -1659,7 +1672,8 @@ This endpoint updates the user's `watched_at` activity timestamp.
                                 "trakt": 272,
                                 "imdb": "tt0372784",
                                 "tmdb": 272,
-                                "kitsu": 12345
+                                "kitsu": 12345,
+                                "mdblist": "a388"
                             }
                         }
                     }
@@ -1679,7 +1693,8 @@ This endpoint updates the user's `watched_at` activity timestamp.
                                 "ids": {
                                     "tmdb": 1396,
                                     "trakt": 1,
-                                    "imdb": "tt0903747"
+                                    "imdb": "tt0903747",
+                                    "mdblist": "8plj"
                                 }
                             }
                         }
@@ -1701,7 +1716,8 @@ This endpoint updates the user's `watched_at` activity timestamp.
                                 "ids": {
                                     "tmdb": 1396,
                                     "trakt": 1,
-                                    "imdb": "tt0903747"
+                                    "imdb": "tt0903747",
+                                    "mdblist": "8plj"
                                 }
                             }
                         }
@@ -1719,6 +1735,12 @@ This endpoint updates the user's `watched_at` activity timestamp.
 
 ### Add or Update Watched History [POST]
 
+**Cascading Behavior:**
+- **Episode provided**: Marks only that specific episode
+- **Season provided (no episodes)**: Marks entire season + all episodes
+- **Show ID only (no seasons)**: Marks entire show + all seasons + all episodes
+- **Timestamps**: If `watched_at` is not provided, defaults to current time
+
 + Request (application/json)
     + Body
 
@@ -1731,7 +1753,8 @@ This endpoint updates the user's `watched_at` activity timestamp.
                             "imdb": "tt0372784",
                             "tmdb": 272,
                             "trakt": 272,
-                            "kitsu": 12345
+                            "kitsu": 12345,
+                            "mdblist": "a388"
                         },
                         "watched_at": "2025-10-21T12:00:00Z"
                     }
@@ -1742,7 +1765,8 @@ This endpoint updates the user's `watched_at` activity timestamp.
                         "year": 2008,
                         "ids": {
                             "imdb": "tt0903747",
-                            "tmdb": 1396
+                            "tmdb": 1396,
+                            "mdblist": "8plj"
                         },
                         "seasons": [
                             {
@@ -1798,14 +1822,16 @@ The records remain in the database but their `watched_at` fields are set to `nul
                 "movies": [
                     {
                         "ids": {
-                            "imdb": "tt0372784"
+                            "imdb": "tt0372784",
+                            "mdblist": "a388"
                         }
                     }
                 ],
                 "shows": [
                     {
                         "ids": {
-                            "imdb": "tt0903747"
+                            "imdb": "tt0903747",
+                            "mdblist": "8plj"
                         },
                         "seasons": [
                             {
@@ -2099,6 +2125,12 @@ This endpoint updates the user's `collected_at` activity timestamp.
 
 ### Add or Update Collection [POST]
 
+**Cascading Behavior:**
+- **Episode provided**: Marks only that specific episode
+- **Season provided (no episodes)**: Marks entire season + all episodes
+- **Show ID only (no seasons)**: Marks entire show + all seasons + all episodes
+- **Timestamps**: If `collected_at` is not provided, defaults to current time
+
 + Request (application/json)
     + Body
 
@@ -2193,7 +2225,7 @@ Scrobble endpoints allow you to track real-time playback progress of movies and 
 ```json
 POST /scrobble/start?apikey=YOUR_API_KEY
 {
-  "movie": {"ids": {"imdb": "tt0111161"}},
+  "movie": {"ids": {"imdb": "tt0111161", "mdblist": "a0"}},
   "progress": 15.5
 }
 ```
@@ -2203,7 +2235,7 @@ POST /scrobble/start?apikey=YOUR_API_KEY
 POST /scrobble/start?apikey=YOUR_API_KEY
 {
   "show": {
-    "ids": {"imdb": "tt0108778"},
+    "ids": {"imdb": "tt0108778", "mdblist": "8x1d"},
     "season": {
       "number": 1,
       "episode": {
@@ -2258,7 +2290,8 @@ The session will automatically expire after the remaining runtime has elapsed (b
                     "imdb": "tt0111161",
                     "tmdb": 278,
                     "trakt": 389,
-                    "kitsu": 22222
+                    "kitsu": 22222,
+                    "mdblist": "a0"
                 }
             },
             "progress": 15.5,
@@ -2273,7 +2306,8 @@ The session will automatically expire after the remaining runtime has elapsed (b
                 "ids": {
                     "imdb": "tt0108778",
                     "tmdb": 1668,
-                    "trakt": 1668
+                    "trakt": 1668,
+                    "mdblist": "8x1d"
                 },
                 "season": {
                     "number": 1,
@@ -2307,7 +2341,8 @@ The session will automatically expire after the remaining runtime has elapsed (b
                         "imdb": "tt0111161",
                         "tmdb": 278,
                         "trakt": 389,
-                        "kitsu": 22222
+                        "kitsu": 22222,
+                        "mdblist": "a0"
                     }
                 },
                 "episode": null,
