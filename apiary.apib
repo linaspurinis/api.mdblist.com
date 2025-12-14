@@ -303,20 +303,39 @@ Updates the name of a list identified by `username` and `listname`. Submit a JSO
                 "name": "New List Title"
             }
 
-## List items [/lists/{listid}/items{?apikey,limit,offset,append_to_response,filter_title,filter_genre,genre_operator,sort,order,unified,released_from,released_to}]
+## List items [/lists/{listid}/items{?apikey,limit,offset,append_to_response,filter_title,filter_genre,genre_operator,sort,order,unified,released_from,released_to,filter_score_min,filter_score_max,filter_imdbrating_min,filter_imdbrating_max,filter_tmdbrating_min,filter_tmdbrating_max,filter_metarating_min,filter_metarating_max,filter_tomatorating_min,filter_tomatorating_max,filter_letterrating_min,filter_letterrating_max,filter_popcornrating_min,filter_popcornrating_max,filter_malrating_min,filter_malrating_max}]
 
 #### 📄 Pagination
 
 Fetches items from a specified list. You can enhance the response by appending additional details like genres and posters using `append_to_response=genre,poster`.
 
-> **Note:** This endpoint returns up to 1,000 items max, regardless of the `limit` value. Use `limit` and `offset` to page through results.  
+> **Note:** This endpoint returns up to 1,000 items max, regardless of the `limit` value. Use `limit` and `offset` to page through results.
 > The response also includes an `X-Has-More` header set to `true` if more items are available beyond the current page.
 
 To filter the results by genre(s), use the `filter_genre` parameter.
 
-> **Note:** When filtering by multiple genres, `genre_operator` controls the logic:  
-> - **or** (default): matches items with *any* specified genres.  
+> **Note:** When filtering by multiple genres, `genre_operator` controls the logic:
+> - **or** (default): matches items with *any* specified genres.
 > - **and**: matches items with *all* specified genres.
+
+#### ⭐ Supporter Feature: Rating Filters
+
+Supporters can filter items by rating thresholds using `_min` and `_max` parameters for any of these rating sources:
+- `filter_score_min` / `filter_score_max` - MDBList score (0-100)
+- `filter_imdbrating_min` / `filter_imdbrating_max` - IMDb rating (0-100)
+- `filter_tmdbrating_min` / `filter_tmdbrating_max` - TMDb rating (0-100)
+- `filter_metarating_min` / `filter_metarating_max` - Metacritic rating (0-100)
+- `filter_tomatorating_min` / `filter_tomatorating_max` - Rotten Tomatoes rating (0-100)
+- `filter_letterrating_min` / `filter_letterrating_max` - Letterboxd rating (0-100)
+- `filter_popcornrating_min` / `filter_popcornrating_max` - RT Audience (Popcorn) rating (0-100)
+- `filter_malrating_min` / `filter_malrating_max` - MyAnimeList rating (0-100)
+
+**How rating filters work:**
+All rating filters use a normalized 0–100 scale for consistency across different sources. This allows ratings from different platforms (IMDb, Letterboxd, Metacritic, etc.) to be compared, filtered, and sorted using a single unified scale.
+
+When filtering, always use values between 0 and 100, regardless of the original rating scale.
+
+Multiple rating filters can be combined. Example: `?filter_imdbrating_min=70&filter_tmdbrating_min=75`
 
 By default, items are sorted by rank ascending.
 
@@ -334,6 +353,8 @@ By default, items are sorted by rank ascending.
             + `and`
     + released_from: `2020-01-15` (string, optional) - Filter by minimum release date. Format: YYYY-MM-DD.
     + released_to: `2023-12-31` (string, optional) - Filter by maximum release date. Format: YYYY-MM-DD.
+    + filter_score_min: 70 (integer, optional) - ⭐ Supporter only. Filter by minimum MDBList score (0-100).
+    + filter_score_max: 90 (integer, optional) - ⭐ Supporter only. Filter by maximum MDBList score (0-100).
     + sort: `score` (string, optional)
         + Members
             + `rank`
@@ -500,21 +521,25 @@ By default, items are sorted by rank ascending.
             }
     
         
-## List items by List Name [/lists/{username}/{listname}/items/{?apikey,limit,offset,append_to_response,filter_title,filter_genre,genre_operator,sort,order,unified,released_from,released_to}]
+## List items by List Name [/lists/{username}/{listname}/items/{?apikey,limit,offset,append_to_response,filter_title,filter_genre,genre_operator,sort,order,unified,released_from,released_to,filter_score_min,filter_score_max,filter_imdbrating_min,filter_imdbrating_max,filter_tmdbrating_min,filter_tmdbrating_max,filter_metarating_min,filter_metarating_max,filter_tomatorating_min,filter_tomatorating_max,filter_letterrating_min,filter_letterrating_max,filter_popcornrating_min,filter_popcornrating_max,filter_malrating_min,filter_malrating_max}]
 
 #### 📄 Pagination
 
 Fetches items from a specified list. You can enhance the response by appending additional details like genres and posters using `append_to_response=genre,poster`.
 
-> **Note:** This endpoint returns up to 1,000 items max, regardless of the `limit` value. Use `limit` and `offset` to page through results.  
+> **Note:** This endpoint returns up to 1,000 items max, regardless of the `limit` value. Use `limit` and `offset` to page through results.
 > The response also includes an `X-Has-More` header set to `true` if more items are available beyond the current page.
 
 
 To filter the results by genre(s), use the `filter_genre` parameter.
 
-> **Note:** When filtering by multiple genres, `genre_operator` controls the logic:  
-> - **or** (default): matches items with *any* specified genres.  
+> **Note:** When filtering by multiple genres, `genre_operator` controls the logic:
+> - **or** (default): matches items with *any* specified genres.
 > - **and**: matches items with *all* specified genres.
+
+#### ⭐ Supporter Feature: Rating Filters
+
+Supporters can filter items by rating thresholds. See the complete list of available rating filters in the `/lists/{listid}/items` endpoint documentation above.
 
 By default, items are sorted by rank ascending.
 
@@ -534,6 +559,8 @@ By default, items are sorted by rank ascending.
             + `and`
     + released_from: `2020-01-15` (string, optional) - Filter by minimum release date. Format: YYYY-MM-DD.
     + released_to: `2023-12-31` (string, optional) - Filter by maximum release date. Format: YYYY-MM-DD.
+    + filter_score_min: 70 (integer, optional) - ⭐ Supporter only. Filter by minimum MDBList score (0-100).
+    + filter_score_max: 90 (integer, optional) - ⭐ Supporter only. Filter by maximum MDBList score (0-100).
     + sort: `score` (string, optional)
         + Members
             + `rank`
@@ -1451,11 +1478,15 @@ External lists are lists imported from external sources (Trakt, IMDb, Letterboxd
             "error": "An error occurred"
         }
         
-## List items [/external/lists/{listid}/items{?apikey,limit,offset,append_to_response,filter_genre,sort,order,unified}]
+## List items [/external/lists/{listid}/items{?apikey,limit,offset,append_to_response,filter_genre,sort,order,unified,filter_score_min,filter_score_max,filter_imdbrating_min,filter_imdbrating_max,filter_tmdbrating_min,filter_tmdbrating_max,filter_metarating_min,filter_metarating_max,filter_tomatorating_min,filter_tomatorating_max,filter_letterrating_min,filter_letterrating_max,filter_popcornrating_min,filter_popcornrating_max,filter_malrating_min,filter_malrating_max}]
 
 #### 📄 Pagination
 
 Fetches list items. Use `append_to_response=genre,poster` to include genres and posters in the response. To filter results by a specific genre, use `filter_genre=fantasy` to retrieve only fantasy items.
+
+#### ⭐ Supporter Feature: Rating Filters
+
+Supporters can filter external list items by rating thresholds. See the complete list of available rating filters in the `/lists/{listid}/items` endpoint documentation.
 
 By default, items are sorted by rank.
 
@@ -1465,6 +1496,8 @@ By default, items are sorted by rank.
     + offset: 10 (integer, optional)
     + append_to_response: `genre,poster` (string, optional) - Additional information to append.
     + filter_genre: `fantasy` (string, optional) - Filter by genre, works if genre is included.
+    + filter_score_min: 70 (integer, optional) - ⭐ Supporter only. Filter by minimum MDBList score (0-100).
+    + filter_score_max: 90 (integer, optional) - ⭐ Supporter only. Filter by maximum MDBList score (0-100).
     + sort: `score` (string, optional)
         + Members
             + `rank`
@@ -2555,12 +2588,16 @@ Returns all active paused sessions (items with saved progress that haven't been 
  
 # Group Watchlist
 
-## List Watchlist items [/watchlist/items{?apikey,limit,offset,append_to_response,filter_genre,sort,order,unified}]
+## List Watchlist items [/watchlist/items{?apikey,limit,offset,append_to_response,filter_genre,sort,order,unified,filter_score_min,filter_score_max,filter_imdbrating_min,filter_imdbrating_max,filter_tmdbrating_min,filter_tmdbrating_max,filter_metarating_min,filter_metarating_max,filter_tomatorating_min,filter_tomatorating_max,filter_letterrating_min,filter_letterrating_max,filter_popcornrating_min,filter_popcornrating_max,filter_malrating_min,filter_malrating_max}]
 
 #### 📄 Pagination
 
 Fetches watchlist items. Use `append_to_response=genre,poster` to include genres and posters in the response. To filter results by a specific genre, use `filter_genre=fantasy` to retrieve only fantasy items.
 Returns a `pagination` block alongside the data, mirroring the sync collection response format.
+
+#### ⭐ Supporter Feature: Rating Filters
+
+Supporters can filter watchlist items by rating thresholds. See the complete list of available rating filters in the `/lists/{listid}/items` endpoint documentation.
 
 By default, items are sorted by date added.
 
@@ -2569,6 +2606,8 @@ By default, items are sorted by date added.
     + offset: 10 (integer, optional)
     + append_to_response: `genre,poster` (string, optional) - Additional information to append.
     + filter_genre: `fantasy` (string, optional) - Filter by genre, works if genre is included.
+    + filter_score_min: 70 (integer, optional) - ⭐ Supporter only. Filter by minimum MDBList score (0-100).
+    + filter_score_max: 90 (integer, optional) - ⭐ Supporter only. Filter by maximum MDBList score (0-100).
     + sort: `score` (string, optional)
         + Members
             + `score`
