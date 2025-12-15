@@ -9,6 +9,45 @@ API service allows you to access information about ratings, votes, streaming ser
 
 API key can be generated for free in mdblist.com preferences
 
+## Rate Limiting
+
+The API enforces daily rate limits to ensure fair usage across all users. Your rate limit depends on your supporter tier. Higher supporter tiers receive increased daily request limits.
+
+### Rate Limit Headers
+
+Every API response includes the following headers to help you track your usage:
+
+| Header | Description |
+| ------ | ----------- |
+| `X-RateLimit-Limit` | Maximum number of requests allowed per day |
+| `X-RateLimit-Remaining` | Number of requests remaining in the current period |
+| `X-RateLimit-Reset` | Unix timestamp when the rate limit resets (midnight UTC) |
+
+You can check your current rate limit by inspecting these headers in any API response, or by calling the `/user` endpoint.
+
+### Rate Limit Exceeded
+
+When you exceed your daily limit, the API returns a `429 Too Many Requests` status with additional headers:
+
+| Header | Description |
+| ------ | ----------- |
+| `Retry-After` | Number of seconds until the rate limit resets |
+
+Example response when rate limited:
+```json
+{
+    "error": "Daily API limit exceeded!"
+}
+```
+
+Response headers:
+```
+X-RateLimit-Limit: 10000
+X-RateLimit-Remaining: 0
+X-RateLimit-Reset: 1734393600
+Retry-After: 43200
+```
+
 ## Pagination
 
 Some methods support pagination 📄  
