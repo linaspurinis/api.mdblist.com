@@ -1467,6 +1467,49 @@ You can modify static list by adding or removing items
                     "shows": 0
                 }
             }
+
+
+## Create Static List [/lists/user/add{?apikey}]
+
+Create a new static list. Only the list name is required.
+
++ Parameters
+    + apikey: abc123 (string, required) - Your API key.
+
+### Create Static List [POST]
+
++ Request (application/json)
+
+            {
+                "name": "My Static List"
+            }
+
++ Response 201 (application/json)
+
+    + Body
+
+            {
+                "id": 12345,
+                "slug": "my-static-list",
+                "url": "https://mdblist.com/lists/yourname/my-static-list"
+            }
+
++ Response 400 (application/json)
+
+    + Body
+
+            {
+                "detail": "List name is required."
+            }
+
++ Response 403 (application/json)
+
+    + Body
+
+            {
+                "detail": "Static list limit reached.",
+                "limit": 4
+            }
             
 
 # Group External Lists
