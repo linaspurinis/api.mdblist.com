@@ -1185,7 +1185,6 @@ Search for Movie or Show
               "total": 3
             }
 
-
 ## Top Lists [/lists/top{?apikey}]
 Lists top lists sorted by Trakt likes
 
@@ -1735,6 +1734,86 @@ By default, items are sorted by rank.
 
 
 
+
+# Group Updates
+
+The Updates endpoints return media items that have been recently modified in the MDBList database. Updates include changes to ratings, metadata, streaming availability, and other media information.
+
+Use these endpoints to keep your local database synchronized with MDBList changes.
+
+## Movie Updates [/movies/updates{?apikey,since,limit,cursor}]
+
+Returns recently updated movies with cursor-based pagination.
+
+**Pagination:**
+- Use `next_cursor` from the response to fetch the next page
+- Maximum `limit` is 100 items per request
+
++ Parameters
+    + apikey: abc123 (string, required) - Your API Key
+    + since: `2026-01-01` (string, optional) - ISO 8601 timestamp or `YYYY-MM-DD` date in UTC (default: last 24 hours, max: 30 days ago)
+    + limit: 20 (int, optional) - Number of results per page (default: 20, max: 100)
+    + cursor: `2026-01-05T12:34:56Z,12345` (string, optional) - Pagination cursor from `next_cursor` in previous response
+
+### Get recently updated movies [GET]
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "movies": [
+                    {
+                        "title": "Example Movie",
+                        "mdblist": "abcd1234",
+                        "imdb": "tt1234567",
+                        "tmdb": 12345,
+                        "updated": "2026-01-05T12:34:56Z"
+                    }
+                ],
+                "pagination": {
+                    "limit": 20,
+                    "since": "2026-01-01T00:00:00Z",
+                    "has_more": true,
+                    "next_cursor": "2026-01-05T12:34:56Z,12345"
+                }
+            }
+
+## Show Updates [/shows/updates{?apikey,since,limit,cursor}]
+
+Returns recently updated shows with cursor-based pagination.
+
+**Pagination:**
+- Use `next_cursor` from the response to fetch the next page
+- Maximum `limit` is 100 items per request
+
++ Parameters
+    + apikey: abc123 (string, required) - Your API Key
+    + since: `2026-01-01` (string, optional) - ISO 8601 timestamp or `YYYY-MM-DD` date in UTC (default: last 24 hours, max: 30 days ago)
+    + limit: 20 (int, optional) - Number of results per page (default: 20, max: 100)
+    + cursor: `2026-01-05T12:34:56Z,12345` (string, optional) - Pagination cursor from `next_cursor` in previous response
+
+### Get recently updated Shows [GET]
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "shows": [
+                    {
+                        "title": "Example Show",
+                        "mdblist": "wxyz9876",
+                        "imdb": "tt7654321",
+                        "tmdb": 98765,
+                        "updated": "2026-01-05T12:34:56Z"
+                    }
+                ],
+                "pagination": {
+                    "limit": 20,
+                    "since": "2026-01-01T00:00:00Z",
+                    "has_more": true,
+                    "next_cursor": "2026-01-05T12:34:56Z,12345"
+                }
+            }
 
 # Group Sync
 
