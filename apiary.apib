@@ -1362,6 +1362,54 @@ Bulk rating request. Provide list of tmdb or imdb ids with media type and return
             }
 
 
+## Up Next [/upnext{?apikey,limit,offset}]
+Get in-progress TV shows with their next unwatched aired episodes. Returns shows ordered by last watched date.
+
++ Parameters
+    + apikey: abc123 (string, required) - Your API key.
+    + limit: 20 (number, optional) - Number of items to return (default: 20, max: 100)
+    + offset: 0 (number, optional) - Number of items to skip for pagination (default: 0)
+
+### Get Up Next Shows [GET]
+
++ Response 200 (application/json)
+    + Body
+
+            {
+              "items": [
+                {
+                  "show": {
+                    "ids": {
+                      "mdblist": "8gp2",
+                      "tmdb": 60625
+                    },
+                    "title": "Rick and Morty",
+                    "year": 2013,
+                    "poster": "/WGRQ8FpjkDTzivQJ43t94bOuY0.jpg"
+                  },
+                  "next_episode": {
+                    "ids": {
+                      "tmdb": 6122200
+                    },
+                    "season": 8,
+                    "episode": 2,
+                    "title": "Valkyrick",
+                    "air_date": "2025-06-01T00:00:00+00:00",
+                    "runtime": 22,
+                    "still": "/wJNBw6mTV38fdMSpqbb4j4DnlMy.jpg"
+                  },
+                  "progress": {
+                    "watched_episode_count": 72,
+                    "total_episode_count": 81
+                  },
+                  "last_watched_at": "2026-01-05T22:27:00+00:00"
+                }
+              ],
+              "limit": 20,
+              "has_more": false
+            }
+
+
 ## Genres [/genres/{?apikey,anime}]
 Get a list of all genres, including names and slugs.
 
