@@ -435,13 +435,15 @@ By default, items are sorted by rank ascending.
     + Description
 
         The `X-Total-Items` header shows total number of items in a list, without additional filtering
-        The `X-Has-More` header indicates whether more items exist beyond the current response, based on the limit parameter.  
-        - `true`: More items are available on the next page(s).  
+        The `X-Matched-Items` header shows the number of items returned by the API after applying filters (such as mediatype, genre, rating, etc.)
+        The `X-Has-More` header indicates whether more items exist beyond the current response, based on the limit parameter.
+        - `true`: More items are available on the next page(s).
         - `false`: No more items available beyond this response.
-        
+
     + Headers
-            
+
             X-Total-Items: 7
+            X-Matched-Items: 4
             X-Has-More: true
 
     + Body
