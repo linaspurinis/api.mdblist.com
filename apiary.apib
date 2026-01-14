@@ -5,9 +5,260 @@ HOST: https://api.mdblist.com
 
 API service allows you to access information about ratings, votes, streaming services and more
 
-## API Keys
+## Authentication
 
-API key can be generated for free in mdblist.com preferences
+MDBList API supports two authentication methods: **API Keys** (simple) and **OAuth 2.0** (for third-party apps).
+
+### API Keys
+
+API key can be generated for free in [mdblist.com preferences](https://mdblist.com/preferences/).
+
+To authenticate with an API key, append it as a query parameter:
+
+```
+https://api.mdblist.com/lists/user/?apikey=YOUR_API_KEY
+```
+
+**Best for**: Personal scripts, testing, direct API access.
+
+### OAuth 2.0 (Beta)
+
+OAuth 2.0 allows third-party applications to access MDBList on behalf of users without requiring their API key. Users authorize your app once, and you receive an access token.
+
+**Status**: Currently in **beta**. The implementation is stable and fully functional, but we're gathering feedback from early adopters. Report issues or suggestions at [mdblist.com/developer/](https://mdblist.com/developer/).
+
+**Best for**: Third-party apps, mobile apps, web services that access MDBList on behalf of multiple users.
+
+#### Quick Start for Developers
+
+1. **Register Your App**
+   Go to [mdblist.com/developer/](https://mdblist.com/developer/) and create an OAuth application. You'll receive:
+   - `client_id` - Public identifier for your app
+   - `client_secret` - Secret key (keep this secure!)
+
+2. **Generate PKCE Challenge** (required for all clients)
+   ```python
+   import secrets, hashlib, base64
+   code_verifier = secrets.token_urlsafe(64)
+   code_challenge = base64.urlsafe_b64encode(
+       hashlib.sha256(code_verifier.encode()).digest()
+   ).rstrip(b'=').decode()
+   ```
+
+3. **Get Authorization**
+   Redirect users to the authorization URL with PKCE:
+   ```
+   https://mdblist.com/oauth/authorize/?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&response_type=code&scope=read+write&code_challenge=YOUR_CODE_CHALLENGE&code_challenge_method=S256
+   ```
+
+4. **Exchange Code for Token**
+   After the user authorizes, they're redirected back with a `code`. Exchange it for an access token (include the original `code_verifier`):
+   ```bash
+   curl -X POST https://api.mdblist.com/oauth/token/ \
+     -d "grant_type=authorization_code" \
+     -d "code=AUTHORIZATION_CODE" \
+     -d "redirect_uri=YOUR_REDIRECT_URI" \
+     -d "client_id=YOUR_CLIENT_ID" \
+     -d "client_secret=YOUR_CLIENT_SECRET" \
+     -d "code_verifier=YOUR_CODE_VERIFIER"
+   ```
+
+   Response:
+   ```json
+   {
+     "access_token": "abc123xyz789",
+     "token_type": "Bearer",
+     "expires_in": 2592000,
+     "refresh_token": "def456uvw",
+     "scope": "read write"
+   }
+   ```
+
+   **Note**: `expires_in` is in seconds (2592000 = 30 days). Save the `refresh_token` to get new access tokens when this one expires.
+
+5. **Use the Token**
+   Include the access token in the `Authorization` header:
+   ```bash
+   curl -H "Authorization: Bearer abc123xyz789" \
+     https://api.mdblist.com/lists/user/
+   ```
+
+#### OAuth Scopes
+
+| Scope | Description |
+| ----- | ----------- |
+| `read` | Read access to user's lists, watchlist, ratings, and profile |
+| `write` | Modify user's lists, watchlist, ratings, and collection |
+
+Default scope is `read`. Request `read write` for full access.
+
+#### Token Refresh
+
+Access tokens expire after 30 days. Use the refresh token to get a new access token without asking the user to re-authorize:
+
+```bash
+curl -X POST https://api.mdblist.com/oauth/token/ \
+  -d "grant_type=refresh_token" \
+  -d "refresh_token=YOUR_REFRESH_TOKEN" \
+  -d "client_id=YOUR_CLIENT_ID" \
+  -d "client_secret=YOUR_CLIENT_SECRET"
+```
+
+#### OAuth Endpoints
+
+| Endpoint | Method | Purpose |
+| -------- | ------ | ------- |
+| `/oauth/authorize/` | GET | User authorization (WEB) |
+| `/oauth/token/` | POST | Exchange code or refresh token |
+| `/oauth/revoke_token/` | POST | Revoke access token |
+| `/oauth/introspect/` | POST | Check token validity |
+
+#### Security Best Practices
+
+- **Never expose** your `client_secret` in client-side code
+- **Use HTTPS** for all OAuth flows
+- **Store tokens securely** (encrypted, never in version control)
+- **Handle token expiration** gracefully with refresh tokens
+- **Revoke tokens** when users disconnect your app
+
+#### Native/Mobile Apps (PKCE)
+
+For mobile or desktop apps, use PKCE with a loopback or custom scheme redirect URI:
+
+1. **Register app** with a redirect URI (loopback `http://127.0.0.1:PORT/callback` or custom scheme like `myapp://oauth/callback`).
+2. **Generate PKCE** `code_verifier` + `code_challenge` (S256).
+3. **Authorize** with `code_challenge` + `code_challenge_method=S256`.
+4. **Exchange code** with the `code_verifier` at the token endpoint.
+
+**Example PKCE Authorization URL:**
+```
+https://mdblist.com/oauth/authorize/?client_id=YOUR_CLIENT_ID&redirect_uri=myapp://oauth/callback&response_type=code&scope=read+write&code_challenge=YOUR_CODE_CHALLENGE&code_challenge_method=S256
+```
+
+**Python Example for PKCE Flow:**
+
+```python
+import requests
+import webbrowser
+
+# Step 1: Build PKCE authorization URL
+client_id = "YOUR_CLIENT_ID"
+client_secret = "YOUR_CLIENT_SECRET"
+code_challenge = "YOUR_CODE_CHALLENGE"
+redirect_uri = "myapp://oauth/callback"
+
+auth_url = (
+    f"https://mdblist.com/oauth/authorize/"
+    f"?client_id={client_id}"
+    f"&redirect_uri={redirect_uri}"
+    f"&response_type=code"
+    f"&scope=read+write"
+    f"&code_challenge={code_challenge}"
+    f"&code_challenge_method=S256"
+)
+
+# Step 2: Open browser for user to authorize
+print("Opening browser for authorization...")
+webbrowser.open(auth_url)
+
+# Step 3: Receive the authorization code from your redirect URI handler
+auth_code = input("Enter the authorization code: ").strip()
+
+# Step 4: Exchange code for access token
+token_response = requests.post(
+    "https://api.mdblist.com/oauth/token/",
+    data={
+        "grant_type": "authorization_code",
+        "code": auth_code,
+        "redirect_uri": redirect_uri,
+        "client_id": client_id,
+        "client_secret": client_secret,
+        "code_verifier": "YOUR_CODE_VERIFIER",
+    }
+)
+
+if token_response.status_code == 200:
+    token_data = token_response.json()
+    access_token = token_data["access_token"]
+    print(f"✓ Authorization successful!")
+    print(f"Access Token: {access_token}")
+
+    # Step 5: Use the token
+    headers = {"Authorization": f"Bearer {access_token}"}
+    response = requests.get(
+        "https://api.mdblist.com/lists/user/",
+        headers=headers
+    )
+    print(f"✓ Your lists: {response.json()}")
+else:
+    print(f"✗ Error: {token_response.json()}")
+```
+
+**PKCE is required for all clients** (web apps, mobile apps, desktop apps, CLI tools).
+
+#### Example: Web App OAuth Client
+
+```python
+import requests
+import secrets
+import hashlib
+import base64
+
+# Step 1: Generate PKCE code verifier and challenge
+code_verifier = secrets.token_urlsafe(64)
+code_challenge = base64.urlsafe_b64encode(
+    hashlib.sha256(code_verifier.encode()).digest()
+).rstrip(b'=').decode()
+
+# Step 2: Redirect user to authorization URL with PKCE
+auth_url = (
+    "https://mdblist.com/oauth/authorize/"
+    f"?client_id=YOUR_CLIENT_ID"
+    f"&redirect_uri=https://yourapp.com/callback"
+    f"&response_type=code"
+    f"&scope=read+write"
+    f"&code_challenge={code_challenge}"
+    f"&code_challenge_method=S256"
+)
+print(f"Visit: {auth_url}")
+
+# Step 3: After user authorizes, exchange code for token (include code_verifier)
+code = input("Enter authorization code: ")
+token_response = requests.post(
+    "https://api.mdblist.com/oauth/token/",
+    data={
+        "grant_type": "authorization_code",
+        "code": code,
+        "redirect_uri": "https://yourapp.com/callback",
+        "client_id": "YOUR_CLIENT_ID",
+        "client_secret": "YOUR_CLIENT_SECRET",
+        "code_verifier": code_verifier,  # Required for PKCE
+    }
+)
+token_data = token_response.json()
+access_token = token_data["access_token"]
+
+# Step 4: Use the token
+headers = {"Authorization": f"Bearer {access_token}"}
+response = requests.get(
+    "https://api.mdblist.com/lists/user/",
+    headers=headers
+)
+print(response.json())
+```
+
+#### Authentication Method Comparison
+
+| Feature | API Key | OAuth 2.0 |
+| ------- | ------- | --------- |
+| Setup complexity | ⭐ Simple | ⭐⭐⭐ Moderate |
+| Best for | Personal use | Third-party apps |
+| User experience | Copy/paste key | One-click authorize |
+| Token expiration | Never | 30 days (renewable) |
+| Revocable by user | Yes (regenerate) | Yes (per-app) |
+| Rate limits | Same as OAuth | Same as API key |
+
+Both methods have the **same rate limits** and access to **all API endpoints**.
 
 ## Rate Limiting
 
@@ -60,7 +311,11 @@ Append a query string like ?limit=`limit`&offset=`offset` to the URL to influenc
 
 ## Media IDs
 
-When a response includes an `ids` block for a movie or show we return the collection of provider identifiers plus the MDBList public ID (`mdblist`). Example:
+When a response includes an `ids` block for a movie or show we return the collection of provider identifiers plus the MDBList public ID (`mdblist`).
+
+The `mdblist` ID can also be used in sync endpoints (watched, ratings, collection) to identify movies and shows in your requests.
+
+Example:
 
         "ids": {
             "imdb": "tt0111161",
@@ -71,15 +326,36 @@ When a response includes an `ids` block for a movie or show we return the collec
             "mdblist": "a0"
         }
 
+## API Endpoints
+
+All endpoints support **both authentication methods** (API Key and OAuth 2.0). Throughout this documentation:
+- Endpoints show `apikey` as optional parameter - use it for API key auth OR use `Authorization: Bearer` header for OAuth
+- Rate limits apply equally to both methods
+- Same data is returned regardless of authentication method
 
 ## My Limits [/user{?apikey}]
 
-Show information about user limits
+Show information about user limits, rate limit status, and patron tier.
+
+Supports both authentication methods:
+- **API Key**: Append `?apikey=YOUR_API_KEY` to the URL
+- **OAuth**: Include `Authorization: Bearer YOUR_TOKEN` header
 
 + Parameters
-    + apikey: abc123 (string, required) - Your API key.
-    
+    + apikey: abc123 (string, optional) - Your API key (not required if using OAuth Bearer token).
+
 ### Get My Limits [GET]
+
++ Request With API Key
+    + Headers
+
+            Accept: application/json
+
++ Request With OAuth Token
+    + Headers
+
+            Authorization: Bearer abc123xyz789
+            Accept: application/json
 
 + Response 200 (application/json)
 
@@ -92,9 +368,15 @@ Show information about user limits
             }
         
 ## My Lists [/lists/user{?apikey,sort}]
-Fetches users lists.
+
+Fetches authenticated user's lists.
+
+Supports both authentication methods:
+- **API Key**: `?apikey=YOUR_API_KEY`
+- **OAuth**: `Authorization: Bearer YOUR_TOKEN` header
+
 + Parameters
-    + apikey: abc123 (string, required) - Your API key.
+    + apikey: abc123 (string, optional) - Your API key (not required if using OAuth Bearer token).
     + sort: ranked (enum[string], optional) - Sort order for lists.
         + Default: `ranked`
         + Members
@@ -103,6 +385,17 @@ Fetches users lists.
             + `created` - Sort by creation date
 
 ### Get My Lists [GET]
+
++ Request With API Key
+    + Headers
+
+            Accept: application/json
+
++ Request With OAuth Token
+    + Headers
+
+            Authorization: Bearer abc123xyz789
+            Accept: application/json
 + Response 200 (application/json)
     + Body
     
@@ -1902,7 +2195,7 @@ Clients should call this first to check which categories have changed since the 
 Get, add, or update watched history for movies and TV shows.
 This endpoint updates the user's `watched_at` activity timestamp.
 
-> **Supported IDs**: Movies support `imdb`, `tmdb`, `trakt`, and `kitsu` (for anime). Shows support `imdb`, `tmdb`, `trakt`, and `tvdb`.
+> **Supported IDs**: Movies support `imdb`, `tmdb`, `trakt`, `mdblist`, and `kitsu` (for anime). Shows support `imdb`, `tmdb`, `trakt`, `mdblist`, and `tvdb`.
 > **Note**: The `kitsu` ID is only returned when it exists in the database (primarily for anime titles). This ID is only available in sync and scrobble endpoints.
 
 + Parameters
@@ -2124,7 +2417,7 @@ The records remain in the database but their `watched_at` fields are set to `nul
 Get, add, or update user ratings for movies and TV shows.
 This endpoint updates the user's `rated_at` activity timestamp.
 
-> **Supported IDs**: Movies support `imdb`, `tmdb`, `trakt`, and `kitsu` (for anime). Shows support `imdb`, `tmdb`, `trakt`, and `tvdb`.
+> **Supported IDs**: Movies support `imdb`, `tmdb`, `trakt`, `mdblist`, and `kitsu` (for anime). Shows support `imdb`, `tmdb`, `trakt`, `mdblist`, and `tvdb`.
 > **Note**: The `kitsu` ID is only returned when it exists in the database (primarily for anime titles). This ID is only available in sync and scrobble endpoints.
 
 + Parameters
@@ -2326,7 +2619,7 @@ The records remain but rating fields are cleared and `rated_at` is set to `null`
 Get, add, or update items in the user's collection.
 This endpoint updates the user's `collected_at` activity timestamp.
 
-> **Supported IDs**: Movies support `imdb`, `tmdb`, `trakt`, and `kitsu` (for anime). Shows support `imdb`, `tmdb`, `trakt`, and `tvdb`.
+> **Supported IDs**: Movies support `imdb`, `tmdb`, `trakt`, `mdblist`, and `kitsu` (for anime). Shows support `imdb`, `tmdb`, `trakt`, `mdblist`, and `tvdb`.
 > **Note**: The `kitsu` ID is only returned when it exists in the database (primarily for anime titles). This ID is only available in sync and scrobble endpoints.
 
 + Parameters
@@ -2522,7 +2815,7 @@ POST /scrobble/start?apikey=YOUR_API_KEY
 
 Start or resume playback for a movie or episode. This creates a new scrobble session and replaces any existing session for the same item.
 
-> **Supported IDs**: Movies support `imdb`, `tmdb`, `trakt`, and `kitsu` (for anime). Shows support `imdb`, `tmdb`, `trakt`, and `tvdb`.
+> **Supported IDs**: Movies support `imdb`, `tmdb`, `trakt`, `mdblist`, and `kitsu` (for anime). Shows support `imdb`, `tmdb`, `trakt`, `mdblist`, and `tvdb`.
 > **Note**: The `kitsu` ID is only returned when it exists in the database (primarily for anime titles). This ID is only available in sync and scrobble endpoints.
 
 ### Start Scrobble [POST]
