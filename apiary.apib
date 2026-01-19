@@ -1908,7 +1908,45 @@ External lists are lists imported from external sources (Trakt, IMDb, Letterboxd
         {
             "error": "An error occurred"
         }
-        
+
+### Get External List Info [GET /external/lists/{listid}{?apikey}]
+
+Retrieve information about a specific external list by its ID.
+
+Returns list metadata including name, source, item counts, and last update time. Access is controlled by the list owner's `private_external_lists` setting - if enabled, only the owner can view the list info.
+
++ Parameters
+    + listid: 123 (number, required) - The ID of the external list.
+    + apikey: abc123 (string, required) - Your API key.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": 123,
+                "user_id": 456,
+                "user_name": "johndoe",
+                "name": "My Trakt Watchlist",
+                "updated": "2025-01-15T10:30:00Z",
+                "items": 150,
+                "items_show": 25,
+                "url": "https://trakt.tv/users/johndoe/watchlist",
+                "source": "trakt"
+            }
+        ]
+
++ Response 401 (application/json)
+
+        {
+            "error": "Invalid API key"
+        }
+
++ Response 404 (application/json)
+
+        {
+            "error": "Not found"
+        }
+
 ## List items [/external/lists/{listid}/items{?apikey,limit,offset,append_to_response,filter_genre,sort,order,unified,filter_score_min,filter_score_max}]
 
 #### 📄 Pagination
