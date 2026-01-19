@@ -113,6 +113,8 @@ curl -X POST https://api.mdblist.com/oauth/token/ \
 | `/oauth/revoke_token/` | POST | Revoke access token |
 | `/oauth/introspect/` | POST | Check token validity |
 
+> **Important:** All OAuth endpoints require a trailing slash. For example, use `https://api.mdblist.com/oauth/token/` not `https://api.mdblist.com/oauth/token`. Requests without the trailing slash will fail.
+
 #### Security Best Practices
 
 - **Never expose** your `client_secret` in client-side code
