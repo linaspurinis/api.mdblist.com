@@ -3071,6 +3071,62 @@ If the item is marked as watched (≥80%), it will appear in your `/sync/watched
             "error": "Movie not found in database"
         }
 
+## Scrobble Clear [/scrobble/clear{?apikey}]
+
+Clear a paused scrobble session (removes an item from continue watching).
+
+### Clear Scrobble [POST]
+
+Delete a paused session by its playback `id` or by providing the same movie/show payload used for scrobbling.
+
++ Parameters
+    + apikey: `api_key_here` (string, required) - Your API key
+
++ Request By Playback ID (application/json)
+
+        {
+            "id": 12345
+        }
+
++ Request By Movie (application/json)
+
+        {
+            "movie": {
+                "ids": {
+                    "imdb": "tt0111161"
+                }
+            }
+        }
+
++ Request By Episode (application/json)
+
+        {
+            "show": {
+                "ids": {
+                    "imdb": "tt0108778"
+                },
+                "season": {
+                    "number": 1,
+                    "episode": {
+                        "number": 3
+                    }
+                }
+            }
+        }
+
++ Response 200 (application/json)
+
+        {
+            "action": "clear",
+            "deleted": true
+        }
+
++ Response 404 (application/json)
+
+        {
+            "error": "Scrobble session not found"
+        }
+
 ## Sync Playback [/sync/playback{?apikey}]
 
 Retrieve all paused scrobble sessions for the authenticated user. Use this endpoint to show a "Continue Watching" section or to resume playback on a different device.
