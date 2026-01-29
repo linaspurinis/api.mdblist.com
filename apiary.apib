@@ -548,11 +548,12 @@ Retrieves details of a list identified by `listid`.
                     "mediatype": "movie",
                     "items": 30,
                     "likes": 21,
+                    "type": "dynamic",
                     "dynamic": true,
                     "private": false
                 }
             ]
-            
+
 ### Update List Name by ID [PUT]
 
 Updates the name of a list specified by `listid`. Submit a JSON payload with the new `name`. 
@@ -585,7 +586,7 @@ Retrieves details of list identified by `username` and `listname`. Multiple list
 + Response 200 (application/json)
     + Body
 
-            [       
+            [
                 {
                     "id": 1176,
                     "user_id": 3,
@@ -596,6 +597,7 @@ Retrieves details of list identified by `username` and `listname`. Multiple list
                     "mediatype": "movie",
                     "items": 30,
                     "likes": 21,
+                    "type": "dynamic",
                     "dynamic": true,
                     "private": false
                 },
@@ -609,6 +611,7 @@ Retrieves details of list identified by `username` and `listname`. Multiple list
                     "mediatype": "show",
                     "items": 30,
                     "likes": 21,
+                    "type": "dynamic",
                     "dynamic": true,
                     "private": false
                 }
@@ -752,6 +755,12 @@ By default, items are sorted by rank ascending.
                   "title": "Beetlejuice Beetlejuice",
                   "imdb_id": "tt2049403",
                   "tvdb_id": null,
+                  "ids": {
+                    "mdblist": "m917496",
+                    "imdb": "tt2049403",
+                    "tmdb": 917496,
+                    "tvdb": null
+                  },
                   "language": "en",
                   "mediatype": "movie",
                   "release_year": 2024,
@@ -764,6 +773,12 @@ By default, items are sorted by rank ascending.
                   "title": "Rebel Ridge",
                   "imdb_id": "tt11301886",
                   "tvdb_id": null,
+                  "ids": {
+                    "mdblist": "m646097",
+                    "imdb": "tt11301886",
+                    "tmdb": 646097,
+                    "tvdb": null
+                  },
                   "language": "en",
                   "mediatype": "movie",
                   "release_year": 2024,
@@ -957,6 +972,12 @@ By default, items are sorted by rank ascending.
                   "title": "Beetlejuice Beetlejuice",
                   "imdb_id": "tt2049403",
                   "tvdb_id": null,
+                  "ids": {
+                    "mdblist": "m917496",
+                    "imdb": "tt2049403",
+                    "tmdb": 917496,
+                    "tvdb": null
+                  },
                   "language": "en",
                   "mediatype": "movie",
                   "release_year": 2024,
@@ -969,6 +990,12 @@ By default, items are sorted by rank ascending.
                   "title": "Rebel Ridge",
                   "imdb_id": "tt11301886",
                   "tvdb_id": null,
+                  "ids": {
+                    "mdblist": "m646097",
+                    "imdb": "tt11301886",
+                    "tmdb": 646097,
+                    "tvdb": null
+                  },
                   "language": "en",
                   "mediatype": "movie",
                   "release_year": 2024,
@@ -2018,6 +2045,12 @@ By default, items are sorted by rank.
                   "title": "Beetlejuice Beetlejuice",
                   "imdb_id": "tt2049403",
                   "tvdb_id": null,
+                  "ids": {
+                    "mdblist": "m917496",
+                    "imdb": "tt2049403",
+                    "tmdb": 917496,
+                    "tvdb": null
+                  },
                   "language": "en",
                   "mediatype": "movie",
                   "release_year": 2024,
@@ -2030,6 +2063,12 @@ By default, items are sorted by rank.
                   "title": "Rebel Ridge",
                   "imdb_id": "tt11301886",
                   "tvdb_id": null,
+                  "ids": {
+                    "mdblist": "m646097",
+                    "imdb": "tt11301886",
+                    "tmdb": 646097,
+                    "tvdb": null
+                  },
                   "language": "en",
                   "mediatype": "movie",
                   "release_year": 2024,
@@ -2226,8 +2265,13 @@ Clients should call this first to check which categories have changed since the 
             {
                 "watchlisted_at": "2025-10-22T06:48:10Z",
                 "watched_at": "2025-10-22T07:53:32Z",
+                "season_watched_at": "2025-10-22T07:53:32Z",
+                "episode_watched_at": "2025-10-22T07:53:32Z",
                 "rated_at": "2025-10-22T07:53:44Z",
-                "collected_at": "2025-10-22T07:56:39Z"
+                "collected_at": "2025-10-22T07:56:39Z",
+                "paused_at": "2025-10-22T08:00:00Z",
+                "episode_paused_at": "2025-10-22T08:00:00Z",
+                "list_updated_at": "2025-10-22T09:00:00Z"
             }
 
 
