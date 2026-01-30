@@ -644,7 +644,7 @@ Updates the name of a list identified by `username` and `listname`. Submit a JSO
 
 #### 📄 Pagination
 
-Fetches items from a specified list. You can enhance the response by appending additional details like genres and posters using `append_to_response=genre,poster`.
+Fetches items from a specified list. You can enhance the response by appending additional details like genres, posters, and ratings using `append_to_response=genres,poster,ratings`.
 
 > **Note:** This endpoint returns up to 1,000 items max, regardless of the `limit` value. Use `limit` and `offset` to page through results.
 > The response also includes an `X-Has-More` header set to `true` if more items are available beyond the current page.
@@ -681,7 +681,7 @@ By default, items are sorted by rank ascending.
     + listid: 1176 (integer, required) - The ID of the list.
     + limit: 100 (integer, optional)
     + offset: 10 (integer, optional)
-    + append_to_response: `genre,poster` (string, optional) - Additional information to append.
+    + append_to_response: `genres,poster,ratings` (string, optional) - Additional information to append. Supported: `genres`, `poster`, `ratings`.
     + filter_title: Matrix (string, optional) - Filter by title.
     + filter_genre: `fantasy` (string, optional) - Filter by genre.
     + genre_operator: `or` (string, optional) - Logical operator used to combine multiple genre filters. Defaults to or.
@@ -738,6 +738,8 @@ By default, items are sorted by rank ascending.
         - `true`: More items are available on the next page(s).
         - `false`: No more items available beyond this response.
 
+        When `append_to_response=ratings` is used, each movie/show item includes a `ratings` array with IMDb, TMDb, and MDBList scores.
+
     + Headers
 
             X-Total-Items: 7
@@ -764,7 +766,12 @@ By default, items are sorted by rank ascending.
                   "language": "en",
                   "mediatype": "movie",
                   "release_year": 2024,
-                  "spoken_language": "en"
+                  "spoken_language": "en",
+                  "ratings": [
+                    {"source": "imdb", "value": 7.0, "score": 70, "votes": 250000},
+                    {"source": "tmdb", "value": 72, "score": 72, "votes": 3500},
+                    {"source": "mdblist", "value": null, "score": 68, "votes": null}
+                  ]
                 },
                 {
                   "id": 646097,
@@ -877,7 +884,7 @@ By default, items are sorted by rank ascending.
 
 #### 📄 Pagination
 
-Fetches items from a specified list. You can enhance the response by appending additional details like genres and posters using `append_to_response=genre,poster`.
+Fetches items from a specified list. You can enhance the response by appending additional details like genres, posters, and ratings using `append_to_response=genres,poster,ratings`.
 
 > **Note:** This endpoint returns up to 1,000 items max, regardless of the `limit` value. Use `limit` and `offset` to page through results.
 > The response also includes an `X-Has-More` header set to `true` if more items are available beyond the current page.
@@ -902,7 +909,7 @@ By default, items are sorted by rank ascending.
     + listname: `latest-certified-fresh-releases` (string, required) - The slug of the list.
     + limit: 100 (integer, optional)
     + offset: 10 (integer, optional)
-    + append_to_response: `genre,poster` (string, optional) - Additional information to append.
+    + append_to_response: `genres,poster,ratings` (string, optional) - Additional information to append. Supported: `genres`, `poster`, `ratings`.
     + filter_title: Matrix (string, optional) - Filter by title.
     + filter_genre: `fantasy` (string, optional) - Filter by genre.
     + genre_operator: `or` (string, optional) - Logical operator used to combine multiple genre filters. Defaults to or.
@@ -1983,7 +1990,7 @@ Returns list metadata including name, source, item counts, and last update time.
 
 #### 📄 Pagination
 
-Fetches list items. Use `append_to_response=genre,poster` to include genres and posters in the response. To filter results by a specific genre, use `filter_genre=fantasy` to retrieve only fantasy items.
+Fetches list items. Use `append_to_response=genres,poster,ratings` to include genres, posters, and ratings in the response. To filter results by a specific genre, use `filter_genre=fantasy` to retrieve only fantasy items.
 
 #### ⭐ Supporter Feature: Rating Filters
 
@@ -1995,7 +2002,7 @@ By default, items are sorted by rank.
     + listid: 47989 (integer, required) - The ID of the list.
     + limit: 100 (integer, optional)
     + offset: 10 (integer, optional)
-    + append_to_response: `genre,poster` (string, optional) - Additional information to append.
+    + append_to_response: `genres,poster,ratings` (string, optional) - Additional information to append. Supported: `genres`, `poster`, `ratings`.
     + filter_genre: `fantasy` (string, optional) - Filter by genre, works if genre is included.
     + filter_score_min: 70 (integer, optional) - ⭐ Supporter only. Filter by minimum MDBList score (0-100).
     + filter_score_max: 90 (integer, optional) - ⭐ Supporter only. Filter by maximum MDBList score (0-100).
@@ -2290,7 +2297,7 @@ This endpoint updates the user's `watched_at` activity timestamp.
     + offset: 0 (number, optional) — Number of results to skip from the beginning (default: 0).
     + limit: 1000 (number, optional) — Max results per page (default: 1000, max: 5000).
     + since: `2025-10-01T00:00:00Z` (string, optional) — Return items updated after this timestamp.
-    + append_to_response: `genre` (string, optional) — Comma-separated list of additional fields. Supported: `genre`.
+    + append_to_response: `genres,ratings` (string, optional) — Comma-separated list of additional fields. Supported: `genres`, `ratings`.
 
 ### Retrieve Watched History [GET]
 
@@ -2310,7 +2317,12 @@ This endpoint updates the user's `watched_at` activity timestamp.
                                 "tmdb": 272,
                                 "kitsu": 12345,
                                 "mdblist": "a388"
-                            }
+                            },
+                            "ratings": [
+                                {"source": "imdb", "value": 8.2, "score": 82, "votes": 1500000},
+                                {"source": "tmdb", "value": 78, "score": 78, "votes": 15000},
+                                {"source": "mdblist", "value": null, "score": 85, "votes": null}
+                            ]
                         }
                     }
                 ],
@@ -2330,7 +2342,12 @@ This endpoint updates the user's `watched_at` activity timestamp.
                             "status": "Ended",
                             "runtime": 45,
                             "total_aired_episodes": 62,
-                            "genres": ["drama", "thriller"]
+                            "genres": ["drama", "thriller"],
+                            "ratings": [
+                                {"source": "imdb", "value": 9.5, "score": 95, "votes": 2100000},
+                                {"source": "tmdb", "value": 89, "score": 89, "votes": 12000},
+                                {"source": "mdblist", "value": null, "score": 97, "votes": null}
+                            ]
                         }
                     }
                 ],
@@ -3269,7 +3286,7 @@ Returns all active paused sessions (items with saved progress that haven't been 
 
 #### 📄 Pagination
 
-Fetches watchlist items. Use `append_to_response=genre,poster` to include genres and posters in the response. To filter results by a specific genre, use `filter_genre=fantasy` to retrieve only fantasy items.
+Fetches watchlist items. Use `append_to_response=genres,poster,ratings` to include genres, posters, and ratings in the response. To filter results by a specific genre, use `filter_genre=fantasy` to retrieve only fantasy items.
 Returns a `pagination` block alongside the data, mirroring the sync collection response format.
 
 #### ⭐ Supporter Feature: Rating Filters
@@ -3281,7 +3298,7 @@ By default, items are sorted by date added.
 + Parameters
     + limit: 100 (integer, optional)
     + offset: 10 (integer, optional)
-    + append_to_response: `genre,poster` (string, optional) - Additional information to append.
+    + append_to_response: `genres,poster,ratings` (string, optional) - Additional information to append. Supported: `genres`, `poster`, `ratings`.
     + filter_genre: `fantasy` (string, optional) - Filter by genre, works if genre is included.
     + filter_score_min: 70 (integer, optional) - ⭐ Supporter only. Filter by minimum MDBList score (0-100).
     + filter_score_max: 90 (integer, optional) - ⭐ Supporter only. Filter by maximum MDBList score (0-100).
