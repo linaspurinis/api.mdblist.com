@@ -2275,7 +2275,7 @@ Clients should call this first to check which categories have changed since the 
             }
 
 
-## Watched History [/sync/watched{?apikey,offset,limit,since}]
+## Watched History [/sync/watched{?apikey,offset,limit,since,append_to_response}]
 
 > ⚠️ **Notice: Sync endpoints are currently in BETA.**
 
@@ -2290,6 +2290,7 @@ This endpoint updates the user's `watched_at` activity timestamp.
     + offset: 0 (number, optional) — Number of results to skip from the beginning (default: 0).
     + limit: 1000 (number, optional) — Max results per page (default: 1000, max: 5000).
     + since: `2025-10-01T00:00:00Z` (string, optional) — Return items updated after this timestamp.
+    + append_to_response: `genre` (string, optional) — Comma-separated list of additional fields. Supported: `genre`.
 
 ### Retrieve Watched History [GET]
 
@@ -2310,6 +2311,26 @@ This endpoint updates the user's `watched_at` activity timestamp.
                                 "kitsu": 12345,
                                 "mdblist": "a388"
                             }
+                        }
+                    }
+                ],
+                "shows": [
+                    {
+                        "last_watched_at": "2025-10-15T20:00:00Z",
+                        "show": {
+                            "title": "Breaking Bad",
+                            "year": 2008,
+                            "ids": {
+                                "trakt": 1,
+                                "imdb": "tt0903747",
+                                "tmdb": 1396,
+                                "mdblist": "8plj"
+                            },
+                            "release_date": "2008-01-20",
+                            "status": "Ended",
+                            "runtime": 45,
+                            "total_aired_episodes": 62,
+                            "genres": ["drama", "thriller"]
                         }
                     }
                 ],
@@ -2362,6 +2383,7 @@ This endpoint updates the user's `watched_at` activity timestamp.
                     "offset": 0,
                     "limit": 1000,
                     "total_movies": 150,
+                    "total_shows": 25,
                     "total_seasons": 5,
                     "total_episodes": 62,
                     "has_more": true
