@@ -580,6 +580,33 @@ Update a list's name and/or privacy setting. At least one field is required.
                 "private": true
             }
 
+### Delete Static List by ID [DELETE]
+
+Permanently deletes a static list and all its items. Only static lists (user-created) can be deleted. The list must be owned by the authenticated user.
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "success": true,
+                "id": 89107,
+                "name": "My Static List"
+            }
+
++ Response 404 (application/json)
+    + Body
+
+            {
+                "error": "Static list not found"
+            }
+
++ Response 403 (application/json)
+    + Body
+
+            {
+                "error": "Permission denied"
+            }
+
 ## List by Name [/lists/{username}/{listname}{?apikey}]
 
 + Parameters
@@ -1829,6 +1856,8 @@ Get a list of all genres, including names and slugs.
 # Group Static Lists
 
 To edit a static list's name or privacy setting, use `PUT /lists/{listid}` — see [Update List by ID](#list-by-id-update-list-by-id-put).
+
+To delete a static list, use `DELETE /lists/{listid}` — see [Delete Static List by ID](#list-by-id-delete-static-list-by-id-delete).
 
 ## Create Static List [/lists/user/add{?apikey}]
 
