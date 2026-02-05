@@ -335,9 +335,9 @@ All endpoints support **both authentication methods** (API Key and OAuth 2.0). T
 - Rate limits apply equally to both methods
 - Same data is returned regardless of authentication method
 
-## My Limits [/user{?apikey}]
+## User Information [/user{?apikey}]
 
-Show information about user limits, rate limit status, and patron tier.
+Show information about the authenticated user, including profile, plan, limits, and rate limit status.
 
 Supports both authentication methods:
 - **API Key**: Append `?apikey=YOUR_API_KEY` to the URL
@@ -346,7 +346,7 @@ Supports both authentication methods:
 + Parameters
     + apikey: abc123 (string, optional) - Your API key (not required if using OAuth Bearer token).
 
-### Get My Limits [GET]
+### Get User Information [GET]
 
 + Request With API Key
     + Headers
@@ -365,11 +365,28 @@ Supports both authentication methods:
                 "api_requests": 100000,
                 "api_requests_count": 276,
                 "user_id": 3,
+                "username": "linaspurinis",
+                "name": "Linas",
+                "avatar_url": "https://example.com/avatar.jpg",
+                "date_joined": "2020-01-15T12:00:00",
                 "patron_status": "active_patron",
-                "patreon_pledge": 300
+                "patreon_pledge": 300,
+                "reward_tier": 300,
+                "is_supporter": true,
+                "plan": "Supporter",
+                "limits": {
+                    "lists": 40,
+                    "lists_items": 50000,
+                    "external_lists": 20,
+                    "ai_lists": 6
+                },
+                "rate_limit": 100000,
+                "rate_limit_remaining": 99724,
+                "rate_limit_reset": 1706918400,
+                "auth_method": "apikey"
             }
         
-## My Lists [/lists/user{?apikey,sort}]
+## My Lists [/lists/user{?apikey,sort,unified}]
 
 Fetches authenticated user's lists.
 
@@ -385,6 +402,8 @@ Supports both authentication methods:
             + `ranked` - Sort by manual rank order
             + `name` - Sort alphabetically by name
             + `created` - Sort by creation date
+    + unified: false (boolean, optional) - When `true`, twin lists (movie + show pairs) are merged into a single entry with `ids` array instead of separate `id`. Items are summed and `mediatype` is omitted.
+        + Default: `false`
 
 ### Get My Lists [GET]
 
@@ -399,40 +418,46 @@ Supports both authentication methods:
             Authorization: Bearer abc123xyz789
             Accept: application/json
 + Response 200 (application/json)
+
+    Returns an array of lists. When `unified=true`, twin lists (movie + show pairs) are merged: `ids` array replaces `id`, `mediatype` is omitted, and `items` is the sum of both twins.
+
     + Body
-    
+
             [
                 {
                     "id": 13,
+                    "user_id": 3,
+                    "user_name": "linaspurinis",
                     "name": "Top Watched Movies of The Week for KiDS",
                     "slug": "top-watched-movies-of-the-week-for-kids",
                     "description": "",
                     "mediatype": "movie",
                     "items": 12,
-                    "likes": 50
+                    "likes": 50,
+                    "type": "dynamic",
+                    "dynamic": true,
+                    "private": false,
+                    "last_updated_at": "2025-01-15T10:30:00Z"
                 },
                 {
                     "id": 14,
+                    "user_id": 3,
+                    "user_name": "linaspurinis",
                     "name": "Top Watched Movies of The Week / >60",
                     "slug": "top-watched-movies-of-the-week",
                     "description": "",
                     "mediatype": "movie",
                     "items": 75,
-                    "likes": 247
-                },
-                {
-                    "id": 69,
-                    "name": "IMDb Moviemeter (Top 100)",
-                    "slug": "imdb-moviemeter-top-100",
-                    "description": "",
-                    "mediatype": "movie",
-                    "items": 100,
-                    "likes": 57
+                    "likes": 247,
+                    "type": "dynamic",
+                    "dynamic": true,
+                    "private": false,
+                    "last_updated_at": "2025-01-14T08:00:00Z"
                 }
             ]
 
-## User Lists by ID [/lists/user/{userid}{?apikey,sort}]
-Fetches users lists by `userid`.
+## User Lists by ID [/lists/user/{userid}{?apikey,sort,unified}]
+Fetches users lists by `userid`. Only public lists are returned unless the authenticated user is requesting their own lists.
 + Parameters
     + userid: 3 (int, required) - User ID.
     + apikey: abc123 (string, required) - Your API key.
@@ -442,43 +467,33 @@ Fetches users lists by `userid`.
             + `ranked` - Sort by manual rank order
             + `name` - Sort alphabetically by name
             + `created` - Sort by creation date
+    + unified: false (boolean, optional) - When `true`, twin lists (movie + show pairs) are merged into a single entry with `ids` array. Items are summed and `mediatype` is omitted.
+        + Default: `false`
 
 ### Get User Lists [GET]
 + Response 200 (application/json)
     + Body
-    
+
             [
                 {
                     "id": 13,
+                    "user_id": 3,
+                    "user_name": "linaspurinis",
                     "name": "Top Watched Movies of The Week for KiDS",
                     "slug": "top-watched-movies-of-the-week-for-kids",
                     "description": "",
                     "mediatype": "movie",
                     "items": 12,
-                    "likes": 50
-                },
-                {
-                    "id": 14,
-                    "name": "Top Watched Movies of The Week / >60",
-                    "slug": "top-watched-movies-of-the-week",
-                    "description": "",
-                    "mediatype": "movie",
-                    "items": 75,
-                    "likes": 247
-                },
-                {
-                    "id": 69,
-                    "name": "IMDb Moviemeter (Top 100)",
-                    "slug": "imdb-moviemeter-top-100",
-                    "description": "",
-                    "mediatype": "movie",
-                    "items": 100,
-                    "likes": 57
+                    "likes": 50,
+                    "type": "dynamic",
+                    "dynamic": true,
+                    "private": false,
+                    "last_updated_at": "2025-01-15T10:30:00Z"
                 }
             ]
 
-## User Lists by Name [/lists/user/{username}{?apikey,sort}]
-Fetches users lists by username.
+## User Lists by Name [/lists/user/{username}{?apikey,sort,unified}]
+Fetches users lists by username. Only public lists are returned unless the authenticated user is requesting their own lists.
 + Parameters
     + username: linaspurinis (string, required) - The username
     + apikey: abc123 (string, required) - Your API key
@@ -488,38 +503,28 @@ Fetches users lists by username.
             + `ranked` - Sort by manual rank order
             + `name` - Sort alphabetically by name
             + `created` - Sort by creation date
+    + unified: false (boolean, optional) - When `true`, twin lists (movie + show pairs) are merged into a single entry with `ids` array. Items are summed and `mediatype` is omitted.
+        + Default: `false`
 
 ### Get User Lists [GET]
 + Response 200 (application/json)
     + Body
-    
+
             [
                 {
                     "id": 13,
+                    "user_id": 3,
+                    "user_name": "linaspurinis",
                     "name": "Top Watched Movies of The Week for KiDS",
                     "slug": "top-watched-movies-of-the-week-for-kids",
                     "description": "",
                     "mediatype": "movie",
                     "items": 12,
-                    "likes": 50
-                },
-                {
-                    "id": 14,
-                    "name": "Top Watched Movies of The Week / >60",
-                    "slug": "top-watched-movies-of-the-week",
-                    "description": "",
-                    "mediatype": "movie",
-                    "items": 75,
-                    "likes": 247
-                },
-                {
-                    "id": 69,
-                    "name": "IMDb Moviemeter (Top 100)",
-                    "slug": "imdb-moviemeter-top-100",
-                    "description": "",
-                    "mediatype": "movie",
-                    "items": 100,
-                    "likes": 57
+                    "likes": 50,
+                    "type": "dynamic",
+                    "dynamic": true,
+                    "private": false,
+                    "last_updated_at": "2025-01-15T10:30:00Z"
                 }
             ]
             
@@ -3285,6 +3290,265 @@ Delete a paused session by its playback `id` or by providing the same movie/show
 
         {
             "error": "Scrobble session not found"
+        }
+
+## Check-in [/checkin{?apikey}]
+
+Manual check-in for tracking what you're currently watching. Unlike scrobble endpoints (designed for media players with automatic progress tracking), check-in is for manual "I'm watching this now" actions - similar to Trakt's check-in feature.
+
+**Key differences from Scrobble:**
+- **One session per user**: Only one manual check-in can be active at a time (scrobble allows one per item)
+- **Auto-progress**: Progress is computed based on elapsed time since check-in started
+- **No conflict with scrobble**: Check-in sessions are separate from scrobble sessions (marked with `is_manual=true`)
+- **Cannot override scrobble**: If an item already has an active scrobble session, check-in returns 409 Conflict
+
+### Start Check-in [POST]
+
+Start watching a movie or episode. Creates a new manual session and cancels any existing manual check-in.
+
++ Parameters
+    + apikey: `api_key_here` (string, required) - Your API key
+
++ Request Movie Check-in (application/json)
+
+        {
+            "movie": {
+                "ids": {
+                    "imdb": "tt1375666"
+                }
+            },
+            "app_version": "MyApp 1.0",
+            "app_date": "2025-01-15"
+        }
+
++ Request Episode Check-in (application/json)
+
+        {
+            "show": {
+                "ids": {
+                    "imdb": "tt0944947"
+                },
+                "season": {
+                    "number": 1,
+                    "episode": {
+                        "number": 1
+                    }
+                }
+            },
+            "app_version": "MyApp 1.0",
+            "app_date": "2025-01-15"
+        }
+
++ Response 201 (application/json)
+
+        {
+            "action": "checkin",
+            "progress": 0.00,
+            "movie": {
+                "title": "Inception",
+                "year": 2010,
+                "ids": {
+                    "imdb": "tt1375666",
+                    "tmdb": 27205,
+                    "trakt": 16662,
+                    "mdblist": "a1b2c"
+                }
+            },
+            "show": null
+        }
+
++ Response 400 (application/json)
+
+        {
+            "error": "Either 'movie' or 'show' must be provided"
+        }
+
++ Response 404 (application/json)
+
+        {
+            "error": "Movie not found in database"
+        }
+
++ Response 409 (application/json)
+
+    Returned when the item already has an active scrobble session managed by another app.
+
+    + Body
+
+            {
+                "error": "Session managed by API"
+            }
+
+### Get Current Check-in [GET]
+
+Get the currently active manual check-in session. Progress is computed based on elapsed time.
+
++ Parameters
+    + apikey: `api_key_here` (string, required) - Your API key
+
++ Response 200 (application/json)
+
+        {
+            "action": "checkin",
+            "progress": 45.25,
+            "movie": {
+                "title": "Inception",
+                "year": 2010,
+                "ids": {
+                    "imdb": "tt1375666",
+                    "tmdb": 27205,
+                    "trakt": 16662,
+                    "mdblist": "a1b2c"
+                }
+            },
+            "show": null
+        }
+
++ Response 404 (application/json)
+
+        {
+            "error": "No active check-in"
+        }
+
+### Update Check-in [PATCH]
+
+Update the current check-in session. Can pause/resume playback or update progress manually.
+
++ Parameters
+    + apikey: `api_key_here` (string, required) - Your API key
+
++ Request Pause (application/json)
+
+        {
+            "paused": true
+        }
+
++ Request Resume (application/json)
+
+        {
+            "paused": false
+        }
+
++ Request Update Progress (application/json)
+
+        {
+            "progress": 60.0
+        }
+
++ Request Update Specific Movie (application/json)
+
+        {
+            "movie": {
+                "ids": {
+                    "imdb": "tt1375666"
+                }
+            },
+            "progress": 75.0,
+            "paused": false
+        }
+
++ Request Update Specific Episode (application/json)
+
+        {
+            "show": {
+                "ids": {
+                    "imdb": "tt0944947"
+                },
+                "season": {
+                    "number": 1,
+                    "episode": {
+                        "number": 1
+                    }
+                }
+            },
+            "paused": true
+        }
+
++ Response 200 (application/json)
+
+        {
+            "action": "pause",
+            "progress": 45.25,
+            "movie": {
+                "title": "Inception",
+                "year": 2010,
+                "ids": {
+                    "imdb": "tt1375666",
+                    "tmdb": 27205,
+                    "trakt": 16662,
+                    "mdblist": "a1b2c"
+                }
+            },
+            "show": null
+        }
+
++ Response 404 (application/json)
+
+        {
+            "error": "No active check-in"
+        }
+
+### Stop Check-in [DELETE]
+
+Stop the current check-in. If progress ≥ 80%, the item is marked as watched. Can delete the current session (no body) or a specific item.
+
++ Parameters
+    + apikey: `api_key_here` (string, required) - Your API key
+
++ Request Delete Current (application/json)
+
+        {}
+
++ Request Delete Specific Movie (application/json)
+
+        {
+            "movie": {
+                "ids": {
+                    "imdb": "tt1375666"
+                }
+            }
+        }
+
++ Request Delete Specific Episode (application/json)
+
+        {
+            "show": {
+                "ids": {
+                    "imdb": "tt0944947"
+                },
+                "season": {
+                    "number": 1,
+                    "episode": {
+                        "number": 1
+                    }
+                }
+            }
+        }
+
++ Response 200 (application/json)
+
+        {
+            "action": "stop",
+            "progress": 85.50,
+            "deleted": true,
+            "deleted_count": 1,
+            "movie": {
+                "title": "Inception",
+                "year": 2010,
+                "ids": {
+                    "imdb": "tt1375666",
+                    "tmdb": 27205,
+                    "trakt": 16662,
+                    "mdblist": "a1b2c"
+                }
+            },
+            "show": null
+        }
+
++ Response 404 (application/json)
+
+        {
+            "error": "No active check-in"
         }
 
 ## Sync Playback [/sync/playback{?apikey}]
