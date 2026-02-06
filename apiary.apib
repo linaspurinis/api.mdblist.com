@@ -2358,6 +2358,7 @@ Clients should call this first to check which categories have changed since the 
                 "episode_watched_at": "2025-10-22T07:53:32Z",
                 "rated_at": "2025-10-22T07:53:44Z",
                 "collected_at": "2025-10-22T07:56:39Z",
+                "dropped_at": "2025-10-22T07:57:10Z",
                 "paused_at": "2025-10-22T08:00:00Z",
                 "episode_paused_at": "2025-10-22T08:00:00Z",
                 "list_updated_at": "2025-10-22T09:00:00Z"
@@ -2614,6 +2615,126 @@ The records remain in the database but their `watched_at` fields are set to `nul
                     "movies": 1,
                     "seasons": 1,
                     "episodes": 1
+                }
+            }
+
+
+## Dropped Shows [/sync/dropped{?apikey,offset,limit,since,append_to_response}]
+
+> ⚠️ **Notice: Sync endpoints are currently in BETA.**
+
+Get, add, or update dropped shows.  
+This endpoint updates the user's `dropped_at` activity timestamp.
+
+> **Supported IDs**: Shows support `imdb`, `tmdb`, `trakt`, `mdblist`, and `tvdb`.
+
++ Parameters
+    + apikey: `abc123` (string, required) — Your API key.
+    + offset: 0 (number, optional) — Number of results to skip from the beginning (default: 0).
+    + limit: 1000 (number, optional) — Max results per page (default: 1000, max: 5000).
+    + since: `2025-10-01T00:00:00Z` (string, optional) — Return items updated after this timestamp.
+    + append_to_response: `genres,ratings` (string, optional) — Comma-separated list of additional fields. Supported: `genres`, `ratings`.
+
+### Retrieve Dropped Shows [GET]
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "shows": [
+                    {
+                        "dropped_at": "2025-10-15T20:00:00Z",
+                        "show": {
+                            "title": "Breaking Bad",
+                            "year": 2008,
+                            "ids": {
+                                "trakt": 1,
+                                "imdb": "tt0903747",
+                                "tmdb": 1396,
+                                "mdblist": "8plj"
+                            }
+                        }
+                    }
+                ],
+                "pagination": {
+                    "offset": 0,
+                    "limit": 1000,
+                    "total_shows": 25,
+                    "has_more": true
+                }
+            }
+
+### Add or Update Dropped Shows [POST]
+
+**Rules:**
+- **Shows only**
+- **No new `TraktWatched` rows** are created. If a show is not in watch history, it is returned as `not_found`.
+
++ Request (application/json)
+    + Body
+
+            {
+                "shows": [
+                    {
+                        "ids": {
+                            "imdb": "tt0903747",
+                            "mdblist": "8plj"
+                        },
+                        "dropped_at": "2025-10-15T20:00:00Z"
+                    }
+                ]
+            }
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "updated": {
+                    "shows": 1
+                },
+                "existing": {
+                    "shows": 0
+                },
+                "not_found": {
+                    "shows": 0
+                }
+            }
+
+
+## Remove Dropped Shows [/sync/dropped/remove{?apikey}]
+
+> ⚠️ **Notice: Sync endpoints are currently in BETA.**
+
+Undrop shows (sets `dropped_at` to `null`).
+
++ Parameters
+    + apikey: `abc123` (string, required) — Your API key.
+
+### Remove Dropped Shows [POST]
+
++ Request (application/json)
+    + Body
+
+            {
+                "shows": [
+                    {
+                        "ids": {
+                            "imdb": "tt0903747",
+                            "mdblist": "8plj"
+                        }
+                    }
+                ]
+            }
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "removed": {
+                    "shows": 1
+                },
+                "not_found": {
+                    "shows": 0
                 }
             }
 
