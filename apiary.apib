@@ -378,7 +378,8 @@ Supports both authentication methods:
                     "lists": 40,
                     "lists_items": 50000,
                     "external_lists": 20,
-                    "ai_lists": 6
+                    "ai_lists": 6,
+                    "catalog_queries": 40
                 },
                 "rate_limit": 100000,
                 "rate_limit_remaining": 99724,
@@ -3093,8 +3094,6 @@ The records remain but collection fields are cleared and `collected_at` is set t
 
 # Group Scrobble
 
-> ⚠️ **Notice: Scrobble endpoints are currently in BETA.**
-
 Scrobble endpoints allow you to track real-time playback progress of movies and TV episodes. These endpoints are designed for media players and applications that want to track what users are currently watching and resume playback across multiple devices.
 
 ## Quick Example
@@ -4077,4 +4076,192 @@ You can modify watchlist by adding or removing items
                 "movies": 0,
                 "shows": 0
               }
+            }
+
+# Group Catalog
+
+> ⚠️ **Notice: Catalog endpoints are currently in BETA.**
+
+Dynamic, filtered catalogs for third-party apps. Results are cached for 6 hours and shared across all users with identical filter parameters.
+
+**Quota:** Each unique filter combination counts against your plan's catalog query limit (total dynamic lists). Reusing the same combination does not consume an additional slot while it remains in the 7-day quota window.
+
+**Pagination:** Cursor-based (no OFFSET). Pass `next_cursor` from the response as the `cursor` parameter to fetch the next page.
+
+**Thundering herd:** If a cache entry is being built for the first time, other requests for the same page receive `202 Accepted` with a `Retry-After: 5` header. Retry after 5 seconds.
+
+## Movie Catalog [/catalog/movie{?apikey,genre,genre_mode,country,language,score_min,score_max,released_from,released_to,year_min,year_max,runtime_min,runtime_max,sort,sort_order,limit,cursor}]
+
+Returns a filtered, paginated list of movies.
+
++ Parameters
+    + apikey: abc123 (string, required) - Your API Key
+    + genre: `action` (string, optional) - Genre name(s). Repeat for multiple: `?genre=action&genre=comedy`. Also accepts CSV: `?genre=action,comedy`. Max 20.
+    + genre_mode: `or` (enum[string], optional) - How to match multiple genres
+        + Members
+            + `or` - Movie matches any of the genres (default)
+            + `and` - Movie must match all genres
+    + country: `us` (string, optional) - CSV of 2-letter ISO 3166-1 country codes. Max 10. Example: `?country=us,gb`
+    + language: `en` (string, optional) - CSV of 2-letter ISO 639-1 language codes. Max 10. Example: `?language=en,fr`
+    + score_min: `60` (number, optional) - Minimum MDBList score (0–100)
+    + score_max: `100` (number, optional) - Maximum MDBList score (0–100)
+    + released_from: `2020-01-01` (string, optional) - Earliest release date (YYYY-MM-DD)
+    + released_to: `2024-12-31` (string, optional) - Latest release date (YYYY-MM-DD)
+    + year_min: `2000` (number, optional) - Minimum production year
+    + year_max: `2024` (number, optional) - Maximum production year
+    + runtime_min: `60` (number, optional) - Minimum runtime in minutes
+    + runtime_max: `180` (number, optional) - Maximum runtime in minutes
+    + sort: `score` (enum[string], optional) - Sort field
+        + Members
+            + `score` - MDBList score (default)
+            + `score_average` - Average score
+            + `released` - Release date
+            + `releasedigital` - Digital release date
+            + `imdbrating` - IMDb rating
+            + `imdbvotes` - IMDb vote count
+            + `imdbpopular` - IMDb popularity rank
+            + `tmdbpopular` - TMDb popularity
+            + `metacritic` - Metacritic score
+            + `rtomatoes` - Rotten Tomatoes score
+            + `rtaudience` - Rotten Tomatoes audience score
+            + `letterrating` - Letterboxd rating
+            + `title` - Title (alphabetical)
+    + sort_order: `desc` (enum[string], optional) - Sort direction
+        + Members
+            + `desc` - Descending (default)
+            + `asc` - Ascending
+    + limit: `100` (number, optional) - Items per page (default: 100, max: 100)
+    + cursor (string, optional) - Pagination cursor from `next_cursor` in previous response
+
+### Get movie catalog [GET]
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "movies": [
+                    {
+                        "title": "The Dark Knight",
+                        "year": 2008,
+                        "score": 94,
+                        "score_average": 90,
+                        "type": "movie",
+                        "ids": {
+                            "imdbid": "tt0468569",
+                            "tmdbid": 155,
+                            "traktid": 16,
+                            "malid": null,
+                            "tvdbid": null,
+                            "mdblist": "abcd1234"
+                        }
+                    }
+                ],
+                "pagination": {
+                    "limit": 100,
+                    "has_more": true,
+                    "next_cursor": "eyJzIjo5NCwgImkiOiAxNTV9"
+                }
+            }
+
++ Response 202 (application/json)
+
+    Cache is being built. Retry after the number of seconds in the `Retry-After` header.
+
+    + Headers
+
+            Retry-After: 5
+
+    + Body
+
+            {
+                "error": "Catalog is being built. Please retry shortly.",
+                "hash": "a3f1c2...",
+                "retry_after": 5
+            }
+
++ Response 400 (application/json)
+
+    + Body
+
+            {
+                "error": "Invalid released_from. Use YYYY-MM-DD."
+            }
+
++ Response 403 (application/json)
+
+    + Body
+
+            {
+                "error": "Catalog query limit reached.",
+                "limit": 5,
+                "detail": "You have reached the maximum number of unique catalog queries for your plan."
+            }
+
+## Show Catalog [/catalog/show{?apikey,genre,genre_mode,country,language,score_min,score_max,released_from,released_to,year_min,year_max,runtime_min,runtime_max,sort,sort_order,limit,cursor}]
+
+Returns a filtered, paginated list of shows. Accepts the same parameters as the Movie Catalog endpoint.
+
++ Parameters
+    + apikey: abc123 (string, required) - Your API Key
+    + genre: `drama` (string, optional) - Genre name(s). Repeat for multiple: `?genre=drama&genre=thriller`. Also accepts CSV. Max 20.
+    + genre_mode: `or` (enum[string], optional) - `or` (default) or `and`
+    + country: `us` (string, optional) - CSV of 2-letter ISO country codes. Max 10.
+    + language: `en` (string, optional) - CSV of 2-letter ISO language codes. Max 10.
+    + score_min: `60` (number, optional) - Minimum MDBList score (0–100)
+    + score_max: `100` (number, optional) - Maximum MDBList score (0–100)
+    + released_from: `2020-01-01` (string, optional) - Earliest release date (YYYY-MM-DD)
+    + released_to: `2024-12-31` (string, optional) - Latest release date (YYYY-MM-DD)
+    + year_min: `2000` (number, optional) - Minimum production year
+    + year_max: `2024` (number, optional) - Maximum production year
+    + runtime_min: `20` (number, optional) - Minimum episode runtime in minutes
+    + runtime_max: `60` (number, optional) - Maximum episode runtime in minutes
+    + sort: `score` (enum[string], optional) - Sort field (same options as Movie Catalog)
+    + sort_order: `desc` (enum[string], optional) - `desc` (default) or `asc`
+    + limit: `100` (number, optional) - Items per page (default: 100, max: 100)
+    + cursor (string, optional) - Pagination cursor from `next_cursor` in previous response
+
+### Get show catalog [GET]
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "shows": [
+                    {
+                        "title": "Breaking Bad",
+                        "year": 2008,
+                        "score": 97,
+                        "score_average": 95,
+                        "type": "show",
+                        "ids": {
+                            "imdbid": "tt0903747",
+                            "tmdbid": 1396,
+                            "traktid": 1,
+                            "malid": null,
+                            "tvdbid": 81189,
+                            "mdblist": "wxyz5678"
+                        }
+                    }
+                ],
+                "pagination": {
+                    "limit": 100,
+                    "has_more": false,
+                    "next_cursor": null
+                }
+            }
+
++ Response 202 (application/json)
+
+    Cache is being built. Retry after the number of seconds in the `Retry-After` header.
+
+    + Headers
+
+            Retry-After: 5
+
+    + Body
+
+            {
+                "error": "Catalog is being built. Please retry shortly.",
+                "hash": "b7e9d1...",
+                "retry_after": 5
             }
