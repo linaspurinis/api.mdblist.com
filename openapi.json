@@ -2558,11 +2558,20 @@
                     {
                         "name": "query",
                         "in": "query",
-                        "description": "Search Query",
+                        "description": "Search query (used for both default and quick search modes)",
                         "required": true,
                         "example": "Jaws",
                         "schema": {
                             "type": "string"
+                        }
+                    },
+                    {
+                        "name": "quick_search",
+                        "in": "query",
+                        "description": "Use quick search mode (imdbid exact match or sort_title prefix match)",
+                        "example": true,
+                        "schema": {
+                            "type": "boolean"
                         }
                     },
                     {
