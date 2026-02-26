@@ -16,7 +16,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -124,37 +123,20 @@
                 "summary": "Get User Information",
                 "operationId": "Get User Information",
                 "description": "",
-                "tags": [],
                 "parameters": [
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key (not required if using OAuth Bearer token).",
+                        "description": "Your API key (optional when using OAuth Bearer token).",
                         "example": "abc123",
                         "schema": {
                             "type": "string"
-                        }
-                    },
-                    {
-                        "name": "Accept",
-                        "in": "header",
-                        "description": "e.g. application/json",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
                         },
-                        "example": "application/json"
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Bearer abc123xyz789",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Bearer abc123xyz789"
+                        "required": false
                     }
+                ],
+                "tags": [
+                    "General"
                 ]
             }
         },
@@ -163,7 +145,6 @@
                 "responses": {
                     "200": {
                         "description": "Returns an array of lists. When `unified=true`, twin lists (movie + show pairs) are merged: `ids` array replaces `id`, `mediatype` is omitted, and `items` is the sum of both twins.",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -267,16 +248,16 @@
                 "summary": "Get My Lists",
                 "operationId": "Get My Lists",
                 "description": "",
-                "tags": [],
                 "parameters": [
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key (not required if using OAuth Bearer token).",
+                        "description": "Your API key (optional when using OAuth Bearer token).",
                         "example": "abc123",
                         "schema": {
                             "type": "string"
-                        }
+                        },
+                        "required": false
                     },
                     {
                         "name": "sort",
@@ -297,32 +278,15 @@
                         "name": "unified",
                         "in": "query",
                         "description": "When `true`, twin lists (movie + show pairs) are merged into a single entry with `ids` array instead of separate `id`. Items are summed and `mediatype` is omitted.",
-                        "example": "false",
+                        "example": false,
                         "schema": {
                             "type": "boolean",
-                            "default": "false"
+                            "default": false
                         }
-                    },
-                    {
-                        "name": "Accept",
-                        "in": "header",
-                        "description": "e.g. application/json",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "application/json"
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "e.g. Bearer abc123xyz789",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "Bearer abc123xyz789"
                     }
+                ],
+                "tags": [
+                    "General"
                 ]
             }
         },
@@ -331,7 +295,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -403,25 +366,24 @@
                     }
                 },
                 "summary": "Get User Lists",
-                "operationId": "Get User Lists",
+                "operationId": "Get User Lists By ID",
                 "description": "",
-                "tags": [],
                 "parameters": [
                     {
                         "name": "userid",
                         "in": "path",
                         "description": "User ID.",
                         "required": true,
-                        "example": "3",
+                        "example": 3,
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key.",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -446,12 +408,15 @@
                         "name": "unified",
                         "in": "query",
                         "description": "When `true`, twin lists (movie + show pairs) are merged into a single entry with `ids` array. Items are summed and `mediatype` is omitted.",
-                        "example": "false",
+                        "example": false,
                         "schema": {
                             "type": "boolean",
-                            "default": "false"
+                            "default": false
                         }
                     }
+                ],
+                "tags": [
+                    "General"
                 ]
             }
         },
@@ -460,7 +425,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -532,9 +496,8 @@
                     }
                 },
                 "summary": "Get User Lists",
-                "operationId": "Get User Lists",
+                "operationId": "Get User Lists By Username",
                 "description": "",
-                "tags": [],
                 "parameters": [
                     {
                         "name": "username",
@@ -549,8 +512,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -575,12 +538,15 @@
                         "name": "unified",
                         "in": "query",
                         "description": "When `true`, twin lists (movie + show pairs) are merged into a single entry with `ids` array. Items are summed and `mediatype` is omitted.",
-                        "example": "false",
+                        "example": false,
                         "schema": {
                             "type": "boolean",
-                            "default": "false"
+                            "default": false
                         }
                     }
+                ],
+                "tags": [
+                    "General"
                 ]
             }
         },
@@ -589,7 +555,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -659,35 +624,36 @@
                 "summary": "Get List by ID",
                 "operationId": "Get List by ID",
                 "description": "Retrieves details of a list identified by `listid`.",
-                "tags": [],
                 "parameters": [
                     {
                         "name": "listid",
                         "in": "path",
                         "description": "The ID of the list.",
                         "required": true,
-                        "example": "1176",
+                        "example": 1176,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key.",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
                         }
                     }
+                ],
+                "tags": [
+                    "General"
                 ]
             },
             "put": {
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -720,23 +686,22 @@
                 "summary": "Update List by ID",
                 "operationId": "Update List by ID",
                 "description": "Update a list's name and/or privacy setting. At least one field is required.",
-                "tags": [],
                 "parameters": [
                     {
                         "name": "listid",
                         "in": "path",
                         "description": "The ID of the list.",
                         "required": true,
-                        "example": "1176",
+                        "example": 1176,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key.",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -765,13 +730,15 @@
                             }
                         }
                     }
-                }
+                },
+                "tags": [
+                    "General"
+                ]
             },
             "delete": {
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -798,7 +765,6 @@
                     },
                     "403": {
                         "description": "Forbidden",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -817,7 +783,6 @@
                     },
                     "404": {
                         "description": "Not Found",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -838,28 +803,30 @@
                 "summary": "Delete Static List by ID",
                 "operationId": "Delete Static List by ID",
                 "description": "Permanently deletes a static list and all its items. Only static lists (user-created) can be deleted. The list must be owned by the authenticated user.",
-                "tags": [],
                 "parameters": [
                     {
                         "name": "listid",
                         "in": "path",
                         "description": "The ID of the list.",
                         "required": true,
-                        "example": "1176",
+                        "example": 1176,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key.",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
                         }
                     }
+                ],
+                "tags": [
+                    "General"
                 ]
             }
         },
@@ -868,7 +835,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -966,7 +932,6 @@
                 "summary": "Get List by Name",
                 "operationId": "Get List by Name",
                 "description": "Retrieves details of list identified by `username` and `listname`. Multiple lists may be returned if separate filters exist for movies and shows.",
-                "tags": [],
                 "parameters": [
                     {
                         "name": "username",
@@ -991,20 +956,22 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key.",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
                         }
                     }
+                ],
+                "tags": [
+                    "General"
                 ]
             },
             "put": {
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1043,7 +1010,6 @@
                 "summary": "Update List by Name",
                 "operationId": "Update List by Name",
                 "description": "Update a list's name and/or privacy setting. At least one field is required.",
-                "tags": [],
                 "parameters": [
                     {
                         "name": "username",
@@ -1068,8 +1034,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key.",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -1098,7 +1064,10 @@
                             }
                         }
                     }
-                }
+                },
+                "tags": [
+                    "General"
+                ]
             }
         },
         "/lists/{listid}/items": {
@@ -1395,14 +1364,13 @@
                 "summary": "Get List Items",
                 "operationId": "Get List Items",
                 "description": "",
-                "tags": [],
                 "parameters": [
                     {
                         "name": "listid",
                         "in": "path",
                         "description": "The ID of the list.",
                         "required": true,
-                        "example": "1176",
+                        "example": 1176,
                         "schema": {
                             "type": "integer"
                         }
@@ -1411,7 +1379,7 @@
                         "name": "limit",
                         "in": "query",
                         "description": "",
-                        "example": "100",
+                        "example": 100,
                         "schema": {
                             "type": "integer"
                         }
@@ -1420,7 +1388,7 @@
                         "name": "offset",
                         "in": "query",
                         "description": "",
-                        "example": "10",
+                        "example": 10,
                         "schema": {
                             "type": "integer"
                         }
@@ -1487,7 +1455,7 @@
                         "name": "filter_score_min",
                         "in": "query",
                         "description": "⭐ Supporter only. Filter by minimum MDBList score (0-100).",
-                        "example": "70",
+                        "example": 70,
                         "schema": {
                             "type": "integer"
                         }
@@ -1496,7 +1464,7 @@
                         "name": "filter_score_max",
                         "in": "query",
                         "description": "⭐ Supporter only. Filter by maximum MDBList score (0-100).",
-                        "example": "90",
+                        "example": 90,
                         "schema": {
                             "type": "integer"
                         }
@@ -1554,7 +1522,7 @@
                         "name": "unified",
                         "in": "query",
                         "description": "Returns unified list of Movies and Shows",
-                        "example": "true",
+                        "example": true,
                         "schema": {
                             "type": "boolean"
                         }
@@ -1562,13 +1530,16 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key.",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
                         }
                     }
+                ],
+                "tags": [
+                    "General"
                 ]
             }
         },
@@ -1872,7 +1843,6 @@
                 "summary": "Get List Items by Name",
                 "operationId": "Get List Items by Name",
                 "description": "",
-                "tags": [],
                 "parameters": [
                     {
                         "name": "username",
@@ -1898,7 +1868,7 @@
                         "name": "limit",
                         "in": "query",
                         "description": "",
-                        "example": "100",
+                        "example": 100,
                         "schema": {
                             "type": "integer"
                         }
@@ -1907,7 +1877,7 @@
                         "name": "offset",
                         "in": "query",
                         "description": "",
-                        "example": "10",
+                        "example": 10,
                         "schema": {
                             "type": "integer"
                         }
@@ -1974,7 +1944,7 @@
                         "name": "filter_score_min",
                         "in": "query",
                         "description": "⭐ Supporter only. Filter by minimum MDBList score (0-100).",
-                        "example": "70",
+                        "example": 70,
                         "schema": {
                             "type": "integer"
                         }
@@ -1983,7 +1953,7 @@
                         "name": "filter_score_max",
                         "in": "query",
                         "description": "⭐ Supporter only. Filter by maximum MDBList score (0-100).",
-                        "example": "90",
+                        "example": 90,
                         "schema": {
                             "type": "integer"
                         }
@@ -2041,7 +2011,7 @@
                         "name": "unified",
                         "in": "query",
                         "description": "Returns unified list of Movies and Shows",
-                        "example": "true",
+                        "example": true,
                         "schema": {
                             "type": "boolean"
                         }
@@ -2049,13 +2019,16 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key.",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
                         }
                     }
+                ],
+                "tags": [
+                    "General"
                 ]
             }
         },
@@ -2064,7 +2037,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2124,14 +2096,13 @@
                 "summary": "Get List Changes",
                 "operationId": "Get List Changes",
                 "description": "",
-                "tags": [],
                 "parameters": [
                     {
                         "name": "listid",
                         "in": "path",
                         "description": "The ID of the list.",
                         "required": true,
-                        "example": "1176",
+                        "example": 1176,
                         "schema": {
                             "type": "integer"
                         }
@@ -2139,13 +2110,16 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key.",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
                         }
                     }
+                ],
+                "tags": [
+                    "General"
                 ]
             }
         },
@@ -2154,7 +2128,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "example": {
@@ -2279,7 +2252,6 @@
                 "summary": "Get Media Info",
                 "operationId": "Get Media Info",
                 "description": "",
-                "tags": [],
                 "parameters": [
                     {
                         "name": "media_provider",
@@ -2340,13 +2312,16 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key.",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
                         }
                     }
+                ],
+                "tags": [
+                    "General"
                 ]
             }
         },
@@ -2355,14 +2330,12 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {}
                     }
                 },
                 "summary": "Get Media Info Batch",
                 "operationId": "Get Media Info Batch",
                 "description": "",
-                "tags": [],
                 "parameters": [
                     {
                         "name": "media_provider",
@@ -2400,8 +2373,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key.",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -2440,7 +2413,10 @@
                             }
                         }
                     }
-                }
+                },
+                "tags": [
+                    "General"
+                ]
             }
         },
         "/search/{media_type}": {
@@ -2448,7 +2424,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2564,7 +2539,6 @@
                 "summary": "Get Search Results",
                 "operationId": "Get Search Results",
                 "description": "",
-                "tags": [],
                 "parameters": [
                     {
                         "name": "media_type",
@@ -2595,48 +2569,51 @@
                         "name": "limit_by_score",
                         "in": "query",
                         "description": "Limit returned results by score",
-                        "example": "30",
+                        "example": 30,
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "sort_by_score",
                         "in": "query",
                         "description": "Sort returned results by score",
-                        "example": "True",
+                        "example": true,
                         "schema": {
-                            "type": "string"
+                            "type": "boolean"
                         }
                     },
                     {
                         "name": "year",
                         "in": "query",
                         "description": "Limit returned results by year +-1",
-                        "example": "1976",
+                        "example": 1976,
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "limit",
                         "in": "query",
                         "description": "Limit returned results",
-                        "example": "10",
+                        "example": 10,
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API Key",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
                         }
                     }
+                ],
+                "tags": [
+                    "General"
                 ]
             }
         },
@@ -2645,7 +2622,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2758,18 +2734,20 @@
                 "summary": "Get Top Lists",
                 "operationId": "Get Top Lists",
                 "description": "",
-                "tags": [],
                 "parameters": [
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key.",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
                         }
                     }
+                ],
+                "tags": [
+                    "General"
                 ]
             }
         },
@@ -2778,7 +2756,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2869,7 +2846,6 @@
                 "summary": "Search Lists",
                 "operationId": "Search Lists",
                 "description": "",
-                "tags": [],
                 "parameters": [
                     {
                         "name": "query",
@@ -2884,13 +2860,16 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key.",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
                         }
                     }
+                ],
+                "tags": [
+                    "General"
                 ]
             }
         },
@@ -2899,7 +2878,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -2960,7 +2938,6 @@
                 "summary": "Get Ratings",
                 "operationId": "Get Ratings",
                 "description": "",
-                "tags": [],
                 "parameters": [
                     {
                         "name": "media_type",
@@ -3002,8 +2979,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key.",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -3037,7 +3014,10 @@
                             }
                         }
                     }
-                }
+                },
+                "tags": [
+                    "General"
+                ]
             }
         },
         "/upnext": {
@@ -3045,7 +3025,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3177,13 +3156,12 @@
                 "summary": "Get Up Next Shows",
                 "operationId": "Get Up Next Shows",
                 "description": "",
-                "tags": [],
                 "parameters": [
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key.",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -3193,29 +3171,32 @@
                         "name": "limit",
                         "in": "query",
                         "description": "Number of items to return (default: 20, max: 100)",
-                        "example": "20",
+                        "example": 20,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "offset",
                         "in": "query",
                         "description": "Number of items to skip for pagination (default: 0)",
-                        "example": "0",
+                        "example": 0,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "hide_unreleased",
                         "in": "query",
                         "description": "When `true`, exclude episodes airing \"today\" (they will appear starting the next day). If omitted, uses the user's saved preference from mdblist.com settings.",
-                        "example": "true",
+                        "example": true,
                         "schema": {
                             "type": "boolean"
                         }
                     }
+                ],
+                "tags": [
+                    "General"
                 ]
             }
         },
@@ -3224,7 +3205,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3290,13 +3270,12 @@
                 "summary": "Get Genres",
                 "operationId": "Get Genres",
                 "description": "",
-                "tags": [],
                 "parameters": [
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key.",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -3306,11 +3285,14 @@
                         "name": "anime",
                         "in": "query",
                         "description": "Display anime genres (0 for regular, 1 for anime)",
-                        "example": "1",
+                        "example": 1,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     }
+                ],
+                "tags": [
+                    "General"
                 ]
             }
         },
@@ -3319,7 +3301,6 @@
                 "responses": {
                     "201": {
                         "description": "Created",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3346,7 +3327,6 @@
                     },
                     "400": {
                         "description": "Bad Request",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3365,7 +3345,6 @@
                     },
                     "403": {
                         "description": "Forbidden",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3397,8 +3376,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key.",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -3438,7 +3417,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3509,9 +3487,9 @@
                         "in": "path",
                         "description": "The ID of your static list",
                         "required": true,
-                        "example": "49088",
+                        "example": 49088,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
@@ -3531,8 +3509,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key.",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -3608,7 +3586,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3692,7 +3669,6 @@
                     },
                     "401": {
                         "description": "Unauthorized",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3711,7 +3687,6 @@
                     },
                     "500": {
                         "description": "Internal Server Error",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3739,8 +3714,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key.",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -3754,7 +3729,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3814,7 +3788,6 @@
                     },
                     "401": {
                         "description": "Unauthorized",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3833,7 +3806,6 @@
                     },
                     "404": {
                         "description": "Not Found",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -3863,16 +3835,16 @@
                         "in": "path",
                         "description": "The ID of the external list.",
                         "required": true,
-                        "example": "123",
+                        "example": 123,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key.",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -3886,7 +3858,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4109,7 +4080,7 @@
                     }
                 },
                 "summary": "Get List Items",
-                "operationId": "Get List Items",
+                "operationId": "Get External List Items",
                 "description": "",
                 "tags": [
                     "External Lists"
@@ -4120,7 +4091,7 @@
                         "in": "path",
                         "description": "The ID of the list.",
                         "required": true,
-                        "example": "47989",
+                        "example": 47989,
                         "schema": {
                             "type": "integer"
                         }
@@ -4129,7 +4100,7 @@
                         "name": "limit",
                         "in": "query",
                         "description": "",
-                        "example": "100",
+                        "example": 100,
                         "schema": {
                             "type": "integer"
                         }
@@ -4138,7 +4109,7 @@
                         "name": "offset",
                         "in": "query",
                         "description": "",
-                        "example": "10",
+                        "example": 10,
                         "schema": {
                             "type": "integer"
                         }
@@ -4165,7 +4136,7 @@
                         "name": "filter_score_min",
                         "in": "query",
                         "description": "⭐ Supporter only. Filter by minimum MDBList score (0-100).",
-                        "example": "70",
+                        "example": 70,
                         "schema": {
                             "type": "integer"
                         }
@@ -4174,7 +4145,7 @@
                         "name": "filter_score_max",
                         "in": "query",
                         "description": "⭐ Supporter only. Filter by maximum MDBList score (0-100).",
-                        "example": "90",
+                        "example": 90,
                         "schema": {
                             "type": "integer"
                         }
@@ -4230,7 +4201,7 @@
                         "name": "unified",
                         "in": "query",
                         "description": "Returns unified list of Movies and Shows",
-                        "example": "true",
+                        "example": true,
                         "schema": {
                             "type": "boolean"
                         }
@@ -4238,8 +4209,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key.",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -4253,7 +4224,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4332,8 +4302,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API Key",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -4352,9 +4322,9 @@
                         "name": "limit",
                         "in": "query",
                         "description": "Number of results per page (default: 20, max: 100)",
-                        "example": "20",
+                        "example": 20,
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
                     },
                     {
@@ -4374,7 +4344,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4453,8 +4422,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API Key",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -4473,9 +4442,9 @@
                         "name": "limit",
                         "in": "query",
                         "description": "Number of results per page (default: 20, max: 100)",
-                        "example": "20",
+                        "example": 20,
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
                     },
                     {
@@ -4495,7 +4464,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -4559,8 +4527,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -4574,7 +4542,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -5031,8 +4998,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -5042,18 +5009,18 @@
                         "name": "offset",
                         "in": "query",
                         "description": "",
-                        "example": "0",
+                        "example": 0,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "limit",
                         "in": "query",
                         "description": "",
-                        "example": "1000",
+                        "example": 1000,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
@@ -5080,7 +5047,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -5123,8 +5089,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -5134,18 +5100,18 @@
                         "name": "offset",
                         "in": "query",
                         "description": "",
-                        "example": "0",
+                        "example": 0,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "limit",
                         "in": "query",
                         "description": "",
-                        "example": "1000",
+                        "example": 1000,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
@@ -5331,7 +5297,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -5374,8 +5339,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -5494,7 +5459,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -5595,8 +5559,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -5606,18 +5570,18 @@
                         "name": "offset",
                         "in": "query",
                         "description": "",
-                        "example": "0",
+                        "example": 0,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "limit",
                         "in": "query",
                         "description": "",
-                        "example": "1000",
+                        "example": 1000,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
@@ -5644,7 +5608,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -5701,8 +5664,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -5712,18 +5675,18 @@
                         "name": "offset",
                         "in": "query",
                         "description": "",
-                        "example": "0",
+                        "example": 0,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "limit",
                         "in": "query",
                         "description": "",
-                        "example": "1000",
+                        "example": 1000,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
@@ -5796,7 +5759,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -5842,8 +5804,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -5897,7 +5859,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -6174,8 +6135,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -6185,18 +6146,18 @@
                         "name": "offset",
                         "in": "query",
                         "description": "",
-                        "example": "0",
+                        "example": 0,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "limit",
                         "in": "query",
                         "description": "",
-                        "example": "1000",
+                        "example": 1000,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
@@ -6214,7 +6175,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -6257,8 +6217,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -6268,18 +6228,18 @@
                         "name": "offset",
                         "in": "query",
                         "description": "",
-                        "example": "0",
+                        "example": 0,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "limit",
                         "in": "query",
                         "description": "",
-                        "example": "1000",
+                        "example": 1000,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
@@ -6434,7 +6394,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -6477,8 +6436,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -6583,7 +6542,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -6734,8 +6692,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -6745,18 +6703,18 @@
                         "name": "offset",
                         "in": "query",
                         "description": "",
-                        "example": "0",
+                        "example": 0,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "limit",
                         "in": "query",
                         "description": "",
-                        "example": "1000",
+                        "example": 1000,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
@@ -6774,7 +6732,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -6813,8 +6770,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -6824,18 +6781,18 @@
                         "name": "offset",
                         "in": "query",
                         "description": "",
-                        "example": "0",
+                        "example": 0,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "limit",
                         "in": "query",
                         "description": "",
-                        "example": "1000",
+                        "example": 1000,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
@@ -6934,7 +6891,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -6973,8 +6929,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -7047,7 +7003,6 @@
                 "responses": {
                     "201": {
                         "description": "Scrobble session created successfully. Returns movie details for movie scrobbles or show/episode details for episode scrobbles.",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -7136,7 +7091,6 @@
                     },
                     "400": {
                         "description": "Bad Request",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -7176,7 +7130,6 @@
                     },
                     "404": {
                         "description": "Not Found",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -7204,8 +7157,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "api_key_here",
                         "schema": {
                             "type": "string"
@@ -7303,7 +7256,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -7380,7 +7332,6 @@
                     },
                     "404": {
                         "description": "Not Found",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -7408,8 +7359,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "api_key_here",
                         "schema": {
                             "type": "string"
@@ -7483,7 +7434,6 @@
                 "responses": {
                     "200": {
                         "description": "Scrobble stopped successfully. If progress ≥ 80%, returns watched confirmation. If progress < 80%, returns paused session details.",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -7510,7 +7460,6 @@
                     },
                     "404": {
                         "description": "Not Found",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -7538,8 +7487,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "api_key_here",
                         "schema": {
                             "type": "string"
@@ -7588,7 +7537,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -7611,7 +7559,6 @@
                     },
                     "404": {
                         "description": "Not Found",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -7639,8 +7586,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "api_key_here",
                         "schema": {
                             "type": "string"
@@ -7699,7 +7646,6 @@
                 "responses": {
                     "201": {
                         "description": "Created",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -7764,7 +7710,6 @@
                     },
                     "400": {
                         "description": "Bad Request",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -7783,7 +7728,6 @@
                     },
                     "404": {
                         "description": "Not Found",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -7802,7 +7746,6 @@
                     },
                     "409": {
                         "description": "Returned when the item already has an active scrobble session managed by another app.",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -7830,8 +7773,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "api_key_here",
                         "schema": {
                             "type": "string"
@@ -7903,7 +7846,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -7968,7 +7910,6 @@
                     },
                     "404": {
                         "description": "Not Found",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -7996,8 +7937,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "api_key_here",
                         "schema": {
                             "type": "string"
@@ -8009,7 +7950,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -8074,7 +8014,6 @@
                     },
                     "404": {
                         "description": "Not Found",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -8102,8 +8041,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "api_key_here",
                         "schema": {
                             "type": "string"
@@ -8173,7 +8112,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -8246,7 +8184,6 @@
                     },
                     "404": {
                         "description": "Not Found",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -8274,8 +8211,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "api_key_here",
                         "schema": {
                             "type": "string"
@@ -8328,7 +8265,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -8497,7 +8433,6 @@
                     },
                     "401": {
                         "description": "Unauthorized",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -8519,14 +8454,14 @@
                 "operationId": "Get Playback Progress",
                 "description": "Returns all active paused sessions (items with saved progress that haven't been marked as watched yet). Expired sessions are automatically cleaned up.",
                 "tags": [
-                    "Scrobble"
+                    "Sync"
                 ],
                 "parameters": [
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "api_key_here",
                         "schema": {
                             "type": "string"
@@ -8540,7 +8475,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -8922,7 +8856,7 @@
                         "name": "limit",
                         "in": "query",
                         "description": "",
-                        "example": "100",
+                        "example": 100,
                         "schema": {
                             "type": "integer"
                         }
@@ -8931,7 +8865,7 @@
                         "name": "offset",
                         "in": "query",
                         "description": "",
-                        "example": "10",
+                        "example": 10,
                         "schema": {
                             "type": "integer"
                         }
@@ -8958,7 +8892,7 @@
                         "name": "filter_score_min",
                         "in": "query",
                         "description": "⭐ Supporter only. Filter by minimum MDBList score (0-100).",
-                        "example": "70",
+                        "example": 70,
                         "schema": {
                             "type": "integer"
                         }
@@ -8967,7 +8901,7 @@
                         "name": "filter_score_max",
                         "in": "query",
                         "description": "⭐ Supporter only. Filter by maximum MDBList score (0-100).",
-                        "example": "90",
+                        "example": 90,
                         "schema": {
                             "type": "integer"
                         }
@@ -9023,7 +8957,7 @@
                         "name": "unified",
                         "in": "query",
                         "description": "Returns unified list of Movies and Shows",
-                        "example": "true",
+                        "example": true,
                         "schema": {
                             "type": "boolean"
                         }
@@ -9031,8 +8965,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key.",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -9046,7 +8980,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -9129,8 +9062,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API key.",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -9206,7 +9139,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -9336,7 +9268,6 @@
                     },
                     "400": {
                         "description": "Bad Request",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -9355,7 +9286,6 @@
                     },
                     "403": {
                         "description": "Forbidden",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -9391,8 +9321,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API Key",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -9442,18 +9372,18 @@
                         "name": "score_min",
                         "in": "query",
                         "description": "Minimum MDBList score (0–100)",
-                        "example": "60",
+                        "example": 60,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "score_max",
                         "in": "query",
                         "description": "Maximum MDBList score (0–100)",
-                        "example": "100",
+                        "example": 100,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
@@ -9478,36 +9408,36 @@
                         "name": "year_min",
                         "in": "query",
                         "description": "Minimum production year",
-                        "example": "2000",
+                        "example": 2000,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "year_max",
                         "in": "query",
                         "description": "Maximum production year",
-                        "example": "2024",
+                        "example": 2024,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "runtime_min",
                         "in": "query",
                         "description": "Minimum runtime in minutes",
-                        "example": "60",
+                        "example": 60,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "runtime_max",
                         "in": "query",
                         "description": "Maximum runtime in minutes",
-                        "example": "180",
+                        "example": 180,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
@@ -9551,9 +9481,9 @@
                         "name": "limit",
                         "in": "query",
                         "description": "Items per page (default: 100, max: 100)",
-                        "example": "100",
+                        "example": 100,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
@@ -9572,7 +9502,6 @@
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "headers": {},
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -9711,8 +9640,8 @@
                     {
                         "name": "apikey",
                         "in": "query",
-                        "description": "Your API Key",
-                        "required": true,
+                        "description": "Your API key (optional when using OAuth Bearer token).",
+                        "required": false,
                         "example": "abc123",
                         "schema": {
                             "type": "string"
@@ -9758,18 +9687,18 @@
                         "name": "score_min",
                         "in": "query",
                         "description": "Minimum MDBList score (0–100)",
-                        "example": "60",
+                        "example": 60,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "score_max",
                         "in": "query",
                         "description": "Maximum MDBList score (0–100)",
-                        "example": "100",
+                        "example": 100,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
@@ -9794,36 +9723,36 @@
                         "name": "year_min",
                         "in": "query",
                         "description": "Minimum production year",
-                        "example": "2000",
+                        "example": 2000,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "year_max",
                         "in": "query",
                         "description": "Maximum production year",
-                        "example": "2024",
+                        "example": 2024,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "runtime_min",
                         "in": "query",
                         "description": "Minimum episode runtime in minutes",
-                        "example": "20",
+                        "example": 20,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
                         "name": "runtime_max",
                         "in": "query",
                         "description": "Maximum episode runtime in minutes",
-                        "example": "60",
+                        "example": 60,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
@@ -9848,9 +9777,9 @@
                         "name": "limit",
                         "in": "query",
                         "description": "Items per page (default: 100, max: 100)",
-                        "example": "100",
+                        "example": 100,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     },
                     {
@@ -9866,33 +9795,62 @@
         }
     },
     "components": {
-        "schemas": {}
+        "schemas": {},
+        "securitySchemes": {
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "in": "query",
+                "name": "apikey",
+                "description": "API key authentication. Use as query parameter: ?apikey=YOUR_API_KEY"
+            },
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT",
+                "description": "OAuth 2.0 Bearer token authentication. Header: Authorization: Bearer YOUR_TOKEN"
+            }
+        }
     },
     "tags": [
         {
-            "name": "Static Lists",
-            "description": "To edit a static list's name or privacy setting, use `PUT /lists/{listid}` — see [Update List by ID](#list-by-id-update-list-by-id-put).\n\nTo delete a static list, use `DELETE /lists/{listid}` — see [Delete Static List by ID](#list-by-id-delete-static-list-by-id-delete)."
+            "name": "General",
+            "description": "General/core API endpoints."
         },
         {
-            "name": "External Lists"
+            "name": "Static Lists",
+            "description": "Apiary group Static Lists."
+        },
+        {
+            "name": "External Lists",
+            "description": "Apiary group External Lists."
         },
         {
             "name": "Updates",
-            "description": "The Updates endpoints return media items that have been recently modified in the MDBList database. Updates include changes to ratings, metadata, streaming availability, and other media information.\n\nUse these endpoints to keep your local database synchronized with MDBList changes."
+            "description": "Apiary group Updates."
         },
         {
-            "name": "Sync"
+            "name": "Sync",
+            "description": "Apiary group Sync."
         },
         {
             "name": "Scrobble",
-            "description": "Scrobble endpoints allow you to track real-time playback progress of movies and TV episodes. These endpoints are designed for media players and applications that want to track what users are currently watching and resume playback across multiple devices.\n\n## Quick Example\n\n**Starting a movie scrobble:**\n\n```json\nPOST /scrobble/start?apikey=YOUR_API_KEY\n{\n  \"movie\": {\"ids\": {\"imdb\": \"tt0111161\", \"mdblist\": \"a0\"}},\n  \"progress\": 15.5\n}\n```\n\n**Starting an episode scrobble:**\n\n```json\nPOST /scrobble/start?apikey=YOUR_API_KEY\n{\n  \"show\": {\n    \"ids\": {\"imdb\": \"tt0108778\", \"mdblist\": \"8x1d\"},\n    \"season\": {\n      \"number\": 1,\n      \"episode\": {\n        \"number\": 3\n      }\n    }\n  },\n  \"progress\": 42.75\n}\n```\n\n## How Scrobbling Works\n\n1. **Start**: Call `/scrobble/start` when playback begins\n\n2. **Pause**: Call `/scrobble/pause` when user pauses (saves progress for resume)\n\n3. **Stop**: Call `/scrobble/stop` when playback ends\n   - If progress ≥ 80%, the item is automatically marked as watched\n   - If progress < 80%, it's saved as a paused session for later resume\n\n## Key Features\n\n- **Single active session per item**: Starting a new session replaces any existing one for that movie/episode\n\n- **Cross-device resume**: Paused sessions can be retrieved via `/sync/playback` to resume on any device\n\n- **Auto-watched**: Items are automatically marked as watched when stopped at 80% or higher progress\n\n- **Auto-expiration**: Active sessions automatically expire after the remaining runtime + 10 minute buffer\n\n- **Seamless sync integration**: Watched items automatically appear in `/sync/watched` responses"
+            "description": "Apiary group Scrobble including Check-in."
         },
         {
-            "name": "Watchlist"
+            "name": "Watchlist",
+            "description": "Apiary group Watchlist."
         },
         {
             "name": "Catalog",
-            "description": "> ⚠️ **Notice: Catalog endpoints are currently in BETA.**\n\nDynamic, filtered catalogs for third-party apps. Results are cached for 6 hours and shared across all users with identical filter parameters.\n\n**Quota:** Each unique filter combination counts against your plan's catalog query limit (total dynamic lists). Reusing the same combination does not consume an additional slot while it remains in the 7-day quota window.\n\n**Pagination:** Cursor-based (no OFFSET). Pass `next_cursor` from the response as the `cursor` parameter to fetch the next page.\n\n**Thundering herd:** If a cache entry is being built for the first time, other requests for the same page receive `202 Accepted` with a `Retry-After: 5` header. Retry after 5 seconds."
+            "description": "Apiary group Catalog."
+        }
+    ],
+    "security": [
+        {
+            "ApiKeyAuth": []
+        },
+        {
+            "BearerAuth": []
         }
     ]
 }
