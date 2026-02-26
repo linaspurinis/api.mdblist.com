@@ -2,23 +2,23 @@
 <html>
 <head>
   <meta charset="UTF-8" />
-  <title>MDBList API</title>
-  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MDBList API - Stoplight</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/@stoplight/elements@8/styles.min.css" />
+  <script src="https://unpkg.com/@stoplight/elements@8/web-components.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+    }
+  </style>
 </head>
 <body>
-  <div id="swagger-ui"></div>
-
-  <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
-  <script>
-    window.onload = function () {
-      SwaggerUIBundle({
-        url: "openapi.json",
-        dom_id: "#swagger-ui",
-        deepLinking: true,
-        docExpansion: "none",
-        defaultModelsExpandDepth: -1
-      });
-    };
-  </script>
+  <elements-api
+    apiDescriptionUrl="openapi.json"
+    router="memory"
+    layout="sidebar">
+  </elements-api>
 </body>
 </html>

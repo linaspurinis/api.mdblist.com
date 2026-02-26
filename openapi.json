@@ -2538,7 +2538,7 @@
                 },
                 "summary": "Get Search Results",
                 "operationId": "Get Search Results",
-                "description": "",
+                "description": "Search for movie/show by title or ID.\n\nExamples:\n- Default search: `/search/movie?query=Jaws&limit=10`\n- Quick search: `/search/movie?query=tt0073195&quick_search=true`",
                 "parameters": [
                     {
                         "name": "media_type",
@@ -2568,10 +2568,11 @@
                     {
                         "name": "quick_search",
                         "in": "query",
-                        "description": "Use quick search mode (imdbid exact match or sort_title prefix match)",
+                        "description": "Use quick search mode (imdbid exact match or sort_title prefix match). Optional; defaults to false.",
                         "example": true,
                         "schema": {
-                            "type": "boolean"
+                            "type": "boolean",
+                            "default": false
                         }
                     },
                     {
