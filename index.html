@@ -1,24 +1,42 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MDBList API - Stoplight</title>
+  <head>
+    <title>MDBList API Reference</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Interactive API reference for MDBList powered by Scalar." />
+    <style>
+      html,
+      body,
+      #app {
+        height: 100%;
+        margin: 0;
+      }
+    </style>
+  </head>
 
-  <link rel="stylesheet" href="https://unpkg.com/@stoplight/elements@8/styles.min.css" />
-  <script src="https://unpkg.com/@stoplight/elements@8/web-components.min.js"></script>
+  <body>
+    <div id="app"></div>
 
-  <style>
-    body {
-      margin: 0;
-    }
-  </style>
-</head>
-<body>
-  <elements-api
-    apiDescriptionUrl="openapi.json"
-    router="hash"
-    layout="sidebar">
-  </elements-api>
-</body>
+    <!-- Load the Script -->
+    <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
+
+    <!-- Initialize the Scalar API Reference -->
+    <script>
+      Scalar.createApiReference('#app', {
+        url: 'openapi.json',
+        pageTitle: 'MDBList API Reference',
+        darkMode: false,
+        hideDownloadButton: true,
+        defaultHttpClient: {
+          targetKey: 'js',
+          clientKey: 'fetch',
+        },
+      })
+    </script>
+  </body>
 </html>
